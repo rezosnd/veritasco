@@ -5,9 +5,8 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'VeritasCo ERP',
+  description: 'A cloud-based portal for educational institutions to manage student information, attendance, fees, and communication.',
 }
 
 export default function RootLayout({
