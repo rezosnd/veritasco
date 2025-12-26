@@ -46,7 +46,7 @@ export function HeroDevice() {
           {/* Floating animation wrapper */}
           <div className="absolute inset-0 animate-float">
             <Image
-              src="/phone.png"
+              src="https://i.postimg.cc/ZRBgL93K/image.png"
               alt="VeritasCo Biometric Device"
               fill
               className="object-contain drop-shadow-2xl"
