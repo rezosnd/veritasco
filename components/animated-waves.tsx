@@ -5,6 +5,7 @@ import { useRef, useEffect, useState } from "react"
 export function AnimatedWaves() {
   const wavesRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const animationRef = useRef<number>()
 
   useEffect(() => {
     const checkMobile = () => {
@@ -15,16 +16,29 @@ export function AnimatedWaves() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  // Disable waves on mobile for better performance
-  if (isMobile) return null
+  // Use requestAnimationFrame for smoother animations on mobile
+  useEffect(() => {
+    if (!isMobile) return
+
+    const animate = () => {
+      animationRef.current = requestAnimationFrame(animate)
+    }
+    animate()
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+    }
+  }, [isMobile])
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" ref={wavesRef}>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="wave-ring animate-wave-1" />
-        <div className="wave-ring animate-wave-2" />
-        <div className="wave-ring animate-wave-3" />
-        <div className="wave-ring animate-wave-4" />
+        <div className={`wave-ring animate-wave-1 ${isMobile ? 'mobile-wave' : ''}`} />
+        <div className={`wave-ring animate-wave-2 ${isMobile ? 'mobile-wave' : ''}`} />
+        <div className={`wave-ring animate-wave-3 ${isMobile ? 'mobile-wave' : ''}`} />
+        <div className={`wave-ring animate-wave-4 ${isMobile ? 'mobile-wave' : ''}`} />
       </div>
 
       <style jsx>{`
@@ -90,6 +104,17 @@ export function AnimatedWaves() {
         .animate-wave-4 {
           animation: wave-pulse 3s ease-out infinite;
           animation-delay: 2.25s;
+        }
+
+        /* Mobile wave optimizations */
+        .mobile-wave {
+          will-change: transform, opacity;
+          transform: translate3d(-50%, -50%, 0) scale(0.1);
+        }
+
+        .mobile-wave::before {
+          will-change: transform;
+          transform: translate3d(-50%, -50%, 0);
         }
       `}</style>
     </div>

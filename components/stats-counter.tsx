@@ -45,13 +45,10 @@ export function StatsCounter({ end, duration = 2000, suffix = "", prefix = "", c
   useEffect(() => {
     if (!isVisible) return
 
-    // Reduce animation duration on mobile for better performance
-    const animationDuration = isMobile ? duration * 0.6 : duration
-
     let startTime: number | null = null
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime
-      const progress = Math.min((currentTime - startTime) / animationDuration, 1)
+      const progress = Math.min((currentTime - startTime) / duration, 1)
 
       setCount(Math.floor(progress * end))
 
@@ -61,7 +58,7 @@ export function StatsCounter({ end, duration = 2000, suffix = "", prefix = "", c
     }
 
     requestAnimationFrame(animate)
-  }, [isVisible, end, duration, isMobile])
+  }, [isVisible, end, duration])
 
   return (
     <div ref={ref} className={`text-3xl md:text-5xl font-bold ${className || ''}`}>

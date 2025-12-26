@@ -375,7 +375,8 @@
 
   /* Optimize animated elements */
   .animate-fade-in-up,
-  .animate-snowfall {
+  .animate-snowfall,
+  .mobile-snow {
     will-change: transform, opacity;
   }
 
@@ -405,5 +406,24 @@
   /* Reduce bounce animation on mobile */
   .animate-bounce {
     animation-duration: 2s;
+  }
+
+  /* Mobile snow optimization */
+  .mobile-snow {
+    animation: snowfall-mobile linear infinite;
+    font-size: 1rem;
+    text-shadow: 0 0 5px rgba(59, 130, 246, 0.6);
+  }
+}
+
+/* Mobile-optimized snowfall animation */
+@keyframes snowfall-mobile {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 100vh, 0) rotate(360deg);
+    opacity: 0;
   }
 }
