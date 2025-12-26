@@ -9,6 +9,16 @@ export function CountdownTimer() {
     minutes: 0,
     seconds: 0,
   })
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   useEffect(() => {
     const targetDate = new Date("2026-01-30T00:00:00").getTime()
@@ -28,10 +38,11 @@ export function CountdownTimer() {
     }
 
     updateCountdown()
-    const interval = setInterval(updateCountdown, 1000)
+    // Update less frequently on mobile for better performance
+    const interval = setInterval(updateCountdown, isMobile ? 5000 : 1000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [isMobile])
 
   return (
     <div className="flex gap-6 justify-center items-center flex-wrap">

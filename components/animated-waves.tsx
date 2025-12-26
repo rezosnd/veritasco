@@ -1,9 +1,22 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useEffect, useState } from "react"
 
 export function AnimatedWaves() {
   const wavesRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  // Disable waves on mobile for better performance
+  if (isMobile) return null
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" ref={wavesRef}>

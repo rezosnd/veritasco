@@ -14,6 +14,7 @@ import { Timeline } from "@/components/timeline"
 import { HowItWorks } from "@/components/how-it-works"
 import { ChristmasSnow } from "@/components/christmas-snow"
 import { SantaHat } from "@/components/santa-hat"
+import { InteractiveFAQ } from "@/components/interactive-faq"
 import Image from "next/image"
 import { useState } from "react"
 import BookingModal from "@/components/booking-modal"
@@ -106,7 +107,7 @@ export default function Home() {
                 </p>
               </div>
               <p className="text-xs md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed px-2">
-                Offer ends January 30, 2026. Join over 500+ schools securing their campus today.
+                Offer ends January 30, 2026.
               </p>
             </div>
           </div>
@@ -566,39 +567,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="max-w-3xl mx-auto space-y-4">
-              {[
-                {
-                  q: "How accurate is the biometric fingerprint system?",
-                  a: "Our system boasts a 99.9% accuracy rate with advanced fingerprint recognition technology. It can identify students in under 2 seconds with zero false positives.",
-                },
-                {
-                  q: "Is the data secure and compliant with privacy regulations?",
-                  a: "Absolutely. We use bank-grade encryption for all data transmission and storage. Our system is fully compliant with data protection regulations and we never share student data with third parties.",
-                },
-                {
-                  q: "What happens if the internet connection is lost?",
-                  a: "The device has offline storage capability and automatically syncs data once the connection is restored. Attendance marking continues uninterrupted.",
-                },
-                {
-                  q: "How long does installation and setup take?",
-                  a: "Complete installation and staff training typically takes 2-3 days. We provide comprehensive onboarding and 24/7 support to ensure smooth implementation.",
-                },
-                {
-                  q: "Can parents access attendance records?",
-                  a: "Yes! Parents receive real-time SMS notifications and can access detailed attendance history through our mobile app with secure login credentials.",
-                },
-                {
-                  q: "What is included in the free 1-month demo?",
-                  a: "The demo includes full hardware installation, complete ERP access, staff training, and 24/7 support. No credit card required and no obligations.",
-                },
-              ].map((faq, index) => (
-                <div key={index} className="soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-4 md:p-6">
-                  <h3 className="font-bold text-foreground mb-2 md:mb-3 text-sm md:text-base">{faq.q}</h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{faq.a}</p>
-                </div>
-              ))}
-            </div>
+            <InteractiveFAQ />
           </div>
         </section>
       </ScrollReveal>
