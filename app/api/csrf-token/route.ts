@@ -4,7 +4,7 @@ import { generateCSRFToken, getSessionIdFromRequest } from '@/lib/csrf';
 export async function GET(request: NextRequest) {
   try {
     const sessionId = getSessionIdFromRequest(request);
-    const csrfToken = generateCSRFToken(sessionId);
+    const csrfToken = await generateCSRFToken(sessionId);
 
     return NextResponse.json({
       csrfToken: csrfToken,

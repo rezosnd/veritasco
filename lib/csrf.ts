@@ -1,14 +1,49 @@
 import { randomBytes } from 'crypto';
+import clientPromise from './mongodb';
+
+interface CSRFEntry {
+  sessionId: string;
+  token: string;
+  expiresAt: number;
+  createdAt: number;
+}
 
 const CSRF_TOKENS = new Map<string, { token: string; expiresAt: number }>();
 
-export function generateCSRFToken(sessionId: string): string {
+export async function generateCSRFToken(sessionId: string): Promise<string> {
   const token = randomBytes(32).toString('hex');
   const expiresAt = Date.now() + 60 * 60 * 1000; // 1 hour
 
-  CSRF_TOKENS.set(sessionId, { token, expiresAt });
+  try {
+    // Store in database for serverless compatibility
+    const client = await clientPromise;
+    const db = client.db('veritasco');
+    const collection = db.collection('csrf_tokens');
 
-  // Clean up expired tokens
+    await collection.replaceOne(
+      { sessionId },
+      {
+        sessionId,
+        token,
+        expiresAt,
+        createdAt: Date.now()
+      },
+      { upsert: true }
+    );
+
+    // Also store in memory for faster access during the same request
+    CSRF_TOKENS.set(sessionId, { token, expiresAt });
+
+    // Clean up expired tokens from database
+    await collection.deleteMany({ expiresAt: { $lt: Date.now() } });
+
+  } catch (error) {
+    console.error('Failed to store CSRF token in database:', error);
+    // Fallback to in-memory only
+    CSRF_TOKENS.set(sessionId, { token, expiresAt });
+  }
+
+  // Clean up expired tokens from memory
   for (const [key, value] of CSRF_TOKENS.entries()) {
     if (value.expiresAt < Date.now()) {
       CSRF_TOKENS.delete(key);
@@ -18,20 +53,34 @@ export function generateCSRFToken(sessionId: string): string {
   return token;
 }
 
-export function verifyCSRFToken(sessionId: string, token: string): boolean {
+export async function verifyCSRFToken(sessionId: string, token: string): Promise<boolean> {
+  // First check in-memory cache
   const stored = CSRF_TOKENS.get(sessionId);
-
-  if (!stored || stored.expiresAt < Date.now()) {
-    return false;
+  if (stored && stored.expiresAt >= Date.now() && stored.token === token) {
+    CSRF_TOKENS.delete(sessionId);
+    return true;
   }
 
-  if (stored.token !== token) {
+  // If not in memory, check database
+  try {
+    const client = await clientPromise;
+    const db = client.db('veritasco');
+    const collection = db.collection('csrf_tokens');
+
+    const dbEntry = await collection.findOne({ sessionId, token });
+
+    if (!dbEntry || dbEntry.expiresAt < Date.now()) {
+      return false;
+    }
+
+    // Token is valid, remove it
+    await collection.deleteOne({ sessionId, token });
+    return true;
+
+  } catch (error) {
+    console.error('Failed to verify CSRF token in database:', error);
     return false;
   }
-
-  // Token is single-use, remove after verification
-  CSRF_TOKENS.delete(sessionId);
-  return true;
 }
 
 export function getSessionIdFromRequest(request: Request): string {
