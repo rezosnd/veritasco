@@ -9,19 +9,32 @@ interface OtpEntry {
 }
 
 class DatabaseOtpStore {
-  private client: MongoClient;
+  private client: MongoClient | null = null;
   private dbName = 'veritasco';
   private collectionName = 'otps';
 
   constructor() {
     const uri = process.env.MONGODB_URI;
     if (!uri) {
-      throw new Error('MONGODB_URI environment variable is required');
+      console.warn('MONGODB_URI environment variable not set - OTP storage will be unavailable');
+      return;
     }
-    this.client = new MongoClient(uri);
+    try {
+      this.client = new MongoClient(uri, {
+        maxPoolSize: 10,
+        serverSelectionTimeoutMS: 5000, // 5 second timeout
+        socketTimeoutMS: 5000,
+      });
+    } catch (error) {
+      console.error('Failed to create MongoDB client:', error);
+      this.client = null;
+    }
   }
 
   private async getCollection() {
+    if (!this.client) {
+      throw new Error('Database connection not available');
+    }
     await this.client.connect();
     const db = this.client.db(this.dbName);
     return db.collection(this.collectionName);
@@ -46,8 +59,8 @@ class DatabaseOtpStore {
       // Clean up expired entries
       await this.cleanup();
     } catch (error) {
-      console.error('Error setting OTP:', error);
-      throw error;
+      console.error('Error setting OTP in database:', error);
+      throw new Error('Database temporarily unavailable. Please try again later.');
     }
   }
 
@@ -66,10 +79,10 @@ class DatabaseOtpStore {
         return undefined;
       }
 
-      return entry as OtpEntry;
+      return entry as unknown as OtpEntry;
     } catch (error) {
-      console.error('Error getting OTP:', error);
-      throw error;
+      console.error('Error getting OTP from database:', error);
+      throw new Error('Database temporarily unavailable. Please try again later.');
     }
   }
 
@@ -78,8 +91,8 @@ class DatabaseOtpStore {
       const collection = await this.getCollection();
       await collection.deleteOne({ email });
     } catch (error) {
-      console.error('Error deleting OTP:', error);
-      throw error;
+      console.error('Error deleting OTP from database:', error);
+      // Don't throw error for delete operations - they're not critical
     }
   }
 
@@ -91,6 +104,7 @@ class DatabaseOtpStore {
       await collection.deleteMany({ expiresAt: { $lt: now } });
     } catch (error) {
       console.error('Error cleaning up OTPs:', error);
+      // Don't throw error for cleanup operations
     }
   }
 
@@ -113,7 +127,9 @@ class DatabaseOtpStore {
 
   // Close connection (optional, Vercel handles this)
   async close(): Promise<void> {
-    await this.client.close();
+    if (this.client) {
+      await this.client.close();
+    }
   }
 }
 

@@ -9,7 +9,7 @@ export function SantaHat() {
       <div className="relative">
         {/* Real Santa Hat Image */}
         <Image 
-          src="https://i.ibb.co/k6JwmF9q/santa-cap.png" 
+          src="https://i.postimg.cc/R0Gbm719/image.png" 
           alt="Santa Hat"
           width={110} 
           height={90}

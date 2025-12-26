@@ -106,20 +106,20 @@ export default function AdminVeritasco() {
   }
 
   const fetchData = async (token?: string) => {
-    const authToken = token || authToken;
-    if (!authToken) return;
+    const currentToken = token || authToken;
+    if (!currentToken) return;
 
     try {
       setLoading(true)
       const [applicationsRes, bookingsRes] = await Promise.all([
         fetch('/api/admin/applications', {
           headers: {
-            'Authorization': `Bearer ${authToken}`
+            'Authorization': `Bearer ${currentToken}`
           }
         }),
         fetch('/api/admin/bookings', {
           headers: {
-            'Authorization': `Bearer ${authToken}`
+            'Authorization': `Bearer ${currentToken}`
           }
         })
       ])

@@ -39,8 +39,17 @@ export async function POST(request: NextRequest) {
 
     // 3. OTP Generation & Storage
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = Date.now() + 10 * 60 * 1000; 
-    await otpStore.set(trimmedEmail, { otp, expiresAt });
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    try {
+      await otpStore.set(trimmedEmail, { otp, expiresAt });
+    } catch (error) {
+      console.error('Failed to store OTP:', error);
+      return NextResponse.json(
+        { error: 'Service temporarily unavailable. Please try again later.' },
+        { status: 503 }
+      );
+    }
 
     // 4. Professional "Ice-Cold" Email Template
     const mailOptions = {
@@ -63,7 +72,7 @@ export async function POST(request: NextRequest) {
                   
                   <div style="background: linear-gradient(135deg, #5A689F 0%, #3E467A 100%); padding: 50px 20px; text-align: center; position: relative;">
                     
-                    <img src="https://i.ibb.co/20kBDJM1/logo.png" alt="Veritasco Logo" style="max-width: 140px; position: relative; z-index: 5;">
+                    <img src="https://iili.io/fME9TZX.png" alt="Veritasco Logo" style="max-width: 140px; position: relative; z-index: 5;">
                     
                     <h1 style="color: #FFFFFF; font-size: 24px; margin: 25px 0 0 0; letter-spacing: 2px; font-weight: 300; text-transform: uppercase;">
                       Happy <span style="font-weight: 800; color: #A3C2D1;">2026</span>

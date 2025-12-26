@@ -7,9 +7,10 @@ interface StatsCounterProps {
   duration?: number
   suffix?: string
   prefix?: string
+  className?: string
 }
 
-export function StatsCounter({ end, duration = 2000, suffix = "", prefix = "" }: StatsCounterProps) {
+export function StatsCounter({ end, duration = 2000, suffix = "", prefix = "", className }: StatsCounterProps) {
   const [count, setCount] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -50,7 +51,7 @@ export function StatsCounter({ end, duration = 2000, suffix = "", prefix = "" }:
   }, [isVisible, end, duration])
 
   return (
-    <div ref={ref} className="text-3xl md:text-5xl font-bold">
+    <div ref={ref} className={`text-3xl md:text-5xl font-bold ${className || ''}`}>
       {prefix}
       {count}
       {suffix}

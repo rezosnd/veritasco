@@ -33,29 +33,41 @@ export default function Home() {
       <nav className="relative z-10 container mx-auto px-4 md:px-6 py-4 md:py-6">
         <div className="flex items-center justify-between">
           <Image
-            src="/logo.png"
+            src="https://iili.io/fME9TZX.png"
             alt="VeritasCo Logo"
             width={50}
             height={50}
-            className="md:w-[60px] md:h-[60px] drop-shadow-lg"
+            className="w-10 h-10 md:w-[60px] md:h-[60px] drop-shadow-lg"
           />
-          <div className="flex items-center gap-2 md:gap-4">
-            <SoftButton variant="secondary" onClick={() => window.location.href = '/join-us'}>
-              Join Us as Team Member
+          <div className="flex items-center gap-1 md:gap-4">
+            <SoftButton
+              variant="secondary"
+              size="sm"
+              className="text-xs md:text-sm px-2 py-1 md:px-4 md:py-2"
+              onClick={() => window.location.href = '/join-us'}
+            >
+              <span className="hidden sm:inline">Join Us as Team Member</span>
+              <span className="sm:hidden">Join Team</span>
             </SoftButton>
             <button
               onClick={() => setIsSupportOpen(true)}
-              className="text-sm md:text-base text-muted-foreground hover:text-primary transition-colors font-medium px-3 py-2 rounded-xl hover:bg-background/50"
+              className="text-xs md:text-base text-muted-foreground hover:text-primary transition-colors font-medium px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl hover:bg-background/50"
             >
               Support
             </button>
-            <SoftButton onClick={() => setIsBookingOpen(true)}>Get Started</SoftButton>
+            <SoftButton
+              size="sm"
+              className="text-xs md:text-sm px-3 py-1 md:px-4 md:py-2"
+              onClick={() => setIsBookingOpen(true)}
+            >
+              Get Started
+            </SoftButton>
           </div>
         </div>
       </nav>
 
-      <section className="relative z-10 container mx-auto px-4 md:px-6 pt-8 md:pt-12 pb-4">
-        <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-center text-foreground leading-tight text-balance mb-2">
+      <section className="relative z-10 container mx-auto px-4 md:px-6 pt-6 md:pt-12 pb-4">
+        <h1 className="text-xl md:text-4xl lg:text-5xl font-bold text-center text-foreground leading-tight text-balance mb-2 px-2">
           India's First Complete School Management ERP
           <br />
           <span className="text-primary">with In-Hand Biometric Devices</span>
@@ -63,62 +75,38 @@ export default function Home() {
       </section>
 
       {/* NEW YEAR SPECIAL OFFER SECTION */}
-      <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-16">
+      <section className="relative z-10 container mx-auto px-4 md:px-6 py-6 md:py-16">
         <div className="relative max-w-4xl mx-auto">
-          
+
           {/* THE SANTA HAT - Now anchored to the left for mobile & desktop */}
           <SantaHat />
 
           {/* Decorative Layers */}
-          <div className="absolute inset-0 bg-card rounded-[2rem] md:rounded-[2.5rem] rotate-1 soft-shadow opacity-30" />
-          <div className="absolute inset-0 bg-card rounded-[2rem] md:rounded-[2.5rem] -rotate-1 soft-shadow opacity-20" />
-          
+          <div className="absolute inset-0 bg-card rounded-2xl md:rounded-[2.5rem] rotate-1 soft-shadow opacity-30" />
+          <div className="absolute inset-0 bg-card rounded-2xl md:rounded-[2.5rem] -rotate-1 soft-shadow opacity-20" />
+
           {/* Main Card Content */}
-          <div className="relative soft-shadow bg-gradient-to-br from-card to-card/95 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 border border-border/40 backdrop-blur-md">
-            <div className="flex items-center justify-center gap-2 md:gap-3 mb-6 md:mb-8">
+          <div className="relative soft-shadow bg-gradient-to-br from-card to-card/95 rounded-2xl md:rounded-[2.5rem] p-4 md:p-12 border border-border/40 backdrop-blur-md">
+            <div className="flex items-center justify-center gap-2 md:gap-3 mb-4 md:mb-8">
               <div className="w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full animate-pulse" />
-              <h3 className="text-xl md:text-4xl font-extrabold text-center text-foreground tracking-tight">
+              <h3 className="text-lg md:text-4xl font-extrabold text-center text-foreground tracking-tight">
                 New Year Special Offer
               </h3>
               <div className="w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full animate-pulse" />
             </div>
 
-            <div className="relative mb-6 md:mb-10">
+            <div className="relative mb-4 md:mb-10">
               <CountdownTimer />
             </div>
 
-            <div className="text-center space-y-4">
-              <div className="inline-block bg-primary/10 px-6 py-2 md:px-8 md:py-3 rounded-xl md:rounded-2xl border border-primary/20">
-                <p className="text-base md:text-2xl font-bold text-primary">
+            <div className="text-center space-y-3 md:space-y-4">
+              <div className="inline-block bg-primary/10 px-4 py-2 md:px-8 md:py-3 rounded-lg md:rounded-2xl border border-primary/20">
+                <p className="text-sm md:text-2xl font-bold text-primary">
                   🎁 10-20% Off Based on School Strength!
                 </p>
               </div>
-              <p className="text-xs md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
+              <p className="text-xs md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed px-2">
                 Offer ends January 30, 2026. Join over 500+ schools securing their campus today.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Countdown Timer */}
-      <section className="relative z-10 container mx-auto px-4 md:px-6 py-4 md:py-8">
-        <div className="relative">
-          <div className="absolute inset-0 bg-card rounded-2xl md:rounded-3xl rotate-1 soft-shadow opacity-30" />
-          <div className="absolute inset-0 bg-card rounded-2xl md:rounded-3xl -rotate-1 soft-shadow opacity-20" />
-          <div className="relative soft-shadow bg-gradient-to-br from-card to-card/95 rounded-2xl md:rounded-3xl p-4 md:p-8 border border-border/30">
-            <div className="flex items-center justify-center gap-2 md:gap-3 mb-2 md:mb-3">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <h3 className="text-base md:text-lg font-bold text-foreground">New Year Special Offer</h3>
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            </div>
-            <CountdownTimer />
-            <div className="text-center mt-4 md:mt-6">
-              <p className="text-sm md:text-base text-muted-foreground mb-2">
-                Special New Year Discount: 10-20% off based on school strength!
-              </p>
-              <p className="text-xs md:text-sm text-muted-foreground">
-                Offer ends January 30, 2026. Contact us to claim your discount!
               </p>
             </div>
           </div>
@@ -127,35 +115,35 @@ export default function Home() {
 
       {/* Hero Section with Device */}
       <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-12">
-        <div className="grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
-          <div className="space-y-6 md:space-y-8">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
+          <div className="space-y-4 md:space-y-8 order-2 lg:order-1">
+            <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
               Revolutionary Biometric Attendance for Schools
             </h2>
 
-            <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-pretty">
+            <p className="text-sm md:text-xl text-muted-foreground leading-relaxed text-pretty">
               Transform your school's attendance management with our integrated hardware and cloud-based ERP system.
               Real-time tracking, instant parent notifications, and seamless administration.
             </p>
 
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4">
-              <SoftButton size="lg" onClick={() => setIsBookingOpen(true)}>
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+              <SoftButton size="lg" className="w-full sm:w-auto" onClick={() => setIsBookingOpen(true)}>
                 Book Now for Your School
               </SoftButton>
-              <SoftButton variant="secondary" size="lg" onClick={() => (window.location.hash = "#demo")}>
+              <SoftButton variant="secondary" size="lg" className="w-full sm:w-auto" onClick={() => (window.location.hash = "#demo")}>
                 Watch Demo
               </SoftButton>
             </div>
 
-            <div className="soft-shadow-inset bg-primary/10 rounded-xl md:rounded-2xl p-3 md:p-4 inline-block">
+            <div className="soft-shadow-inset bg-primary/10 rounded-lg md:rounded-2xl p-3 md:p-4 max-w-fit">
               <p className="text-xs md:text-sm text-primary font-semibold">
                 🎁 Free 1-month demo available for early adopters
               </p>
             </div>
           </div>
 
-          <div className="relative order-first lg:order-last">
-            <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-6 md:p-12 min-h-[350px] md:min-h-[550px]">
+          <div className="relative order-1 lg:order-2">
+            <div className="soft-shadow bg-card rounded-xl md:rounded-3xl p-4 md:p-12 min-h-[280px] md:min-h-[550px] flex items-center justify-center">
               <HeroDevice />
             </div>
           </div>
@@ -164,23 +152,23 @@ export default function Home() {
 
       <ScrollReveal>
         <section className="relative z-10 container mx-auto px-4 md:px-6 py-12 md:py-20">
-          <div className="soft-shadow bg-gradient-to-br from-primary to-accent rounded-2xl md:rounded-3xl p-8 md:p-16">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 text-center text-primary-foreground">
-              <div>
-                <StatsCounter end={500} suffix="+" />
-                <div className="text-sm md:text-xl opacity-90 mt-2">Schools Trust Us</div>
+          <div className="soft-shadow bg-gradient-to-br from-primary to-accent rounded-2xl md:rounded-3xl p-6 md:p-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-12 text-center text-primary-foreground">
+              <div className="space-y-1 md:space-y-2">
+                <StatsCounter end={500} suffix="+" className="text-xl md:text-4xl lg:text-5xl" />
+                <div className="text-xs md:text-xl opacity-90">Schools Trust Us</div>
               </div>
-              <div>
-                <StatsCounter end={50000} suffix="+" />
-                <div className="text-sm md:text-xl opacity-90 mt-2">Students Tracked</div>
+              <div className="space-y-1 md:space-y-2">
+                <StatsCounter end={50000} suffix="+" className="text-xl md:text-4xl lg:text-5xl" />
+                <div className="text-xs md:text-xl opacity-90">Students Tracked</div>
               </div>
-              <div>
-                <div className="text-3xl md:text-5xl font-bold">99.9%</div>
-                <div className="text-sm md:text-xl opacity-90 mt-2">Accuracy Rate</div>
+              <div className="space-y-1 md:space-y-2">
+                <div className="text-xl md:text-4xl lg:text-5xl font-bold">99.9%</div>
+                <div className="text-xs md:text-xl opacity-90">Accuracy Rate</div>
               </div>
-              <div>
-                <div className="text-3xl md:text-5xl font-bold">24/7</div>
-                <div className="text-sm md:text-xl opacity-90 mt-2">Support Available</div>
+              <div className="space-y-1 md:space-y-2">
+                <div className="text-xl md:text-4xl lg:text-5xl font-bold">24/7</div>
+                <div className="text-xs md:text-xl opacity-90">Support Available</div>
               </div>
             </div>
           </div>

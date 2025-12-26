@@ -22,7 +22,7 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 export function generateToken(): string {
-  const payload: AuthToken = {
+  const payload: Omit<AuthToken, 'iat' | 'exp'> = {
     role: 'admin',
   };
 
