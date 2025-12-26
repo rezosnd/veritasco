@@ -38,10 +38,11 @@ export function CountdownTimer() {
     }
 
     updateCountdown()
-    const interval = setInterval(updateCountdown, 1000)
+    // Reduce update frequency on mobile to prevent jitter
+    const interval = setInterval(updateCountdown, isMobile ? 5000 : 1000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [isMobile])
 
   return (
     <div className="flex gap-6 justify-center items-center flex-wrap">

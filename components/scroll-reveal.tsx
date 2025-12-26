@@ -70,7 +70,14 @@ export function ScrollReveal({ children, delay = 0, className = "", mobileOptimi
       : "opacity-0 translate-y-8 md:translate-y-12"
 
   return (
-    <div ref={ref} className={`${initialClasses} transition-all duration-500 md:duration-700 ease-out ${className}`}>
+    <div
+      ref={ref}
+      className={`transition-all ease-out ${initialClasses} ${className}`}
+      style={{
+        transitionDuration: isMobile ? '0.4s' : '0.7s',
+        transitionDelay: isMobile ? '0.1s' : '0s'
+      }}
+    >
       {children}
     </div>
   )

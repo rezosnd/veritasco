@@ -406,6 +406,20 @@
   /* Reduce bounce animation on mobile */
   .animate-bounce {
     animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+  }
+
+  /* Optimize all animations for mobile */
+  .animate-pulse {
+    animation-duration: 2s;
+  }
+
+  /* Prevent layout shifts */
+  * {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
   }
 
   /* Mobile snow optimization */

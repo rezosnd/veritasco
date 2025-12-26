@@ -45,20 +45,31 @@ export function StatsCounter({ end, duration = 2000, suffix = "", prefix = "", c
   useEffect(() => {
     if (!isVisible) return
 
+    // Reduce animation duration on mobile for better performance and less jitter
+    const animationDuration = isMobile ? duration * 1.5 : duration
+
     let startTime: number | null = null
+    let animationId: number
+
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime
-      const progress = Math.min((currentTime - startTime) / duration, 1)
+      const progress = Math.min((currentTime - startTime) / animationDuration, 1)
 
       setCount(Math.floor(progress * end))
 
       if (progress < 1) {
-        requestAnimationFrame(animate)
+        animationId = requestAnimationFrame(animate)
       }
     }
 
-    requestAnimationFrame(animate)
-  }, [isVisible, end, duration])
+    animationId = requestAnimationFrame(animate)
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId)
+      }
+    }
+  }, [isVisible, end, duration, isMobile])
 
   return (
     <div ref={ref} className={`text-3xl md:text-5xl font-bold ${className || ''}`}>
