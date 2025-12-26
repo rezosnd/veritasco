@@ -306,6 +306,24 @@
   animation: fade-in-up 0.7s ease-out forwards;
 }
 
+/* Snowfall Animation */
+@keyframes snowfall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-snowfall {
+  animation: snowfall linear infinite;
+  font-size: 1.5rem;
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -320,5 +338,10 @@
     animation: none;
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .animate-snowfall {
+    animation: none;
+    opacity: 0;
   }
 }

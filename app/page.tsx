@@ -12,6 +12,8 @@ import { StatsCounter } from "@/components/stats-counter"
 import { ComparisonTable } from "@/components/comparison-table"
 import { Timeline } from "@/components/timeline"
 import { HowItWorks } from "@/components/how-it-works"
+import { ChristmasSnow } from "@/components/christmas-snow"
+import { SantaHat } from "@/components/santa-hat"
 import Image from "next/image"
 import { useState } from "react"
 import BookingModal from "@/components/booking-modal"
@@ -23,6 +25,7 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen">
+      <ChristmasSnow />
       <AnimatedWaves />
       <MobileScrollIndicator />
 
@@ -37,6 +40,9 @@ export default function Home() {
             className="md:w-[60px] md:h-[60px] drop-shadow-lg"
           />
           <div className="flex items-center gap-2 md:gap-4">
+            <SoftButton variant="secondary" onClick={() => window.location.href = '/join-us'}>
+              Join Us as Team Member
+            </SoftButton>
             <button
               onClick={() => setIsSupportOpen(true)}
               className="text-sm md:text-base text-muted-foreground hover:text-primary transition-colors font-medium px-3 py-2 rounded-xl hover:bg-background/50"
@@ -56,6 +62,45 @@ export default function Home() {
         </h1>
       </section>
 
+      {/* NEW YEAR SPECIAL OFFER SECTION */}
+      <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-16">
+        <div className="relative max-w-4xl mx-auto">
+          
+          {/* THE SANTA HAT - Now anchored to the left for mobile & desktop */}
+          <SantaHat />
+
+          {/* Decorative Layers */}
+          <div className="absolute inset-0 bg-card rounded-[2rem] md:rounded-[2.5rem] rotate-1 soft-shadow opacity-30" />
+          <div className="absolute inset-0 bg-card rounded-[2rem] md:rounded-[2.5rem] -rotate-1 soft-shadow opacity-20" />
+          
+          {/* Main Card Content */}
+          <div className="relative soft-shadow bg-gradient-to-br from-card to-card/95 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 border border-border/40 backdrop-blur-md">
+            <div className="flex items-center justify-center gap-2 md:gap-3 mb-6 md:mb-8">
+              <div className="w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full animate-pulse" />
+              <h3 className="text-xl md:text-4xl font-extrabold text-center text-foreground tracking-tight">
+                New Year Special Offer
+              </h3>
+              <div className="w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full animate-pulse" />
+            </div>
+
+            <div className="relative mb-6 md:mb-10">
+              <CountdownTimer />
+            </div>
+
+            <div className="text-center space-y-4">
+              <div className="inline-block bg-primary/10 px-6 py-2 md:px-8 md:py-3 rounded-xl md:rounded-2xl border border-primary/20">
+                <p className="text-base md:text-2xl font-bold text-primary">
+                  🎁 10-20% Off Based on School Strength!
+                </p>
+              </div>
+              <p className="text-xs md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
+                Offer ends January 30, 2026. Join over 500+ schools securing their campus today.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Countdown Timer */}
       <section className="relative z-10 container mx-auto px-4 md:px-6 py-4 md:py-8">
         <div className="relative">
@@ -64,10 +109,18 @@ export default function Home() {
           <div className="relative soft-shadow bg-gradient-to-br from-card to-card/95 rounded-2xl md:rounded-3xl p-4 md:p-8 border border-border/30">
             <div className="flex items-center justify-center gap-2 md:gap-3 mb-2 md:mb-3">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <h3 className="text-base md:text-lg font-bold text-foreground">Launching Soon</h3>
+              <h3 className="text-base md:text-lg font-bold text-foreground">New Year Special Offer</h3>
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
             </div>
             <CountdownTimer />
+            <div className="text-center mt-4 md:mt-6">
+              <p className="text-sm md:text-base text-muted-foreground mb-2">
+                Special New Year Discount: 10-20% off based on school strength!
+              </p>
+              <p className="text-xs md:text-sm text-muted-foreground">
+                Offer ends January 30, 2026. Contact us to claim your discount!
+              </p>
+            </div>
           </div>
         </div>
       </section>

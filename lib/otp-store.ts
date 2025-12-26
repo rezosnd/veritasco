@@ -1,4 +1,6 @@
-// In-memory OTP store with persistence (use Redis/database in production)
+// Database-based OTP store for Vercel/serverless compatibility
+import { MongoClient } from 'mongodb';
+
 interface OtpEntry {
   otp: string;
   expiresAt: number;
@@ -6,74 +8,114 @@ interface OtpEntry {
   createdAt: number;
 }
 
-class OtpStore {
-  private store = new Map<string, OtpEntry>();
+class DatabaseOtpStore {
+  private client: MongoClient;
+  private dbName = 'veritasco';
+  private collectionName = 'otps';
 
-  set(email: string, entry: { otp: string; expiresAt: number }): void {
-    const otpEntry: OtpEntry = {
-      ...entry,
-      email,
-      createdAt: Date.now(),
-    };
-    this.store.set(email, otpEntry);
-    this.cleanup(); // Clean up expired entries
-  }
-
-  get(email: string): OtpEntry | undefined {
-    const entry = this.store.get(email);
-    if (entry && entry.expiresAt < Date.now()) {
-      this.store.delete(email); // Remove expired entry
-      return undefined;
+  constructor() {
+    const uri = process.env.MONGODB_URI;
+    if (!uri) {
+      throw new Error('MONGODB_URI environment variable is required');
     }
-    return entry;
+    this.client = new MongoClient(uri);
   }
 
-  delete(email: string): void {
-    this.store.delete(email);
+  private async getCollection() {
+    await this.client.connect();
+    const db = this.client.db(this.dbName);
+    return db.collection(this.collectionName);
+  }
+
+  async set(email: string, entry: { otp: string; expiresAt: number }): Promise<void> {
+    try {
+      const collection = await this.getCollection();
+      const otpEntry: OtpEntry = {
+        ...entry,
+        email,
+        createdAt: Date.now(),
+      };
+
+      // Upsert the OTP entry
+      await collection.replaceOne(
+        { email },
+        otpEntry,
+        { upsert: true }
+      );
+
+      // Clean up expired entries
+      await this.cleanup();
+    } catch (error) {
+      console.error('Error setting OTP:', error);
+      throw error;
+    }
+  }
+
+  async get(email: string): Promise<OtpEntry | undefined> {
+    try {
+      const collection = await this.getCollection();
+      const entry = await collection.findOne({ email });
+
+      if (!entry) {
+        return undefined;
+      }
+
+      // Check if expired
+      if (entry.expiresAt < Date.now()) {
+        await this.delete(email); // Remove expired entry
+        return undefined;
+      }
+
+      return entry as OtpEntry;
+    } catch (error) {
+      console.error('Error getting OTP:', error);
+      throw error;
+    }
+  }
+
+  async delete(email: string): Promise<void> {
+    try {
+      const collection = await this.getCollection();
+      await collection.deleteOne({ email });
+    } catch (error) {
+      console.error('Error deleting OTP:', error);
+      throw error;
+    }
   }
 
   // Clean up expired entries
-  private cleanup(): void {
-    const now = Date.now();
-    for (const [email, entry] of this.store.entries()) {
-      if (entry.expiresAt < now) {
-        this.store.delete(email);
-      }
+  private async cleanup(): Promise<void> {
+    try {
+      const collection = await this.getCollection();
+      const now = Date.now();
+      await collection.deleteMany({ expiresAt: { $lt: now } });
+    } catch (error) {
+      console.error('Error cleaning up OTPs:', error);
     }
   }
 
   // Get stats for monitoring
-  getStats(): { total: number; active: number; expired: number } {
-    const now = Date.now();
-    let active = 0;
-    let expired = 0;
+  async getStats(): Promise<{ total: number; active: number; expired: number }> {
+    try {
+      const collection = await this.getCollection();
+      const now = Date.now();
 
-    for (const entry of this.store.values()) {
-      if (entry.expiresAt > now) {
-        active++;
-      } else {
-        expired++;
-      }
+      const total = await collection.countDocuments();
+      const active = await collection.countDocuments({ expiresAt: { $gte: now } });
+      const expired = total - active;
+
+      return { total, active, expired };
+    } catch (error) {
+      console.error('Error getting OTP stats:', error);
+      return { total: 0, active: 0, expired: 0 };
     }
-
-    return {
-      total: this.store.size,
-      active,
-      expired,
-    };
   }
 
-  // Periodic cleanup (call this in a cron job or interval)
-  cleanupExpired(): void {
-    this.cleanup();
+  // Close connection (optional, Vercel handles this)
+  async close(): Promise<void> {
+    await this.client.close();
   }
 }
 
-export const otpStore = new OtpStore();
-
-// Set up periodic cleanup every 5 minutes
-if (typeof globalThis !== 'undefined') {
-  setInterval(() => {
-    otpStore.cleanupExpired();
-  }, 5 * 60 * 1000);
-}
+// Export singleton instance
+export const otpStore = new DatabaseOtpStore();
