@@ -16,24 +16,9 @@ export function AnimatedWaves() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  // Use requestAnimationFrame for smoother animations on mobile
-  useEffect(() => {
-    if (!isMobile) return
-
-    const animate = () => {
-      animationRef.current = requestAnimationFrame(animate)
-    }
-    animate()
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current)
-      }
-    }
-  }, [isMobile])
-
+  // Removed unused mobile JS animation loop to save CPU and prevent freezing
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" ref={wavesRef}>
+    <div className="hidden md:block fixed inset-0 pointer-events-none overflow-hidden z-0" ref={wavesRef}>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className={`wave-ring animate-wave-1 ${isMobile ? 'mobile-wave' : ''}`} />
         <div className={`wave-ring animate-wave-2 ${isMobile ? 'mobile-wave' : ''}`} />

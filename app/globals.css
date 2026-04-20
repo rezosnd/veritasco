@@ -124,7 +124,9 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
     @apply bg-background text-foreground;
   }
 }
@@ -285,64 +287,6 @@
   }
 }
 
-@media (max-width: 768px) {
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.4s ease-out forwards;
-  }
-
-  /* Disable heavy animations on mobile for better performance */
-  .animate-snowfall {
-    animation: none;
-    opacity: 0;
-  }
-
-  /* Reduce blur effects on mobile */
-  .wave-ring {
-    filter: blur(6px) !important;
-  }
-
-  .wave-ring::before {
-    filter: blur(6px) !important;
-  }
-
-  /* Optimize scroll reveal animations on mobile */
-  .animate-fade-in-up {
-    animation-duration: 0.3s;
-  }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.7s ease-out forwards;
-}
-
-/* Snowfall Animation */
-@keyframes snowfall {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-.animate-snowfall {
-  animation: snowfall linear infinite;
-  font-size: 1.5rem;
-  text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
-}
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
@@ -403,6 +347,7 @@
     backdrop-filter: none !important;
   }
 
+
   /* Reduce bounce animation on mobile */
   .animate-bounce {
     animation-duration: 2s;
@@ -412,32 +357,5 @@
   /* Optimize all animations for mobile */
   .animate-pulse {
     animation-duration: 2s;
-  }
-
-  /* Prevent layout shifts */
-  * {
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000px;
-    perspective: 1000px;
-  }
-
-  /* Mobile snow optimization */
-  .mobile-snow {
-    animation: snowfall-mobile linear infinite;
-    font-size: 1rem;
-    text-shadow: 0 0 5px rgba(59, 130, 246, 0.6);
-  }
-}
-
-/* Mobile-optimized snowfall animation */
-@keyframes snowfall-mobile {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translate3d(0, 100vh, 0) rotate(360deg);
-    opacity: 0;
   }
 }

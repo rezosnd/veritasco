@@ -43,7 +43,7 @@ export default function ContactSupportModal({ isOpen, onClose }: ContactSupportM
 
         <div className="space-y-4">
           <a
-            href="mailto:veritasco.tech@gmail.com"
+            href="mailto:info@veritasco.tech"
             className="block soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-4 md:p-6 hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <div className="flex items-start gap-3 md:gap-4">
@@ -64,7 +64,7 @@ export default function ContactSupportModal({ isOpen, onClose }: ContactSupportM
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-foreground mb-2 text-base md:text-lg">Email Support</h3>
-                <p className="text-primary font-medium text-sm md:text-base break-all">veritasco.tech@gmail.com</p>
+                <p className="text-primary font-medium text-sm md:text-base break-all">info@veritasco.tech</p>
                 <p className="text-xs md:text-sm text-muted-foreground mt-2">Response within 2 hours</p>
               </div>
             </div>

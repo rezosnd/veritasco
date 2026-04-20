@@ -2,7 +2,6 @@
 
 import { AnimatedWaves } from "@/components/animated-waves"
 import { SoftButton } from "@/components/soft-button"
-import { MobileScrollIndicator } from "@/components/mobile-scroll-indicator"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import ContactSupportModal from "@/components/contact-support-modal"
@@ -175,16 +174,18 @@ export default function AdminVeritasco() {
   return (
     <main className="relative min-h-screen">
       <AnimatedWaves />
-      <MobileScrollIndicator />
 
       {/* Navigation */}
       <nav className="relative z-10 container mx-auto px-4 md:px-6 py-4 md:py-6">
         <div className="flex items-center justify-between">
           <Image
-            src="/logo.png"
-            alt="VeritasCo Logo"
+            src="/logo.avif"
+            alt="VeritasCo.Tech Logo"
             width={50}
             height={50}
+            priority
+            quality={90}
+            sizes="50px"
             className="md:w-[60px] md:h-[60px] drop-shadow-lg"
           />
           <div className="flex items-center gap-2 md:gap-4">

@@ -38,8 +38,8 @@ export function ScrollReveal({ children, delay = 0, className = "", mobileOptimi
           if (entry.isIntersecting && !hasAnimated) {
             setTimeout(() => {
               if (entry.target) {
-                entry.target.classList.add("animate-fade-in-up")
-                entry.target.classList.remove("opacity-0", "translate-y-8", "md:translate-y-12")
+                entry.target.classList.remove("opacity-0", "translate-y-4", "translate-y-8", "md:translate-y-12")
+                entry.target.classList.add("opacity-100", "translate-y-0")
                 setHasAnimated(true)
               }
             }, delay)
@@ -64,18 +64,19 @@ export function ScrollReveal({ children, delay = 0, className = "", mobileOptimi
     }
   }, [delay, hasAnimated, isMobile, mobileOptimized])
 
-  const initialClasses =
-    isMobile && mobileOptimized
-      ? "opacity-0 translate-y-4 md:translate-y-8"
-      : "opacity-0 translate-y-8 md:translate-y-12"
+  const initialClasses = "opacity-0 translate-y-8"
+
+  // On Mobile, entirely disable scroll animations to prevent hide/show flickering and performance drops
+  if (isMobile) {
+    return <div className={className}>{children}</div>
+  }
 
   return (
     <div
       ref={ref}
-      className={`transition-all ease-out ${initialClasses} ${className}`}
+      className={`transition-all duration-700 ease-out will-change-[opacity,transform] ${hasAnimated ? "opacity-100 translate-y-0" : initialClasses} ${className}`}
       style={{
-        transitionDuration: isMobile ? '0.4s' : '0.7s',
-        transitionDelay: isMobile ? '0.1s' : '0s'
+        transitionDelay: `${delay}ms`
       }}
     >
       {children}

@@ -6,6 +6,14 @@ import { ScrollReveal } from "./scroll-reveal"
 export function HowItWorks() {
   const [visibleSteps, setVisibleSteps] = useState<Set<number>>(new Set())
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const steps = [
     {
@@ -132,7 +140,7 @@ export function HowItWorks() {
                   stepRefs.current[index] = el
                 }}
                 className={`relative soft-shadow bg-background rounded-xl md:rounded-2xl p-6 md:p-8 transition-all duration-700 ease-out hover:scale-105 ${
-                  visibleSteps.has(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                  isMobile || visibleSteps.has(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
                 }`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >

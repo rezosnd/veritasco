@@ -23,10 +23,10 @@ export function HeroDevice() {
   }, [])
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center perspective-2000">
+    <div className="relative w-full h-full flex items-center justify-center perspective-2000 pointer-events-none">
       {/* Glowing background effect */}
       <div
-        className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 rounded-3xl blur-3xl opacity-50 animate-pulse"
+        className="hidden md:block absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 rounded-3xl blur-3xl opacity-50 animate-pulse"
         style={{
           transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`,
           transition: "transform 0.3s ease-out",
@@ -46,24 +46,26 @@ export function HeroDevice() {
           {/* Floating animation wrapper */}
           <div className="absolute inset-0 animate-float">
             <Image
-              src="/phone.png"
-              alt="VeritasCo Biometric Device"
+              src="/phone.avif"
+              alt="VeritasCo Biometric Attendance Device"
               fill
               className="object-contain drop-shadow-2xl"
               priority
+              sizes="(max-width: 768px) 280px, (max-width: 1024px) 400px, 500px"
+              quality={85}
             />
           </div>
 
           {/* Accent circles for depth */}
           <div
-            className="absolute top-1/4 -left-8 w-24 h-24 md:w-32 md:h-32 bg-primary/30 rounded-full blur-2xl animate-pulse"
+            className="hidden md:block absolute top-1/4 -left-8 w-24 h-24 md:w-32 md:h-32 bg-primary/30 rounded-full blur-2xl animate-pulse"
             style={{
               transform: `translate(${mousePosition.x * 1.5}px, ${mousePosition.y * 1.5}px)`,
               transition: "transform 0.2s ease-out",
             }}
           />
           <div
-            className="absolute bottom-1/4 -right-8 w-32 h-32 md:w-40 md:h-40 bg-accent/30 rounded-full blur-2xl animate-pulse"
+            className="hidden md:block absolute bottom-1/4 -right-8 w-32 h-32 md:w-40 md:h-40 bg-accent/30 rounded-full blur-2xl animate-pulse"
             style={{
               transform: `translate(${mousePosition.x * -1.2}px, ${mousePosition.y * -1.2}px)`,
               transition: "transform 0.2s ease-out",

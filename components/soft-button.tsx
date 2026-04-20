@@ -29,8 +29,8 @@ export function SoftButton({ children, variant = "primary", size = "default", on
       onClick={onClick}
       {...props}
     >
-      {/* Ripple effect on hover */}
-      <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+      {/* Ripple effect - fixed for mobile iOS double-tap bug by using active state mapping or isolating hover logic */}
+      <span className="absolute inset-0 bg-white/20 translate-y-full md:group-hover:translate-y-0 active:translate-y-0 transition-transform duration-500 ease-out pointer-events-none" />
       <span className="relative z-10">{children}</span>
     </button>
   )
