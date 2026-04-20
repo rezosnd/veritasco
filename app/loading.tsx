@@ -29,7 +29,7 @@ export default function Loading() {
           {/* Logo — sits on top */}
           <Image
             src="/logo.avif"
-            alt="VeritasCo.Tech"
+            alt="VeritasCo"
             width={44}
             height={44}
             priority
@@ -44,7 +44,7 @@ export default function Loading() {
             className="text-sm font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60"
             style={{ animation: "loaderFadeText 1.8s ease-in-out infinite" }}
           >
-            VeritasCo.Tech
+            VeritasCo
           </span>
           <span className="text-[10px] text-muted-foreground/60 tracking-widest uppercase">
             Loading…

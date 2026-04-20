@@ -57,8 +57,8 @@ export default function Home() {
               </span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
-              India's First Complete School ERP{" "}
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
+              India&apos;s First Complete School ERP{" "}
               <span className="text-primary">with Biometric Attendance</span>
             </h1>
 
@@ -91,32 +91,32 @@ export default function Home() {
 
           {/* Right: Device */}
           <div className="relative order-1 lg:order-2">
-            <div className="relative soft-shadow bg-gradient-to-br from-card via-card to-primary/5 rounded-xl md:rounded-3xl p-4 md:p-12 min-h-[250px] md:min-h-[520px] flex items-center justify-center border border-primary/10 overflow-hidden">
+            <div className="relative soft-shadow bg-gradient-to-br from-card via-card to-primary/5 rounded-xl md:rounded-3xl p-4 md:p-12 min-h-[240px] md:min-h-[520px] flex items-center justify-center border border-primary/10 overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="w-48 h-48 md:w-72 md:h-72 rounded-full border border-primary/10 animate-pulse" />
               </div>
               <HeroDevice />
-              {/* Live stats card */}
-              <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 z-20">
-                <div className="relative overflow-hidden flex items-center justify-between gap-3 bg-card/85 backdrop-blur-md border border-primary/15 rounded-xl px-4 py-3 shadow-xl shadow-primary/10">
+              {/* Biometric card — visible on all screens */}
+              <div className="absolute bottom-3 left-3 right-3 md:bottom-6 md:left-6 md:right-6 z-20">
+                <div className="relative overflow-hidden flex items-center justify-between gap-2 md:gap-3 bg-card/85 backdrop-blur-md border border-primary/15 rounded-xl px-3 md:px-4 py-2.5 md:py-3 shadow-xl shadow-primary/10">
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5" />
-                  <div className="relative flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="relative flex items-center gap-2 md:gap-2.5">
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
+                      <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-foreground leading-none">Biometric Attendance</p>
-                      <p className="text-[10px] text-muted-foreground mt-0.5">School entry · exit · real-time sync</p>
+                      <p className="text-[11px] md:text-xs font-bold text-foreground leading-none">Biometric Attendance</p>
+                      <p className="text-[9px] md:text-[10px] text-muted-foreground mt-0.5">School entry · exit · real-time sync</p>
                     </div>
                   </div>
-                  <div className="relative flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1 shrink-0">
+                  <div className="relative flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-2 md:px-2.5 py-1 shrink-0">
                     <span className="relative flex h-1.5 w-1.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                       <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
                     </span>
-                    <span className="text-[10px] font-bold text-primary tracking-wide uppercase whitespace-nowrap">Coming Soon</span>
+                    <span className="text-[9px] md:text-[10px] font-bold text-primary tracking-wide uppercase whitespace-nowrap">Coming Soon</span>
                   </div>
                 </div>
               </div>
@@ -248,7 +248,7 @@ export default function Home() {
               Ready to Transform Your School?
             </h2>
             <p className="text-base md:text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto text-pretty">
-              Join 500+ schools already using VeritasCo.Tech. Book a free demo and go live in just 6 days.
+              Join 500+ schools already using VeritasCo. Book a free demo and go live in just 6 days.
             </p>
             <SoftButton
               size="lg"
@@ -273,8 +273,8 @@ export default function Home() {
             {/* Brand */}
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-3 mb-3">
-                <Image src="/logo.avif" alt="VeritasCo.Tech Logo" width={36} height={36} loading="lazy" quality={85} sizes="36px" />
-                <span className="text-base font-bold text-foreground">VeritasCo.Tech</span>
+                <Image src="/logo.avif" alt="VeritasCo Logo" width={36} height={36} loading="lazy" quality={85} sizes="36px" />
+                <span className="text-base font-bold text-foreground">VeritasCo</span>
               </div>
               <p className="text-sm text-muted-foreground mb-4 max-w-xs">
                 Revolutionizing school management with biometric technology and cloud-based ERP solutions.
@@ -318,7 +318,7 @@ export default function Home() {
 
           <div className="border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} VeritasCo.Tech. All rights reserved.
+              © {new Date().getFullYear()} VeritasCo. All rights reserved.
             </div>
             <div className="flex flex-wrap justify-center gap-5 text-sm text-muted-foreground">
               {["Privacy Policy", "Terms of Service", "Refund Policy"].map((l) => (

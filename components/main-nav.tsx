@@ -70,16 +70,15 @@ export function MainNav({
 
   return (
     <div
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`sticky top-0 z-[999] transition-all duration-300 ${scrolled
           ? "bg-card/95 backdrop-blur-xl border-b border-border/60 shadow-sm"
           : "bg-card border-b border-border/40"
-      }`}
+        }`}
     >
       <nav className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between h-14 md:h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 flex items-center gap-2">
+          <Link href="/" className="flex-shrink-0 flex items-center gap-2 min-w-0">
             <Image
               src="/logo.avif"
               alt="VeritasCo.Tech Logo"
@@ -88,10 +87,11 @@ export function MainNav({
               priority
               quality={90}
               sizes="36px"
-              className="w-7 h-7 md:w-9 md:h-9 drop-shadow-lg p-0.5"
+              className="w-8 h-8 flex-shrink-0 drop-shadow-lg p-0.5"
             />
-            <span className="text-lg md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
-              VeritasCo.Tech
+            {/* Hide text below 360px to prevent navbar overflow */}
+            <span className="hidden min-[360px]:block text-base md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80 whitespace-nowrap">
+              VeritasCo
             </span>
           </Link>
 
@@ -114,11 +114,10 @@ export function MainNav({
                 ) : (
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-1 text-[13.5px] font-medium transition-colors px-3 py-2 rounded-lg hover:bg-primary/5 ${
-                      isActive(item.href)
+                    className={`flex items-center gap-1 text-[13.5px] font-medium transition-colors px-3 py-2 rounded-lg hover:bg-primary/5 ${isActive(item.href)
                         ? "text-primary font-semibold"
                         : "text-foreground hover:text-primary"
-                    }`}
+                      }`}
                   >
                     {item.label}
                     {item.items && (
@@ -135,9 +134,8 @@ export function MainNav({
                         <Link
                           key={sub.label}
                           href={sub.href}
-                          className={`group/item flex flex-col px-4 py-3 rounded-xl transition-colors border border-transparent hover:border-primary/10 hover:bg-primary/5 ${
-                            isActive(sub.href) ? "bg-primary/8 border-primary/10" : ""
-                          }`}
+                          className={`group/item flex flex-col px-4 py-3 rounded-xl transition-colors border border-transparent hover:border-primary/10 hover:bg-primary/5 ${isActive(sub.href) ? "bg-primary/8 border-primary/10" : ""
+                            }`}
                         >
                           <span className={`text-[13.5px] font-semibold transition-colors ${isActive(sub.href) ? "text-primary" : "text-foreground group-hover/item:text-primary"}`}>
                             {sub.label}
@@ -170,13 +168,20 @@ export function MainNav({
           </div>
 
           {/* ── MOBILE HAMBURGER ── */}
-          <div className="lg:hidden flex items-center ml-auto gap-2">
-            <SoftButton size="sm" className="text-xs px-3 py-2 min-h-[40px]" onClick={onBookingOpen}>
-              Book Demo
-            </SoftButton>
+          <div className="lg:hidden flex items-center ml-auto gap-1.5 flex-shrink-0">
+            {!isOpen && (
+              <SoftButton
+                size="sm"
+                className="text-[11px] min-[400px]:text-xs px-2.5 min-[400px]:px-3 py-2 min-h-[40px] whitespace-nowrap"
+                onClick={onBookingOpen}
+              >
+                <span className="hidden min-[400px]:inline">Book Demo</span>
+                <span className="min-[400px]:hidden">Demo</span>
+              </SoftButton>
+            )}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground hover:text-primary p-2.5 rounded-xl hover:bg-primary/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary min-w-[44px] min-h-[44px] flex items-center justify-center"
+              className="text-foreground hover:text-primary p-2.5 rounded-xl hover:bg-primary/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary min-w-[44px] min-h-[44px] flex items-center justify-center flex-shrink-0"
               aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={isOpen}
               aria-controls="mobile-nav-overlay"
@@ -187,11 +192,11 @@ export function MainNav({
         </div>
       </nav>
 
-      {/* ── MOBILE MENU OVERLAY ── */}
+      {/* ── MOBILE MENU OVERLAY ── Rendered at portal level, covers full viewport */}
       {isOpen && (
         <div
           id="mobile-nav-overlay"
-          className="lg:hidden fixed inset-0 top-14 bg-card/98 backdrop-blur-xl z-40 overflow-y-auto overscroll-contain"
+          className="lg:hidden fixed inset-0 top-14 bg-card/98 backdrop-blur-xl z-[998] overflow-y-auto overscroll-contain"
           style={{ paddingBottom: "env(safe-area-inset-bottom, 24px)" }}
         >
           <div className="container mx-auto px-4 py-5">
@@ -205,15 +210,13 @@ export function MainNav({
                 <Link
                   key={href}
                   href={href}
-                  className={`flex flex-col items-center gap-2 p-3 rounded-2xl text-center transition-all border min-h-[72px] justify-center ${
-                    isActive(href)
+                  className={`flex flex-col items-center gap-2 p-3 rounded-2xl text-center transition-all border min-h-[72px] justify-center ${isActive(href)
                       ? "bg-primary/10 text-primary border-primary/20 font-semibold"
                       : "bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground border-transparent"
-                  }`}
+                    }`}
                 >
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    isActive(href) ? "bg-primary/20" : "bg-background soft-shadow-sm"
-                  }`}>
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${isActive(href) ? "bg-primary/20" : "bg-background soft-shadow-sm"
+                    }`}>
                     <Icon className="w-4 h-4" />
                   </div>
                   <span className="text-[11px] font-medium leading-tight">{label}</span>

@@ -187,11 +187,11 @@ export function PageWrapper({
       />
 
       {/* ── Page Hero Banner ── */}
-      <section className="relative z-10 container mx-auto px-4 sm:px-6 pt-8 md:pt-14 pb-6 md:pb-10">
+      <section className="relative z-10 container mx-auto px-4 sm:px-6 pt-5 sm:pt-8 md:pt-14 pb-4 md:pb-10">
         {/* Breadcrumb nav */}
         {breadcrumb && breadcrumb.length > 0 && (
           <nav
-            className="flex items-center flex-wrap gap-1.5 text-xs text-muted-foreground mb-5"
+            className="flex items-center flex-wrap gap-1.5 text-[11px] sm:text-xs text-muted-foreground mb-4"
             aria-label="Breadcrumb"
           >
             <Link href="/" className="hover:text-primary transition-colors">
@@ -220,21 +220,21 @@ export function PageWrapper({
         {/* Page title block */}
         <div className="max-w-2xl">
           {badge && (
-            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-3.5 py-1.5 mb-4">
+            <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-3">
               <span className="relative flex h-1.5 w-1.5 flex-shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
               </span>
-              <span className="text-[11px] sm:text-xs font-semibold text-primary tracking-wide">
+              <span className="text-[10px] sm:text-xs font-semibold text-primary tracking-wide">
                 {badge}
               </span>
             </div>
           )}
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-3 text-balance">
+          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-2 sm:mb-3 text-balance">
             {title}
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed text-pretty">
+          <p className="text-sm md:text-lg text-muted-foreground leading-relaxed text-pretty">
             {description}
           </p>
         </div>

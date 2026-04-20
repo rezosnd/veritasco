@@ -64,7 +64,7 @@ export function NavigationLoader() {
       {/* ── Top NProgress-style bar ─────────────────────────────────────── */}
       <div
         aria-hidden="true"
-        className="fixed top-0 left-0 right-0 z-[9999] h-[2px] pointer-events-none"
+        className="fixed top-0 left-0 right-0 z-[10000] h-[2px] pointer-events-none"
         style={{
           opacity: barVisible ? 1 : 0,
           transition: "opacity 0.15s ease",
@@ -88,7 +88,7 @@ export function NavigationLoader() {
       {/* ── Premium logo overlay (only on slow navigations) ─────────────── */}
       <div
         aria-hidden="true"
-        className="fixed inset-0 z-[9998] flex items-center justify-center bg-background pointer-events-none"
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-background pointer-events-none"
         style={{
           opacity: overlayVisible ? 1 : 0,
           transition: "opacity 0.2s ease",
