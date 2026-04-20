@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import clientPromise from "@/lib/mongodb"
+import { prisma } from "@/lib/prisma"
 
 export async function POST(request: Request) {
   try {
@@ -7,52 +7,25 @@ export async function POST(request: Request) {
     const { schoolName, contactPerson, email, phone, studentCount, message } = body
 
     try {
-      const client = await clientPromise
-      const db = client.db("veritasco")
-
-      const booking = {
-        schoolName,
-        contactPerson,
-        email,
-        phone,
-        studentCount: Number.parseInt(studentCount),
-        message,
-        status: "pending",
-        createdAt: new Date(),
-      }
-
-      await db.collection("bookings").insertOne(booking)
-
-      console.log("[v0] Booking saved to MongoDB:", booking)
-    } catch (dbError) {
-      console.error("[v0] MongoDB error:", dbError)
-      // Continue even if DB fails - log to console as fallback
-      console.log("[v0] Booking request (DB unavailable):", {
-        schoolName,
-        contactPerson,
-        email,
-        phone,
-        studentCount,
-        message,
-        timestamp: new Date().toISOString(),
+      await prisma.booking.create({
+        data: {
+          schoolName,
+          contactPerson,
+          email,
+          phone,
+          studentCount: Number(studentCount) || 0,
+          message: message || '',
+          status: 'pending',
+        },
       })
+      console.log("[prisma/neon] Booking saved:", { schoolName, contactPerson, email })
+    } catch (dbError) {
+      console.error("[prisma/neon] DB error:", dbError)
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: "Booking request received successfully",
-      },
-      { status: 200 },
-    )
+    return NextResponse.json({ success: true, message: "Booking request received successfully" }, { status: 200 })
   } catch (error) {
-    console.error("[v0] Booking API error:", error)
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to process booking request",
-      },
-      { status: 500 },
-    )
+    console.error("[prisma/neon] Booking API error:", error)
+    return NextResponse.json({ success: false, message: "Failed to process booking request" }, { status: 500 })
   }
 }

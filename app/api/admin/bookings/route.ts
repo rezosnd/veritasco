@@ -1,25 +1,30 @@
 import { NextRequest, NextResponse } from "next/server"
-import clientPromise from "@/lib/mongodb"
+import { prisma } from "@/lib/prisma"
 import { withAuth } from "@/lib/auth-middleware"
 
 async function handler(request: NextRequest) {
   try {
-    const client = await clientPromise
-    const db = client.db("veritasco")
+    const bookings = await prisma.booking.findMany({
+      orderBy: { createdAt: 'desc' },
+    })
 
-    const bookings = await db
-      .collection("bookings")
-      .find({})
-      .sort({ createdAt: -1 })
-      .toArray()
+    // Map to admin-compatible shape
+    const result = bookings.map((b) => ({
+      _id: b.id.toString(),
+      schoolName: b.schoolName,
+      contactPerson: b.contactPerson,
+      email: b.email,
+      phone: b.phone,
+      studentCount: b.studentCount,
+      message: b.message,
+      status: b.status,
+      createdAt: b.createdAt,
+    }))
 
-    return NextResponse.json(bookings)
+    return NextResponse.json(result)
   } catch (error) {
-    console.error("[v0] Admin bookings API error:", error)
-    return NextResponse.json(
-      { error: "Failed to fetch bookings" },
-      { status: 500 }
-    )
+    console.error("[prisma/neon] Admin bookings error:", error)
+    return NextResponse.json({ error: "Failed to fetch bookings" }, { status: 500 })
   }
 }
 

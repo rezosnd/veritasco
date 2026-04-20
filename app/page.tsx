@@ -37,6 +37,15 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
           {/* Left: Copy */}
           <div className="space-y-5 md:space-y-8 order-2 lg:order-1 relative z-20">
+          {/* Coming Soon pill */}
+            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+              </span>
+              <span className="text-xs md:text-sm font-semibold text-primary tracking-wide">Biometric Attendance — Coming Soon</span>
+            </div>
+
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
               India's First Complete School ERP{" "}
               <span className="text-primary">with Biometric Attendance</span>
@@ -65,12 +74,42 @@ export default function Home() {
 
           {/* Right: Device */}
           <div className="relative order-1 lg:order-2">
-            <div className="soft-shadow bg-card rounded-xl md:rounded-3xl p-4 md:p-12 min-h-[260px] md:min-h-[520px] flex items-center justify-center">
+            <div className="relative soft-shadow bg-gradient-to-br from-card via-card to-primary/5 rounded-xl md:rounded-3xl p-4 md:p-12 min-h-[260px] md:min-h-[520px] flex items-center justify-center border border-primary/10 overflow-hidden">
+              {/* Background glow rings */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-48 h-48 md:w-72 md:h-72 rounded-full border border-primary/10 animate-pulse" />
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-64 h-64 md:w-96 md:h-96 rounded-full border border-primary/5" style={{animationDelay:'0.5s'}} />
+              </div>
               <HeroDevice />
+              {/* Premium Coming Soon bar */}
+              <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 z-20">
+                <div className="relative overflow-hidden flex items-center justify-between gap-3 bg-card/80 backdrop-blur-md border border-primary/20 rounded-xl px-4 py-3 shadow-xl shadow-primary/10">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5" />
+                  <div className="relative flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 shadow-md shadow-primary/30">
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" /></svg>
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-foreground leading-none">Biometric Attendance</p>
+                      <p className="text-[10px] text-muted-foreground mt-0.5">School entry · exit · real-time sync</p>
+                    </div>
+                  </div>
+                  <div className="relative flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1 shrink-0">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
+                    </span>
+                    <span className="text-[10px] font-bold text-primary tracking-wide uppercase whitespace-nowrap">Coming Soon</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* ── Stats Bar ── */}
       <ScrollReveal>

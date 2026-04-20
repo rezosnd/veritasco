@@ -1,0 +1,64 @@
+// This is your Prisma schema file for Prisma v7+
+// learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Booking {
+  id            Int      @id @default(autoincrement())
+  schoolName    String   @map("school_name")
+  contactPerson String   @map("contact_person")
+  email         String
+  phone         String
+  studentCount  Int?     @map("student_count")
+  message       String?
+  status        String   @default("pending")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("bookings")
+}
+
+model Application {
+  id                Int      @id @default(autoincrement())
+  fullName          String   @map("full_name")
+  email             String
+  phone             String
+  position          String
+  yearsOfExperience Int      @map("years_of_experience")
+  currentCompany    String?  @map("current_company")
+  skills            String
+  whyInterested     String   @map("why_interested")
+  pastExperience    String   @map("past_experience")
+  resumeFilename    String?  @map("resume_filename")
+  resumeContentType String?  @map("resume_content_type")
+  resumeData        String?  @map("resume_data")
+  status            String   @default("pending")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  @@map("applications")
+}
+
+model CsrfToken {
+  id        Int    @id @default(autoincrement())
+  sessionId String @unique @map("session_id")
+  token     String
+  expiresAt BigInt @map("expires_at")
+  createdAt BigInt @map("created_at")
+
+  @@map("csrf_tokens")
+}
+
+model Otp {
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  otp       String
+  expiresAt BigInt @map("expires_at")
+  createdAt BigInt @map("created_at")
+
+  @@map("otps")
+}
