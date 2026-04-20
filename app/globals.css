@@ -3,6 +3,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────── */
 :root {
   --background: oklch(0.96 0.005 240);
   --foreground: oklch(0.25 0.01 240);
@@ -37,8 +40,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-
-  /* Custom Soft UI variables for neumorphic design */
   --shadow-light: #ffffff;
   --shadow-dark: #b8bcc4;
 }
@@ -76,12 +77,13 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+  --shadow-light: rgba(255,255,255,0.06);
+  --shadow-dark: rgba(0,0,0,0.4);
 }
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -120,18 +122,72 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ─────────────────────────────────────────
+   BASE RESET & GLOBAL STYLES
+───────────────────────────────────────── */
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
     @apply border-border outline-ring/50;
   }
-  html, body {
+
+  html {
+    /* Smooth scrolling for hash links and programmatic scroll */
+    scroll-behavior: smooth;
+    /* Prevent font inflation on iOS */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Consistent font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Better tap responsiveness on mobile */
+    touch-action: pan-y;
+  }
+
+  body {
+    /* Prevent horizontal scroll */
     overflow-x: hidden;
     max-width: 100%;
+    /* Safe area for notched devices */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
     @apply bg-background text-foreground;
+  }
+
+  /* Remove tap highlight on mobile (prevents blue flash) */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Consistent button cursor */
+  button, [role="button"] {
+    cursor: pointer;
+  }
+
+  /* Ensure images never overflow */
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Accessible focus visible outlines */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Remove default focus for mouse users but keep for keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 }
 
-/* Soft UI utility classes for neumorphic design */
+/* ─────────────────────────────────────────
+   NEUMORPHIC SOFT SHADOW UTILITIES
+───────────────────────────────────────── */
 .soft-shadow {
   box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
 }
@@ -148,22 +204,44 @@
   box-shadow: 12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light);
 }
 
-.hover\:scale-98:hover {
-  transform: scale(0.98);
+/* ─────────────────────────────────────────
+   CARD INTERACTIONS
+───────────────────────────────────────── */
+.card-hover-effect {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Added 3D perspective for device animation */
-.perspective-1000 {
-  perspective: 1000px;
+.card-hover-effect:hover {
+  transform: translateY(-3px);
+  box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
 }
 
-.perspective-2000 {
-  perspective: 2000px;
+.card-hover-effect:active {
+  transform: translateY(-1px);
 }
 
-/* Added custom scrollbar styling */
+/* Touch devices shouldn't have hover translate (causes sticky on tap) */
+@media (hover: none) {
+  .card-hover-effect:hover {
+    transform: none;
+  }
+}
+
+/* ─────────────────────────────────────────
+   SCROLLBAR UTILITIES
+───────────────────────────────────────── */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -180,115 +258,87 @@
   background: var(--color-accent);
 }
 
-/* Added smooth animations for mobile touch interactions */
+/* ─────────────────────────────────────────
+   3D PERSPECTIVE UTILITIES
+───────────────────────────────────────── */
+.perspective-1000 { perspective: 1000px; }
+.perspective-2000 { perspective: 2000px; }
+
+/* ─────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-16px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up {
+  animation: fadeInUp 0.55s ease-out forwards;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position:  1000px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-muted) 25%,
+    var(--color-background) 50%,
+    var(--color-muted) 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Touch ripple for interactive elements */
 @keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
+  0%   { transform: scale(0); opacity: 1; }
+  100% { transform: scale(4); opacity: 0; }
 }
-
-.ripple-effect {
-  position: relative;
-  overflow: hidden;
-}
-
+.ripple-effect { position: relative; overflow: hidden; }
 .ripple-effect::after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
+  top: 50%; left: 50%;
+  width: 20px; height: 20px;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
   pointer-events: none;
 }
-
 .ripple-effect:active::after {
   animation: ripple 0.6s ease-out;
 }
 
-/* Enhanced card hover effects */
-.card-hover-effect {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ─────────────────────────────────────────
+   PREMIUM PAGE LOADER ANIMATIONS
+───────────────────────────────────────── */
+@keyframes logoPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(0.95); }
 }
 
-.card-hover-effect:hover {
-  transform: translateY(-4px);
-  box-shadow: 12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light);
+@keyframes loadingBarSlide {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(20%); }
+  100% { transform: translateX(100%); }
 }
 
-.card-hover-effect:active {
-  transform: translateY(-2px);
+.loading-bar {
+  animation: loadingBarSlide 1.2s ease-in-out infinite;
 }
 
-/* Smooth page transitions */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-/* Loading skeleton for better perceived performance */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-.skeleton {
-  background: linear-gradient(90deg, var(--color-muted) 25%, var(--color-background) 50%, var(--color-muted) 75%);
-  background-size: 1000px 100%;
-  animation: shimmer 2s infinite;
-}
-
-/* Added floating animation for device */
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Added fade-in-up animation for scroll reveals */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-/* Respect reduced motion preference */
+/* ─────────────────────────────────────────
+   REDUCED MOTION SUPPORT  
+───────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -296,66 +346,72 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 
-  .animate-fade-in-up {
-    animation: none;
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .animate-snowfall {
-    animation: none;
-    opacity: 0;
+  .animate-float,
+  .fade-in-up,
+  .loading-bar,
+  .animate-pulse,
+  .animate-ping,
+  .animate-bounce {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
-/* Mobile performance optimizations */
+/* ─────────────────────────────────────────
+   MOBILE PERFORMANCE OPTIMIZATIONS
+───────────────────────────────────────── */
 @media (max-width: 768px) {
-  /* Reduce animation complexity on mobile */
-  * {
-    will-change: auto;
-  }
-
-  /* Optimize animated elements */
-  .animate-fade-in-up,
-  .animate-snowfall,
-  .mobile-snow {
-    will-change: transform, opacity;
-  }
-
-  /* Reduce blur effects on mobile */
-  .wave-ring {
-    filter: blur(6px) !important;
-  }
-
+  /* Reduce blur on mobile (GPU expensive) */
+  .wave-ring,
   .wave-ring::before {
-    filter: blur(6px) !important;
+    filter: blur(4px) !important;
   }
 
-  /* Optimize scroll reveal animations on mobile */
-  .animate-fade-in-up {
-    animation-duration: 0.3s;
+  /* Disable heavy backdrop blur on low-end mobile */
+  @supports not (backdrop-filter: blur(1px)) {
+    .backdrop-blur-md {
+      backdrop-filter: none !important;
+      background-color: var(--color-card) !important;
+    }
   }
 
-  /* Disable heavy backdrop blur on mobile */
-  .backdrop-blur-sm {
-    backdrop-filter: none !important;
+  /* Faster animations on mobile */
+  .animate-pulse { animation-duration: 2.5s; }
+  .animate-bounce { animation-duration: 1.5s; }
+}
+
+/* ─────────────────────────────────────────
+   SAFE AREA INSETS (iOS notch / home bar)
+───────────────────────────────────────── */
+.pb-safe {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.pt-safe {
+  padding-top: max(0px, env(safe-area-inset-top));
+}
+
+/* ─────────────────────────────────────────
+   PRINT STYLES
+───────────────────────────────────────── */
+@media print {
+  .no-print,
+  nav,
+  footer,
+  .fixed {
+    display: none !important;
   }
 
-  .backdrop-blur-md {
-    backdrop-filter: none !important;
+  body {
+    background: white !important;
+    color: black !important;
   }
 
-
-  /* Reduce bounce animation on mobile */
-  .animate-bounce {
-    animation-duration: 2s;
-    animation-timing-function: ease-in-out;
-  }
-
-  /* Optimize all animations for mobile */
-  .animate-pulse {
-    animation-duration: 2s;
+  @page {
+    margin: 2cm;
   }
 }

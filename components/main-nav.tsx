@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
-import { ChevronDown, Menu, X } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { ChevronDown, Menu, X, Zap, Fingerprint, BarChart2, Building2, Star, HelpCircle, Home, MessageSquare } from "lucide-react"
 import { SoftButton } from "./soft-button"
 
-// Dropdown item interface
 interface NavItem {
   label: string
   href: string
@@ -14,92 +15,139 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "#features" },
-  { label: "About Us", href: "#about" },
-  { label: "Contact Us", href: "/contact" },
+  {
+    label: "Product",
+    href: "/features",
+    items: [
+      { label: "ERP Features", href: "/features", description: "11-module complete school management suite" },
+      { label: "How It Works", href: "/how-it-works", description: "5-step biometric attendance process" },
+      { label: "Why Switch", href: "/compare", description: "VeritasCo vs manual attendance systems" },
+    ],
+  },
+  { label: "About", href: "/about" },
+  { label: "Reviews", href: "/testimonials" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "contact" }, // sentinel — triggers modal
 ]
 
-export function MainNav({ 
-  onSupportOpen, 
-  onBookingOpen 
-}: { 
+// Mobile shortcut grid items
+const mobileNav = [
+  { label: "Features", href: "/features", icon: Zap },
+  { label: "How It Works", href: "/how-it-works", icon: Fingerprint },
+  { label: "Compare", href: "/compare", icon: BarChart2 },
+  { label: "About", href: "/about", icon: Building2 },
+  { label: "Reviews", href: "/testimonials", icon: Star },
+  { label: "FAQ", href: "/faq", icon: HelpCircle },
+]
+
+export function MainNav({
+  onSupportOpen,
+  onBookingOpen,
+}: {
   onSupportOpen?: () => void
-  onBookingOpen?: () => void 
+  onBookingOpen?: () => void
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/"
+    return pathname.startsWith(href)
+  }
 
   return (
-    <div className="relative z-50 bg-card border-b border-border/40">
+    <div
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-card/95 backdrop-blur-xl border-b border-border/60 shadow-sm"
+          : "bg-card border-b border-border/40"
+      }`}
+    >
       <nav className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-14 md:h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => window.location.href = '/'}>
+          <Link href="/" className="flex-shrink-0 flex items-center gap-2">
             <Image
               src="/logo.avif"
               alt="VeritasCo.Tech Logo"
-              width={40}
-              height={40}
+              width={36}
+              height={36}
               priority
               quality={90}
-              sizes="40px"
-              className="w-8 h-8 md:w-10 md:h-10 drop-shadow-lg mr-2 p-0.5"
+              sizes="36px"
+              className="w-7 h-7 md:w-9 md:h-9 drop-shadow-lg p-0.5"
             />
-            <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
+            <span className="text-lg md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
               VeritasCo.Tech
             </span>
-          </div>
+          </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center space-x-1 xl:space-x-4">
+          {/* ── DESKTOP NAV ── */}
+          <div className="hidden lg:flex items-center gap-0.5">
             {navItems.map((item) => (
               <div
                 key={item.label}
-                className="relative group px-2 py-4"
+                className="relative group"
                 onMouseEnter={() => setActiveDropdown(item.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                <a
-                  href={item.href}
-                  onClick={(e) => {
-                    if (item.label === "Contact Us" && onSupportOpen) {
-                      e.preventDefault();
-                      onSupportOpen();
-                    } else if (item.href.startsWith("#") && item.href !== "#") {
-                      e.preventDefault();
-                      const target = document.querySelector(item.href);
-                      if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }
-                  }}
-                  className="flex items-center text-[15px] font-medium text-foreground hover:text-primary transition-colors cursor-pointer"
-                >
-                  {item.label}
-                  {item.items && (
-                    <ChevronDown className="ml-1 w-4 h-4 opacity-70 group-hover:rotate-180 transition-transform duration-200" />
-                  )}
-                </a>
+                {item.label === "Contact" ? (
+                  <button
+                    onClick={onSupportOpen}
+                    className="flex items-center gap-1 text-[13.5px] font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-lg hover:bg-primary/5"
+                  >
+                    Contact
+                  </button>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-1 text-[13.5px] font-medium transition-colors px-3 py-2 rounded-lg hover:bg-primary/5 ${
+                      isActive(item.href)
+                        ? "text-primary font-semibold"
+                        : "text-foreground hover:text-primary"
+                    }`}
+                  >
+                    {item.label}
+                    {item.items && (
+                      <ChevronDown className="w-3.5 h-3.5 opacity-60 group-hover:rotate-180 transition-transform duration-200" />
+                    )}
+                  </Link>
+                )}
 
-                {/* Dropdown Menu */}
+                {/* Dropdown */}
                 {item.items && activeDropdown === item.label && (
-                  <div className={`absolute top-full left-0 pt-2 animate-in fade-in slide-in-from-top-2 ${item.items.length > 4 ? "w-[600px] -ml-[150px]" : "w-[320px]"}`}>
-                    <div className={`bg-card/95 backdrop-blur-xl soft-shadow rounded-2xl border border-border/50 p-3 overflow-hidden ${item.items.length > 4 ? "grid grid-cols-2 gap-2" : "flex flex-col gap-1"}`}>
-                      {item.items.map((subItem) => (
-                        <a
-                          key={subItem.label}
-                          href={subItem.href}
-                          className="group/item flex flex-col px-4 py-3 rounded-xl hover:bg-primary/5 transition-colors border border-transparent hover:border-primary/10"
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 animate-in fade-in slide-in-from-top-2 w-[300px] z-50">
+                    <div className="bg-card/98 backdrop-blur-xl soft-shadow-sm rounded-2xl border border-border/50 p-2 flex flex-col gap-1">
+                      {item.items.map((sub) => (
+                        <Link
+                          key={sub.label}
+                          href={sub.href}
+                          className={`group/item flex flex-col px-4 py-3 rounded-xl transition-colors border border-transparent hover:border-primary/10 hover:bg-primary/5 ${
+                            isActive(sub.href) ? "bg-primary/8 border-primary/10" : ""
+                          }`}
                         >
-                          <span className="text-[15px] font-semibold text-foreground group-hover/item:text-primary transition-colors">
-                            {subItem.label}
+                          <span className={`text-[13.5px] font-semibold transition-colors ${isActive(sub.href) ? "text-primary" : "text-foreground group-hover/item:text-primary"}`}>
+                            {sub.label}
                           </span>
-                          {subItem.description && (
-                            <span className="text-[13px] text-muted-foreground mt-1 leading-snug">
-                              {subItem.description}
+                          {sub.description && (
+                            <span className="text-[12px] text-muted-foreground mt-0.5 leading-snug">
+                              {sub.description}
                             </span>
                           )}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -109,104 +157,111 @@ export function MainNav({
           </div>
 
           {/* Desktop CTAs */}
-          <div className="hidden lg:flex items-center gap-2 xl:gap-4 ml-auto lg:ml-4">
+          <div className="hidden lg:flex items-center gap-2 ml-2">
             <button
               onClick={onSupportOpen}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-xl hover:bg-primary/5"
+              className="text-[13px] font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-xl hover:bg-primary/5"
             >
               Support
             </button>
-            <SoftButton
-              size="sm"
-              className="text-sm px-4 py-2"
-              onClick={onBookingOpen}
-            >
-              Get Started
+            <SoftButton size="sm" className="text-[13px] px-4 py-1.5" onClick={onBookingOpen}>
+              Book Demo
             </SoftButton>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center ml-auto">
+          {/* ── MOBILE HAMBURGER ── */}
+          <div className="lg:hidden flex items-center ml-auto gap-2">
+            <SoftButton size="sm" className="text-xs px-3 py-2 min-h-[40px]" onClick={onBookingOpen}>
+              Book Demo
+            </SoftButton>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground hover:text-primary p-2 transition-colors focus:outline-none"
-              aria-label="Toggle menu"
+              className="text-foreground hover:text-primary p-2.5 rounded-xl hover:bg-primary/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary min-w-[44px] min-h-[44px] flex items-center justify-center"
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav-overlay"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Nav Overlay */}
+      {/* ── MOBILE MENU OVERLAY ── */}
       {isOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-card border-b border-border shadow-xl max-h-[calc(100vh-5rem)] overflow-y-auto animate-in fade-in slide-in-from-top-2">
-          <div className="px-4 py-4 space-y-2">
-            {navItems.map((item) => (
-              <div key={item.label} className="border-b border-border/40 last:border-0 pb-2 mb-2 last:mb-0 last:pb-0">
-                {item.items ? (
-                  <div className="space-y-1">
-                    <div className="font-semibold text-foreground px-3 py-2 text-[15px]">
-                      {item.label}
-                    </div>
-                    <div className="space-y-1 pl-4 ml-3 border-l text-sm">
-                      {item.items.map((subItem) => (
-                        <a
-                          key={subItem.label}
-                          href={subItem.href}
-                          className="block px-3 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
-                        >
-                          {subItem.label}
-                        </a>
-                      ))}
-                    </div>
+        <div
+          id="mobile-nav-overlay"
+          className="lg:hidden fixed inset-0 top-14 bg-card/98 backdrop-blur-xl z-40 overflow-y-auto overscroll-contain"
+          style={{ paddingBottom: "env(safe-area-inset-bottom, 24px)" }}
+        >
+          <div className="container mx-auto px-4 py-5">
+
+            {/* Section shortcut grid */}
+            <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
+              Navigate to
+            </p>
+            <div className="grid grid-cols-3 gap-2 mb-6">
+              {mobileNav.map(({ label, href, icon: Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`flex flex-col items-center gap-2 p-3 rounded-2xl text-center transition-all border min-h-[72px] justify-center ${
+                    isActive(href)
+                      ? "bg-primary/10 text-primary border-primary/20 font-semibold"
+                      : "bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground border-transparent"
+                  }`}
+                >
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    isActive(href) ? "bg-primary/20" : "bg-background soft-shadow-sm"
+                  }`}>
+                    <Icon className="w-4 h-4" />
                   </div>
-                ) : (
-                  <a
-                    href={item.href}
-                    onClick={(e) => {
-                      if (item.label === "Contact Us" && onSupportOpen) {
-                        e.preventDefault();
-                        onSupportOpen();
-                        setIsOpen(false);
-                      } else if (item.href.startsWith("#") && item.href !== "#") {
-                        e.preventDefault();
-                        const target = document.querySelector(item.href);
-                        if (target) {
-                          target.scrollIntoView({ behavior: 'smooth' });
-                        }
-                        setIsOpen(false);
-                      } else {
-                        setIsOpen(false);
-                      }
-                    }}
-                    className="block px-3 py-2 text-[15px] font-semibold text-foreground hover:text-primary transition-colors"
-                  >
-                    {item.label}
-                  </a>
-                )}
-              </div>
-            ))}
-            
-            <div className="flex flex-col gap-3 pt-4 border-t border-border/40 mt-4">
+                  <span className="text-[11px] font-medium leading-tight">{label}</span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex-1 h-px bg-border/50" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/60">More</span>
+              <div className="flex-1 h-px bg-border/50" />
+            </div>
+
+            {/* Quick links list */}
+            <div className="flex flex-col gap-0.5 mb-6">
+              <Link href="/" className={`px-4 py-3.5 rounded-xl text-[15px] font-semibold transition-colors flex items-center gap-3 ${pathname === "/" ? "text-primary bg-primary/5" : "text-foreground hover:text-primary hover:bg-primary/5"}`}>
+                <div className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                  <Home className="w-4 h-4" />
+                </div>
+                Home
+              </Link>
+              <button
+                onClick={onSupportOpen}
+                className="text-left px-4 py-3.5 rounded-xl text-[15px] font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-colors flex items-center gap-3"
+              >
+                <div className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                  <HelpCircle className="w-4 h-4" />
+                </div>
+                Contact &amp; Support
+              </button>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col gap-3 pt-4 border-t border-border/40">
               <SoftButton
                 size="sm"
-                className="w-full justify-center"
-                onClick={() => {
-                  onBookingOpen && onBookingOpen();
-                  setIsOpen(false);
-                }}
+                className="w-full justify-center py-3.5 text-sm"
+                onClick={() => { onBookingOpen?.(); setIsOpen(false) }}
               >
-                Get Started Now
+                Book a Free Demo
               </SoftButton>
               <button
-                onClick={() => {
-                  onSupportOpen && onSupportOpen();
-                  setIsOpen(false);
-                }}
-                className="w-full text-center text-[15px] font-medium text-muted-foreground hover:text-primary bg-primary/5 hover:bg-primary/10 py-3 rounded-xl transition-colors"
+                onClick={() => { onSupportOpen?.(); setIsOpen(false) }}
+                className="w-full text-center text-sm font-medium text-muted-foreground hover:text-primary bg-primary/5 hover:bg-primary/10 py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
               >
-                Help & Support
+                <MessageSquare className="w-4 h-4" />
+                Help &amp; Support
               </button>
             </div>
           </div>

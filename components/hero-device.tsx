@@ -85,7 +85,7 @@ export function HeroDevice() {
         }}
       >
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
           <span className="text-xs md:text-sm font-semibold text-foreground">99.9% Accurate</span>
         </div>
       </div>
@@ -104,24 +104,6 @@ export function HeroDevice() {
         </div>
       </div>
 
-      {/* Premium "Coming Soon" badge — Biometric Attendance App */}
-      <div
-        className="absolute top-4 right-4 md:top-6 md:right-6 z-20 pointer-events-none"
-        style={{
-          transform: `translate(${mousePosition.x * 0.6}px, ${mousePosition.y * 0.6}px)`,
-          transition: "transform 0.3s ease-out",
-        }}
-      >
-        <div className="relative flex items-center gap-2 bg-gradient-to-r from-primary to-accent rounded-full px-3 py-1.5 md:px-4 md:py-2 shadow-lg shadow-primary/30">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
-          </span>
-          <span className="text-[10px] md:text-xs font-bold text-white tracking-widest uppercase whitespace-nowrap">
-            Coming Soon
-          </span>
-        </div>
-      </div>
     </div>
   )
 }

@@ -4,92 +4,107 @@ import { MainNav } from "@/components/main-nav"
 import { AnimatedWaves } from "@/components/animated-waves"
 import { SoftButton } from "@/components/soft-button"
 import { HeroDevice } from "@/components/hero-device"
-import { DetailedFeatures } from "@/components/detailed-features"
-import { FeatureTable } from "@/components/feature-table"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { StatsCounter } from "@/components/stats-counter"
-import { ComparisonTable } from "@/components/comparison-table"
-import { Timeline } from "@/components/timeline"
-import { HowItWorks } from "@/components/how-it-works"
-import { InteractiveFAQ } from "@/components/interactive-faq"
 import Image from "next/image"
+import Link from "next/link"
 import { useState } from "react"
 import BookingModal from "@/components/booking-modal"
 import ContactSupportModal from "@/components/contact-support-modal"
+import { ArrowRight, GraduationCap, Smartphone, BookOpen, Bus, Home as HomeIcon, Users, BarChart3, ShieldCheck, Fingerprint, GitCompare, Star, HelpCircle } from "lucide-react"
+
+// Concise feature highlight cards for the homepage teaser
+const featureCards = [
+  { icon: GraduationCap, title: "Admissions & Fees", desc: "Streamlined admissions, fee collection, and due tracking.", href: "/features" },
+  { icon: Smartphone, title: "Student App", desc: "Digital diary, homework, LMS access, and ID card.", href: "/features" },
+  { icon: BookOpen, title: "Academic & LMS", desc: "Subjects, quizzes, study material, and progress tracking.", href: "/features" },
+  { icon: Bus, title: "Transport", desc: "Route planning, driver info, and real-time monitoring.", href: "/features" },
+  { icon: HomeIcon, title: "Hostel", desc: "Room allocation, occupant management, and attendance.", href: "/features" },
+  { icon: Users, title: "Staff & Payroll", desc: "HR records, leave, salary, and payroll automation.", href: "/features" },
+  { icon: BarChart3, title: "Analytics", desc: "Instant reports for fee, attendance, and performance.", href: "/features" },
+  { icon: ShieldCheck, title: "Cloud Security", desc: "Enterprise-grade encrypted, always-on cloud platform.", href: "/features" },
+]
 
 export default function Home() {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [isSupportOpen, setIsSupportOpen] = useState(false)
 
   return (
-    <main className="relative min-h-screen">
-      {/* Desktop-only animated background */}
+    <main className="relative min-h-svh">
       <AnimatedWaves />
 
-      {/* Navigation */}
       <MainNav
         onSupportOpen={() => setIsSupportOpen(true)}
         onBookingOpen={() => setIsBookingOpen(true)}
       />
 
-      {/* ── Hero Section ── */}
-      <section className="relative z-10 container mx-auto px-4 md:px-6 pt-8 md:pt-14 pb-4">
+      {/* ────────────────────────────────────────
+          HERO SECTION — full viewport
+      ──────────────────────────────────────── */}
+      <section className="relative z-10 container mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-16 pb-6 min-h-[calc(100svh-56px)] flex flex-col justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
+
           {/* Left: Copy */}
-          <div className="space-y-5 md:space-y-8 order-2 lg:order-1 relative z-20">
-          {/* Coming Soon pill */}
+          <div className="space-y-5 md:space-y-7 order-2 lg:order-1 relative z-20">
+            {/* Trust pill */}
             <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
-              <span className="text-xs md:text-sm font-semibold text-primary tracking-wide">Biometric Attendance — Coming Soon</span>
+              <span className="text-xs md:text-sm font-semibold text-primary tracking-wide">
+                India&apos;s #1 School ERP Platform
+              </span>
             </div>
 
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
               India's First Complete School ERP{" "}
               <span className="text-primary">with Biometric Attendance</span>
             </h1>
-            <p className="text-sm md:text-xl text-muted-foreground leading-relaxed text-pretty">
-              Transform your school's attendance, fees, academics, transport, hostel, and HR — all in one secure,
-              cloud-based platform with in-hand biometric devices.
+
+            <p className="text-sm md:text-xl text-muted-foreground leading-relaxed text-pretty max-w-xl">
+              Transform your school's attendance, fees, academics, transport, hostel, and HR — all in
+              one secure, cloud-based platform with in-hand biometric devices.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+
+            <div className="flex flex-col sm:flex-row gap-3">
               <SoftButton size="lg" className="w-full sm:w-auto" onClick={() => setIsBookingOpen(true)}>
                 Book a Free Demo
               </SoftButton>
-              <SoftButton
-                variant="secondary"
-                size="lg"
-                className="w-full sm:w-auto"
-                onClick={() => {
-                  const el = document.querySelector("#features")
-                  if (el) el.scrollIntoView({ behavior: "smooth" })
-                }}
-              >
-                Explore Features
-              </SoftButton>
+              <Link href="/features">
+                <SoftButton variant="secondary" size="lg" className="w-full sm:w-auto">
+                  Explore Features
+                </SoftButton>
+              </Link>
             </div>
+
+            {/* Trust signals */}
+            {/* <div className="flex flex-wrap gap-x-5 gap-y-2 pt-1">
+              {["500+ Schools", "50,000+ Students", "99.9% Accuracy", "Setup in 6 Days"].map((t) => (
+                <div key={t} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
+                  {t}
+                </div>
+              ))}
+            </div> */}
           </div>
 
           {/* Right: Device */}
           <div className="relative order-1 lg:order-2">
-            <div className="relative soft-shadow bg-gradient-to-br from-card via-card to-primary/5 rounded-xl md:rounded-3xl p-4 md:p-12 min-h-[260px] md:min-h-[520px] flex items-center justify-center border border-primary/10 overflow-hidden">
-              {/* Background glow rings */}
+            <div className="relative soft-shadow bg-gradient-to-br from-card via-card to-primary/5 rounded-xl md:rounded-3xl p-4 md:p-12 min-h-[250px] md:min-h-[520px] flex items-center justify-center border border-primary/10 overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="w-48 h-48 md:w-72 md:h-72 rounded-full border border-primary/10 animate-pulse" />
               </div>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-64 h-64 md:w-96 md:h-96 rounded-full border border-primary/5" style={{animationDelay:'0.5s'}} />
-              </div>
               <HeroDevice />
-              {/* Premium Coming Soon bar */}
+              {/* Live stats card */}
               <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 z-20">
-                <div className="relative overflow-hidden flex items-center justify-between gap-3 bg-card/80 backdrop-blur-md border border-primary/20 rounded-xl px-4 py-3 shadow-xl shadow-primary/10">
+                <div className="relative overflow-hidden flex items-center justify-between gap-3 bg-card/85 backdrop-blur-md border border-primary/15 rounded-xl px-4 py-3 shadow-xl shadow-primary/10">
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5" />
                   <div className="relative flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 shadow-md shadow-primary/30">
-                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" /></svg>
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                      </svg>
                     </div>
                     <div>
                       <p className="text-xs font-bold text-foreground leading-none">Biometric Attendance</p>
@@ -108,12 +123,23 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Scroll hint arrow */}
+        <div className="flex justify-center mt-8 md:mt-12">
+          <div className="flex flex-col items-center gap-1 text-muted-foreground/50 animate-bounce">
+            <span className="text-[10px] tracking-widest uppercase font-medium">Scroll to explore</span>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
       </section>
 
-
-      {/* ── Stats Bar ── */}
+      {/* ────────────────────────────────────────
+          STATS BAR
+      ──────────────────────────────────────── */}
       <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
+        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-14">
           <div className="soft-shadow bg-gradient-to-br from-primary to-accent rounded-2xl md:rounded-3xl p-6 md:p-14">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-10 text-center text-primary-foreground">
               <div className="space-y-1 md:space-y-2">
@@ -137,224 +163,98 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* ── About VeritasCo ── */}
+      {/* ────────────────────────────────────────
+          FEATURE TEASER GRID (preview only)
+      ──────────────────────────────────────── */}
       <ScrollReveal>
-        <section id="about" className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
-          <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-6 md:p-12">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">About VeritasCo.Tech</h2>
-              <p className="text-base md:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
-                Leading the digital transformation in educational institutions across India
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6 md:gap-14 items-start mb-8 md:mb-10">
-              <div className="space-y-4">
-                <div className="soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-4 md:p-6">
-                  <h3 className="text-lg font-bold text-foreground mb-2">Our Mission</h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                    To revolutionize school administration by providing secure, efficient, and user-friendly biometric
-                    attendance systems that save time, reduce errors, and enhance communication.
-                  </p>
-                </div>
-                <div className="soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-4 md:p-6">
-                  <h3 className="text-lg font-bold text-foreground mb-2">Our Vision</h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                    To become the most trusted partner for educational institutions, empowering them with technology
-                    that ensures student safety, operational excellence, and data-driven decision making.
-                  </p>
-                </div>
-              </div>
-
-              <div className="soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-4 md:p-6">
-                <h3 className="text-lg font-bold text-foreground mb-4">Why Choose Us?</h3>
-                <ul className="space-y-3">
-                  {[
-                    "Hardware + Software integrated solution",
-                    "99.9% fingerprint accuracy rate",
-                    "Real-time parent notifications via SMS & App",
-                    "Complete ERP with fee & academic management",
-                    "24/7 dedicated customer support",
-                    "Cloud-based with enterprise-grade security",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg className="w-3 h-3 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                      <span className="text-sm md:text-base text-muted-foreground">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Value pillars */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {[
-                { icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z", label: "Security First", desc: "Bank-grade encryption" },
-                { icon: "M13 10V3L4 14h7v7l9-11h-7z", label: "Lightning Fast", desc: "Real-time sync < 5 sec" },
-                { icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z", label: "User Friendly", desc: "Intuitive for all users" },
-                { icon: "M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z", label: "24/7 Support", desc: "Always here for you" },
-              ].map(({ icon, label, desc }) => (
-                <div key={label} className="soft-shadow-inset bg-background rounded-xl p-4 text-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-3 soft-shadow">
-                    <svg className="w-6 h-6 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon} />
-                    </svg>
-                  </div>
-                  <h4 className="font-bold text-foreground mb-1 text-sm md:text-base">{label}</h4>
-                  <p className="text-xs md:text-sm text-muted-foreground">{desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* ── ERP Features ── */}
-      <DetailedFeatures />
-
-      {/* ── How Attendance Works ── */}
-      <HowItWorks />
-
-      {/* ── Why Switch: Comparison ── */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
-          <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-6 md:p-12">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Why Switch to VeritasCo?</h2>
-              <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
-                See how we compare to traditional manual attendance systems
-              </p>
-            </div>
-            <ComparisonTable />
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* ── Role-Based Feature Table ── */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
+        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-14">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Role-Based Feature Access</h2>
-            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive ERP features tailored for every user role in your institution
+            <div className="inline-flex items-center gap-2 bg-primary/8 border border-primary/15 rounded-full px-4 py-1.5 mb-4">
+              <span className="text-xs font-semibold text-primary tracking-widest uppercase">11 Modules</span>
+            </div>
+            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">
+              Everything Your School Needs
+            </h2>
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+              One unified platform to manage every aspect of school operations — from admission to analytics.
             </p>
           </div>
-          <FeatureTable />
-        </section>
-      </ScrollReveal>
 
-      {/* ── Implementation Timeline ── */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
-          <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-6 md:p-12">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Quick & Easy Implementation</h2>
-              <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
-                Get your school up and running in just 6 days
-              </p>
-            </div>
-            <Timeline />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-8">
+            {featureCards.map(({ icon: Icon, title, desc, href }) => (
+              <Link
+                key={title}
+                href={href}
+                className="soft-shadow bg-card rounded-2xl p-4 md:p-6 text-center card-hover-effect border border-border/30 hover:border-primary/20 group block"
+              >
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center mx-auto mb-3 border border-primary/10 group-hover:from-primary/20 group-hover:to-accent/20 transition-all">
+                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                </div>
+                <h3 className="font-bold text-foreground text-xs md:text-sm mb-1 group-hover:text-primary transition-colors">{title}</h3>
+                <p className="text-[11px] md:text-xs text-muted-foreground leading-snug">{desc}</p>
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link href="/features">
+              <SoftButton variant="secondary" className="gap-2">
+                Explore All 11 Modules
+                <ArrowRight className="w-4 h-4" />
+              </SoftButton>
+            </Link>
           </div>
         </section>
       </ScrollReveal>
 
-      {/* ── Testimonials ── */}
+      {/* ────────────────────────────────────────
+          QUICK LINKS ROW (desktop page shortcuts)
+      ──────────────────────────────────────── */}
       <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">What Schools Say About Us</h2>
-            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Trusted by leading educational institutions across India
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4 md:gap-8">
+        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { name: "Dr. Rajesh Kumar", role: "Principal, Delhi Public School", text: "VeritasCo has transformed our attendance management. The real-time parent notifications have significantly improved communication and student safety." },
-              { name: "Mrs. Priya Sharma", role: "Administrator, St. Mary's Convent", text: "The integrated ERP system is a game-changer. We've reduced administrative work by 60% and parents love the instant updates." },
-              { name: "Mr. Amit Patel", role: "Director, Modern Academy", text: "Exceptional support and reliable hardware. The biometric system has eliminated proxy attendance completely. Highly recommended!" },
-            ].map((t, i) => (
-              <div key={i} className="soft-shadow bg-card rounded-2xl p-6 md:p-8">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, s) => (
-                    <svg key={s} className="w-4 h-4 md:w-5 md:h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                    </svg>
-                  ))}
+              { label: "How It Works", desc: "See the 5-step biometric process", href: "/how-it-works", icon: Fingerprint },
+              { label: "Why Switch", desc: "VeritasCo vs manual attendance", href: "/compare", icon: GitCompare },
+              { label: "Testimonials", desc: "500+ schools share their stories", href: "/testimonials", icon: Star },
+              { label: "FAQ", desc: "Get instant answers to your questions", href: "/faq", icon: HelpCircle },
+            ].map(({ label, desc, href, icon: Icon }) => (
+              <Link
+                key={label}
+                href={href}
+                className="soft-shadow bg-card rounded-2xl p-5 md:p-6 border border-border/30 hover:border-primary/20 card-hover-effect group block"
+              >
+                <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center mb-3 border border-primary/10 group-hover:from-primary/20 group-hover:to-accent/20 transition-all">
+                  <Icon className="w-5 h-5 text-primary" />
                 </div>
-                <p className="text-sm md:text-base text-muted-foreground mb-4 leading-relaxed italic">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center soft-shadow">
-                    <span className="text-primary-foreground font-bold text-sm">{t.name.charAt(0)}</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground text-sm md:text-base">{t.name}</div>
-                    <div className="text-xs md:text-sm text-muted-foreground">{t.role}</div>
-                  </div>
-                </div>
-              </div>
+                <h3 className="font-bold text-foreground text-sm md:text-base mb-1 group-hover:text-primary transition-colors flex items-center gap-1">
+                  {label}
+                  <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                </h3>
+                <p className="text-xs md:text-sm text-muted-foreground leading-snug">{desc}</p>
+              </Link>
             ))}
           </div>
         </section>
       </ScrollReveal>
 
-      {/* ── Trust Badges ── */}
+      {/* ────────────────────────────────────────
+          CTA BANNER
+      ──────────────────────────────────────── */}
       <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Trusted & Certified</h2>
-            <p className="text-base md:text-lg text-muted-foreground">Your data security is our top priority</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-3xl mx-auto">
-            {[
-              { name: "ISO 27001", desc: "Certified" },
-              { name: "GDPR", desc: "Compliant" },
-              { name: "256-bit SSL", desc: "Encryption" },
-              { name: "99.9%", desc: "Uptime SLA" },
-            ].map((b) => (
-              <div key={b.name} className="soft-shadow bg-card rounded-xl md:rounded-2xl p-4 md:p-6 text-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-3 soft-shadow">
-                  <svg className="w-6 h-6 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <div className="font-bold text-foreground text-sm md:text-base">{b.name}</div>
-                <div className="text-xs md:text-sm text-muted-foreground">{b.desc}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* ── FAQ ── */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
-          <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-6 md:p-12">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Frequently Asked Questions</h2>
-              <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
-                Everything you need to know about VeritasCo.Tech
-              </p>
-            </div>
-            <InteractiveFAQ />
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* ── CTA ── */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-10 md:py-16">
+        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-14">
           <div className="soft-shadow bg-gradient-to-br from-primary to-accent rounded-2xl md:rounded-3xl p-8 md:p-16 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4 md:mb-6">
+            <h2 className="text-2xl md:text-4xl font-bold text-primary-foreground mb-4 md:mb-6">
               Ready to Transform Your School?
             </h2>
             <p className="text-base md:text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto text-pretty">
               Join 500+ schools already using VeritasCo.Tech. Book a free demo and go live in just 6 days.
             </p>
-            <SoftButton size="lg" onClick={() => setIsBookingOpen(true)} className="bg-background text-foreground hover:bg-background/90">
+            <SoftButton
+              size="lg"
+              onClick={() => setIsBookingOpen(true)}
+              className="bg-background text-foreground hover:bg-background/90"
+            >
               Book Your Free Demo
             </SoftButton>
             <p className="text-xs md:text-sm text-primary-foreground/80 mt-4">
@@ -364,17 +264,19 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* ── Footer ── */}
+      {/* ────────────────────────────────────────
+          FOOTER
+      ──────────────────────────────────────── */}
       <footer className="relative z-10 bg-card border-t border-border">
         <div className="container mx-auto px-4 md:px-6 py-10 md:py-14">
-          <div className="grid md:grid-cols-4 gap-8 md:gap-10 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-8">
             {/* Brand */}
-            <div className="md:col-span-1">
-              <div className="flex items-center gap-3 mb-4">
-                <Image src="/logo.avif" alt="VeritasCo.Tech Logo" width={40} height={40} loading="lazy" quality={90} sizes="40px" />
-                <span className="text-lg font-bold text-foreground">VeritasCo.Tech</span>
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-3 mb-3">
+                <Image src="/logo.avif" alt="VeritasCo.Tech Logo" width={36} height={36} loading="lazy" quality={85} sizes="36px" />
+                <span className="text-base font-bold text-foreground">VeritasCo.Tech</span>
               </div>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="text-sm text-muted-foreground mb-4 max-w-xs">
                 Revolutionizing school management with biometric technology and cloud-based ERP solutions.
               </p>
             </div>
@@ -383,8 +285,10 @@ export default function Home() {
             <div>
               <h3 className="font-bold text-foreground mb-4">Product</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                {[["Features", "#features"], ["How It Works", "#"], ["Pricing", "#"], ["Integrations", "#"]].map(([label, href]) => (
-                  <li key={label}><a href={href} className="hover:text-primary transition-colors">{label}</a></li>
+                {[["Features", "/features"], ["How It Works", "/how-it-works"], ["Why Switch", "/compare"], ["Role Access", "/features#role-access"]].map(([label, href]) => (
+                  <li key={label}>
+                    <Link href={href} className="hover:text-primary transition-colors">{label}</Link>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -393,9 +297,8 @@ export default function Home() {
             <div>
               <h3 className="font-bold text-foreground mb-4">Company</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                {[["About Us", "/about"], ["Careers", "#"], ["Blog", "#"]].map(([label, href]) => (
-                  <li key={label}><a href={href} className="hover:text-primary transition-colors">{label}</a></li>
-                ))}
+                <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+                <li><Link href="/testimonials" className="hover:text-primary transition-colors">Testimonials</Link></li>
                 <li><button onClick={() => setIsSupportOpen(true)} className="hover:text-primary transition-colors">Contact</button></li>
               </ul>
             </div>
@@ -405,7 +308,8 @@ export default function Home() {
               <h3 className="font-bold text-foreground mb-4">Support</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><button onClick={() => setIsSupportOpen(true)} className="hover:text-primary transition-colors">Contact Support</button></li>
-                {[["Help Center", "#"], ["Documentation", "#"], ["System Status", "#"]].map(([label, href]) => (
+                <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
+                {[["Help Center", "#"], ["System Status", "#"]].map(([label, href]) => (
                   <li key={label}><a href={href} className="hover:text-primary transition-colors">{label}</a></li>
                 ))}
               </ul>
@@ -413,7 +317,9 @@ export default function Home() {
           </div>
 
           <div className="border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-muted-foreground">© {new Date().getFullYear()} VeritasCo.Tech. All rights reserved.</div>
+            <div className="text-sm text-muted-foreground">
+              © {new Date().getFullYear()} VeritasCo.Tech. All rights reserved.
+            </div>
             <div className="flex flex-wrap justify-center gap-5 text-sm text-muted-foreground">
               {["Privacy Policy", "Terms of Service", "Refund Policy"].map((l) => (
                 <a key={l} href="#" className="hover:text-primary transition-colors">{l}</a>
