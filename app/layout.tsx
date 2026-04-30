@@ -67,13 +67,14 @@ export const metadata: Metadata = {
   // Favicons — all sizes generated from logo
   icons: {
     icon: [
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
       { url: '/favicon-192x192.png', sizes: '192x192', type: 'image/png' },
       { url: '/favicon-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: '/favicon-32x32.png',
+    shortcut: '/favicon.ico',
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
     other: [{ rel: 'mask-icon', url: '/favicon-32x32.png' }],
   },
@@ -121,9 +122,9 @@ const jsonLd = {
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/logo.avif`,
-        width: 500,
-        height: 500,
+        url: `${siteUrl}/favicon-512x512.png`,
+        width: 512,
+        height: 512,
       },
       contactPoint: {
         '@type': 'ContactPoint',
@@ -189,6 +190,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Favicons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
