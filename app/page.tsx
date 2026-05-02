@@ -321,9 +321,15 @@ export default function Home() {
               © {new Date().getFullYear()} VeritasCo. All rights reserved.
             </div>
             <div className="flex flex-wrap justify-center gap-5 text-sm text-muted-foreground">
-              {["Privacy Policy", "Terms of Service", "Refund Policy"].map((l) => (
-                <a key={l} href="#" className="hover:text-primary transition-colors">{l}</a>
-              ))}
+                <Link href="/privacy-policy" className="hover:text-primary transition-colors">
+                  Privacy Policy
+                </Link>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Terms of Service
+                </a>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Refund Policy
+                </a>
             </div>
           </div>
         </div>

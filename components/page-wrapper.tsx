@@ -149,17 +149,15 @@ function SiteFooter({
             © {new Date().getFullYear()} VeritasCo.Tech. All rights reserved.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
-            {["Privacy Policy", "Terms of Service", "Refund Policy"].map(
-              (l) => (
-                <a
-                  key={l}
-                  href="#"
-                  className="hover:text-primary transition-colors"
-                >
-                  {l}
-                </a>
-              )
-            )}
+            <Link href="/privacy-policy" className="hover:text-primary transition-colors">
+              Privacy Policy
+            </Link>
+            <a href="#" className="hover:text-primary transition-colors">
+              Terms of Service
+            </a>
+            <a href="#" className="hover:text-primary transition-colors">
+              Refund Policy
+            </a>
           </div>
         </div>
       </div>
