@@ -1,9 +1,9 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import { PageWrapper } from "@/components/page-wrapper"
 import { HowItWorks } from "@/components/how-it-works"
 
 export const metadata: Metadata = {
-  title: "How It Works — Biometric Attendance in 5 Steps",
+  title: "How It Works â€” Biometric Attendance in 5 Steps",
   description:
     "See exactly how VeritasCo.Tech biometric attendance works in 5 simple steps. Complete attendance for 50 students in under 3 minutes. No proxy, no errors.",
 }
@@ -13,8 +13,8 @@ export default function HowItWorksPage() {
     <PageWrapper
       badge="Simple 5-Step Process"
       title="How Biometric Attendance Works"
-      description="Fast, foolproof, and fraud-proof. VeritasCo.Tech's in-hand biometric devices mark attendance for an entire class in under 3 minutes — no manual registers, no proxy marking."
-      breadcrumb={[{ label: "How It Works", href: "/how-it-works" }]}
+      description="Fast, foolproof, and fraud-proof. VeritasCo.Tech's in-hand biometric devices mark attendance for an entire class in under 3 minutes â€” no manual registers, no proxy marking."
+      breadcrumb={[{ label: "How It Works", href: "/erp/how-it-works" }]}
     >
       <HowItWorks />
 
@@ -37,3 +37,4 @@ export default function HowItWorksPage() {
     </PageWrapper>
   )
 }
+

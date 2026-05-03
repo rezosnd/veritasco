@@ -16,7 +16,7 @@ export default function FeaturesPage() {
       badge="11 Powerful Modules"
       title="Complete School ERP — Every Feature You Need"
       description="A unified digital platform that transforms every aspect of your school's operations — from student admissions to advanced analytics. Built for Indian schools, designed for simplicity."
-      breadcrumb={[{ label: "Features", href: "/features" }]}
+      breadcrumb={[{ label: "ERP Overview", href: "/erp" }, { label: "Features", href: "/erp/features" }]}
     >
       {/* Full Feature Explorer */}
       <DetailedFeatures />

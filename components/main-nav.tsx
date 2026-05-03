@@ -16,28 +16,23 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   {
-    label: "Product",
-    href: "/features",
+    label: "Products",
+    href: "#",
     items: [
-      { label: "ERP Features", href: "/features", description: "11-module complete school management suite" },
-      { label: "How It Works", href: "/how-it-works", description: "5-step biometric attendance process" },
-      { label: "Why Switch", href: "/compare", description: "VeritasCo vs manual attendance systems" },
+      { label: "School ERP", href: "/erp", description: "Complete school management system" },
+      { label: "Restaurant POS", href: "/pos", description: "Smart QR-based smart ordering system" },
     ],
   },
   { label: "About", href: "/about" },
-  { label: "Reviews", href: "/testimonials" },
-  { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "contact" }, // sentinel — triggers modal
 ]
 
 // Mobile shortcut grid items
 const mobileNav = [
-  { label: "Features", href: "/features", icon: Zap },
-  { label: "How It Works", href: "/how-it-works", icon: Fingerprint },
-  { label: "Compare", href: "/compare", icon: BarChart2 },
-  { label: "About", href: "/about", icon: Building2 },
-  { label: "Reviews", href: "/testimonials", icon: Star },
-  { label: "FAQ", href: "/faq", icon: HelpCircle },
+  { label: "School ERP", href: "/erp", icon: Building2 },
+  { label: "Restaurant POS", href: "/pos", icon: Zap },
+  { label: "About", href: "/about", icon: Star },
+  { label: "Contact", href: "contact", icon: HelpCircle },
 ]
 
 export function MainNav({

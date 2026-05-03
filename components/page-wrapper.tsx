@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 import { MainNav } from "@/components/main-nav"
@@ -12,9 +12,10 @@ import Link from "next/link"
 interface PageWrapperProps {
   children: React.ReactNode
   badge?: string
-  title: string
-  description: string
+  title?: string
+  description?: string
   breadcrumb?: { label: string; href: string }[]
+  hideHero?: boolean
 }
 
 /** Shared footer used on every sub-page */
@@ -26,9 +27,9 @@ function SiteFooter({
   return (
     <footer className="relative z-10 bg-card border-t border-border mt-10">
       <div className="container mx-auto px-4 sm:px-6 py-10 md:py-14">
-        {/* 4-col grid — collapses to 2-col on mobile */}
+        {/* 4-col grid â€” collapses to 2-col on mobile */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-8">
-          {/* Brand — full width on smallest screens */}
+          {/* Brand â€” full width on smallest screens */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-3 mb-3">
               <Image
@@ -57,10 +58,10 @@ function SiteFooter({
             </h3>
             <ul className="space-y-2.5 text-sm text-muted-foreground">
               {[
-                ["Features", "/features"],
-                ["How It Works", "/how-it-works"],
-                ["Compare", "/compare"],
-                ["Role Access", "/features#role-access"],
+                ["ERP Features", "/erp/features"],
+                ["ERP Guides", "/erp/how-it-works"],
+                ["Compare ERP", "/erp/compare"],
+                ["Role Access", "/erp/features#role-access"],
               ].map(([label, href]) => (
                 <li key={label}>
                   <Link
@@ -146,7 +147,7 @@ function SiteFooter({
         {/* Bottom bar */}
         <div className="border-t border-border pt-5 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-xs text-muted-foreground text-center sm:text-left">
-            © {new Date().getFullYear()} VeritasCo.Tech. All rights reserved.
+            Â© {new Date().getFullYear()} VeritasCo.Tech. All rights reserved.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
             <Link href="/privacy-policy" className="hover:text-primary transition-colors">
@@ -171,6 +172,7 @@ export function PageWrapper({
   title,
   description,
   breadcrumb,
+  hideHero = false,
 }: PageWrapperProps) {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [isSupportOpen, setIsSupportOpen] = useState(false)
@@ -184,67 +186,73 @@ export function PageWrapper({
         onBookingOpen={() => setIsBookingOpen(true)}
       />
 
-      {/* ── Page Hero Banner ── */}
-      <section className="relative z-10 container mx-auto px-4 sm:px-6 pt-5 sm:pt-8 md:pt-14 pb-4 md:pb-10">
-        {/* Breadcrumb nav */}
-        {breadcrumb && breadcrumb.length > 0 && (
-          <nav
-            className="flex items-center flex-wrap gap-1.5 text-[11px] sm:text-xs text-muted-foreground mb-4"
-            aria-label="Breadcrumb"
-          >
-            <Link href="/" className="hover:text-primary transition-colors">
-              Home
-            </Link>
-            {breadcrumb.map((crumb, i) => (
-              <span key={i} className="flex items-center gap-1.5">
-                <span aria-hidden="true">/</span>
-                {i === breadcrumb.length - 1 ? (
-                  <span className="text-foreground font-medium" aria-current="page">
-                    {crumb.label}
-                  </span>
-                ) : (
-                  <Link
-                    href={crumb.href}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {crumb.label}
-                  </Link>
-                )}
-              </span>
-            ))}
-          </nav>
-        )}
-
-        {/* Page title block */}
-        <div className="max-w-2xl">
-          {badge && (
-            <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-3">
-              <span className="relative flex h-1.5 w-1.5 flex-shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
-              </span>
-              <span className="text-[10px] sm:text-xs font-semibold text-primary tracking-wide">
-                {badge}
-              </span>
-            </div>
+      {/* â”€â”€ Page Hero Banner â”€â”€ */}
+      {!hideHero && (
+        <section className="relative z-10 container mx-auto px-4 sm:px-6 pt-5 sm:pt-8 md:pt-14 pb-4 md:pb-10">
+          {/* Breadcrumb nav */}
+          {breadcrumb && breadcrumb.length > 0 && (
+            <nav
+              className="flex items-center flex-wrap gap-1.5 text-[11px] sm:text-xs text-muted-foreground mb-4"
+              aria-label="Breadcrumb"
+            >
+              <Link href="/" className="hover:text-primary transition-colors">
+                Home
+              </Link>
+              {breadcrumb.map((crumb, i) => (
+                <span key={i} className="flex items-center gap-1.5">
+                  <span aria-hidden="true">/</span>
+                  {i === breadcrumb.length - 1 ? (
+                    <span className="text-foreground font-medium" aria-current="page">
+                      {crumb.label}
+                    </span>
+                  ) : (
+                    <Link
+                      href={crumb.href}
+                      className="hover:text-primary transition-colors"
+                    >
+                      {crumb.label}
+                    </Link>
+                  )}
+                </span>
+              ))}
+            </nav>
           )}
 
-          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-2 sm:mb-3 text-balance">
-            {title}
-          </h1>
-          <p className="text-sm md:text-lg text-muted-foreground leading-relaxed text-pretty">
-            {description}
-          </p>
-        </div>
-      </section>
+          {/* Page title block */}
+          <div className="max-w-2xl">
+            {badge && (
+              <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-3">
+                <span className="relative flex h-1.5 w-1.5 flex-shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
+                </span>
+                <span className="text-[10px] sm:text-xs font-semibold text-primary tracking-wide">
+                  {badge}
+                </span>
+              </div>
+            )}
 
-      {/* ── Page Content ── */}
+            {title && (
+              <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-2 sm:mb-3 text-balance">
+                {title}
+              </h1>
+            )}
+            {description && (
+              <p className="text-sm md:text-lg text-muted-foreground leading-relaxed text-pretty">
+                {description}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* â”€â”€ Page Content â”€â”€ */}
       <div className="relative z-10">{children}</div>
 
-      {/* ── Footer ── */}
+      {/* â”€â”€ Footer â”€â”€ */}
       <SiteFooter onSupportOpen={() => setIsSupportOpen(true)} />
 
-      {/* ── Floating support button (safe-area aware) ── */}
+      {/* â”€â”€ Floating support button (safe-area aware) â”€â”€ */}
       <button
         onClick={() => setIsSupportOpen(true)}
         className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-40 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center soft-shadow hover:scale-110 transition-transform active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
@@ -278,3 +286,6 @@ export function PageWrapper({
     </main>
   )
 }
+
+
+

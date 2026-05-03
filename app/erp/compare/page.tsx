@@ -1,11 +1,11 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import { PageWrapper } from "@/components/page-wrapper"
 import { ComparisonTable } from "@/components/comparison-table"
 import { Timeline } from "@/components/timeline"
 import { ScrollReveal } from "@/components/scroll-reveal"
 
 export const metadata: Metadata = {
-  title: "Why Switch — VeritasCo vs Manual Attendance",
+  title: "Why Switch â€” VeritasCo vs Manual Attendance",
   description:
     "Compare VeritasCo.Tech against traditional manual attendance systems and discover how we go live in just 6 days. See the implementation timeline.",
 }
@@ -15,8 +15,8 @@ export default function ComparePage() {
     <PageWrapper
       badge="Make the Switch"
       title="Why Schools Switch to VeritasCo.Tech"
-      description="Manual attendance registers are slow, inaccurate, and vulnerable. See exactly how VeritasCo.Tech outperforms legacy systems — and how we get you up and running in just 6 days."
-      breadcrumb={[{ label: "Compare", href: "/compare" }]}
+      description="Manual attendance registers are slow, inaccurate, and vulnerable. See exactly how VeritasCo.Tech outperforms legacy systems â€” and how we get you up and running in just 6 days."
+      breadcrumb={[{ label: "Compare", href: "/erp/compare" }]}
     >
       {/* Comparison Table */}
       <ScrollReveal>
@@ -54,22 +54,22 @@ export default function ComparePage() {
               {
                 icon: "M13 10V3L4 14h7v7l9-11h-7z",
                 title: "Instant Parent Alerts",
-                desc: "Parents get notified within seconds of attendance being marked — not hours later.",
+                desc: "Parents get notified within seconds of attendance being marked â€” not hours later.",
               },
               {
                 icon: "M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
                 title: "Automated Reports",
-                desc: "Generate attendance, leave, and academic reports in one click — no manual compilation.",
+                desc: "Generate attendance, leave, and academic reports in one click â€” no manual compilation.",
               },
               {
                 icon: "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z",
                 title: "Cloud-Based & Secure",
-                desc: "All data encrypted and backed up automatically — no risk of lost registers.",
+                desc: "All data encrypted and backed up automatically â€” no risk of lost registers.",
               },
               {
                 icon: "M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z",
                 title: "24/7 Expert Support",
-                desc: "Our dedicated team is always available — no ticket queue, direct resolution.",
+                desc: "Our dedicated team is always available â€” no ticket queue, direct resolution.",
               },
             ].map(({ icon, title, desc }) => (
               <div key={title} className="soft-shadow bg-card rounded-2xl p-6 border border-border/30 card-hover-effect">
@@ -106,3 +106,4 @@ export default function ComparePage() {
     </PageWrapper>
   )
 }
+
