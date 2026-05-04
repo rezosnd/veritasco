@@ -237,8 +237,8 @@ export default function ContactPage() {
                 }}>Social Media</h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {[
-                    { label: "LinkedIn",  href: "https://linkedin.com/company/veritascotech", icon: Linkedin },
-                    { label: "Instagram", href: "https://instagram.com/veritascotech", icon: Instagram },
+                    { label: "LinkedIn",  href: "https://www.linkedin.com/company/veritasco", icon: Linkedin },
+                    { label: "Instagram", href: "https://www.instagram.com/veritasco.tech", icon: Instagram },
                     { label: "Facebook",  href: "https://facebook.com/veritascotech", icon: Facebook },
                     { label: "Twitter",   href: "https://twitter.com/veritascotech", icon: Twitter },
                   ].map(s => {

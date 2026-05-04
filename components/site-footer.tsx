@@ -25,7 +25,7 @@ export function SiteFooter({ onSupportOpen }: { onSupportOpen: () => void }) {
 
         <div className="pulla-divider mb-10" />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-10">
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <Image src="/logo.avif" alt="VeritasCo" width={22} height={22} className="opacity-50" />
@@ -39,14 +39,25 @@ export function SiteFooter({ onSupportOpen }: { onSupportOpen: () => void }) {
             { title: "Products", links: [{ l: "School ERP", h: "/erp" }, { l: "Restaurant POS", h: "/pos" }] },
             { title: "Company",  links: [{ l: "About Us", h: "/about" }, { l: "Testimonials", h: "/testimonials" }, { l: "Contact", action: onSupportOpen }] },
             { title: "Support",  links: [{ l: "FAQ", h: "/faq" }, { l: "Privacy Policy", h: "/privacy-policy" }] },
+            { 
+              title: "Socials",  
+              links: [
+                { l: "LinkedIn", h: "https://www.linkedin.com/company/veritasco", external: true },
+                { l: "Instagram", h: "https://www.instagram.com/veritasco.tech", external: true },
+                { l: "Twitter", h: "https://twitter.com/veritascotech", external: true },
+                { l: "Facebook", h: "https://facebook.com/veritascotech", external: true },
+              ] 
+            },
           ].map((col) => (
             <div key={col.title}>
               <h3 style={{ fontSize: "9px", fontWeight: 700, color: "rgba(255,255,255,0.18)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "14px" }}>{col.title}</h3>
               <ul className="space-y-2.5">
-                {col.links.map(({ l, h, action }: any) => (
+                {col.links.map(({ l, h, action, external }: any) => (
                   <li key={l}>
                     {action ? (
                       <button onClick={action} className="pulla-link" style={{ fontSize: "13px", fontWeight: 300, color: "rgba(255,255,255,0.45)", background: "none", border: "none", padding: 0, cursor: "pointer" }}>{l}</button>
+                    ) : external ? (
+                      <a href={h} target="_blank" rel="noopener noreferrer" className="pulla-link" style={{ fontSize: "13px", fontWeight: 300, color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>{l}</a>
                     ) : (
                       <TransitionLink href={h} className="pulla-link" style={{ fontSize: "13px", fontWeight: 300, color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>{l}</TransitionLink>
                     )}

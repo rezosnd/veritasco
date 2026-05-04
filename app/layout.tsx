@@ -12,34 +12,28 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: 'VeritasCo.Tech — #1 School ERP with Biometric Attendance in India',
+    default: 'VeritasCo.Tech — #1 School ERP & Restaurant POS Solutions in India',
     template: '%s | VeritasCo.Tech',
   },
 
   description:
-    'VeritasCo.Tech is India\'s first complete School ERP with in-hand biometric attendance devices. Manage student admissions, fee collection, LMS, transport GPS tracking, hostel, library, HR & payroll — all in one cloud dashboard. 500+ schools trust us. Setup in 6 days. 24/7 support.',
+    'VeritasCo.Tech provides India\'s first School ERP with in-hand biometric devices and advanced Restaurant POS systems. Manage schools (admissions, fees, LMS) or restaurants (QR ordering, billing, KDS) from one powerful cloud dashboard.',
 
   keywords: [
     'School ERP Software India',
     'Biometric Attendance System for Schools',
+    'Restaurant POS System India',
+    'QR Code Ordering System',
     'School Management Software',
+    'Restaurant Management Software',
+    'Cloud-based ERP India',
     'Student Information System',
-    'School Fee Management Software',
-    'Online Attendance System',
-    'School ERP India',
-    'Education ERP Software',
-    'LMS for Schools India',
-    'Transport Management System School',
-    'Hostel Management Software',
-    'School Library Software',
-    'HR Payroll for Schools',
-    'School App for Parents',
-    'Smart School Software',
-    'Digital School Management',
-    'VeritasCo',
-    'VeritasCo Tech ERP',
-    'biometric device school India',
-    'school admin software',
+    'School Fee Management',
+    'Kitchen Display System KDS',
+    'POS with UPI Payments',
+    'VeritasCo Tech',
+    'Education Technology India',
+    'Hospitality Tech Solutions',
   ],
 
   authors: [{ name: siteName, url: siteUrl }],
@@ -79,21 +73,21 @@ export const metadata: Metadata = {
     other: [{ rel: 'mask-icon', url: '/favicon-32x32.png' }],
   },
 
-  // Open Graph — og.png kept for max social crawler compatibility (WhatsApp/FB don't support AVIF)
+  // Open Graph — og.png updated for School ERP + Restaurant POS
   openGraph: {
     type: 'website',
     locale: 'en_IN',
     url: siteUrl,
     siteName,
-    title: 'VeritasCo.Tech — India\'s #1 School ERP with Biometric Attendance',
+    title: 'VeritasCo.Tech — Digital Ecosystem for Schools & Restaurants',
     description:
-      'Transform your school with VeritasCo.Tech — biometric attendance, fee management, student app, transport GPS, hostel, library, HR & payroll in one platform. 500+ schools. Setup in 6 days.',
+      'Transform your operations with VeritasCo.Tech. Leading School ERP with Biometric Attendance and QR-based Restaurant POS systems. Scalable, secure, and cloud-ready.',
     images: [
       {
-        url: '/og.png',
+        url: '/og.png?v=2',
         width: 1200,
         height: 630,
-        alt: 'VeritasCo.Tech — School ERP Software with Biometric Attendance',
+        alt: 'VeritasCo.Tech — School ERP & Restaurant POS Solutions',
         type: 'image/png',
       },
     ],
@@ -104,10 +98,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@veritascotech',
     creator: '@veritascotech',
-    title: 'VeritasCo.Tech — India\'s #1 School ERP with Biometric Attendance',
+    title: 'VeritasCo.Tech — Digital Ecosystem for Schools & Restaurants',
     description:
-      'Biometric attendance + complete school ERP: fees, LMS, transport, hostel, library, HR. 500+ schools. Go live in 6 days. 24/7 support.',
-    images: ['/og.png'],
+      'School ERP with biometric attendance + Restaurant POS with QR ordering. The complete digital ecosystem for your business.',
+    images: ['/og.png?v=2'],
   },
 }
 
@@ -138,7 +132,8 @@ const jsonLd = {
       sameAs: [
         'https://facebook.com/veritascotech',
         'https://twitter.com/veritascotech',
-        'https://linkedin.com/company/veritascotech',
+        'https://www.linkedin.com/company/veritasco',
+        'https://www.instagram.com/veritasco.tech',
       ],
       description:
         "India's first complete School ERP with in-hand biometric attendance devices — managing admissions, fees, academics, transport, hostel, library, HR & payroll.",
