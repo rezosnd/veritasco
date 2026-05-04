@@ -8,14 +8,13 @@ async function handler(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     })
 
-    // Map to admin-compatible shape
     const result = bookings.map((b) => ({
       _id: b.id.toString(),
-      schoolName: b.schoolName,
+      businessName: b.businessName,
       contactPerson: b.contactPerson,
       email: b.email,
       phone: b.phone,
-      studentCount: b.studentCount,
+      volumeCount: b.volumeCount,
       message: b.message,
       status: b.status,
       createdAt: b.createdAt,

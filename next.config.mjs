@@ -26,6 +26,8 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // Prefer AVIF → WebP → original fallback
     formats: ['image/avif', 'image/webp'],
+    // Allowed quality settings for Next Image component
+    qualities: [25, 50, 75, 90, 100],
     // Cache optimized images for 60 days
     minimumCacheTTL: 60 * 60 * 24 * 60,
   },

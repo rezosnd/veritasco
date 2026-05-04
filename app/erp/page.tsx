@@ -1,354 +1,394 @@
-﻿"use client"
+"use client"
 
-import { MainNav } from "@/components/main-nav"
-import { AnimatedWaves } from "@/components/animated-waves"
-import { SoftButton } from "@/components/soft-button"
-import { HeroDevice } from "@/components/hero-device"
-import { ScrollReveal } from "@/components/scroll-reveal"
-import { StatsCounter } from "@/components/stats-counter"
-import Image from "next/image"
-import Link from "next/link"
 import { useState } from "react"
+import { MainNav } from "@/components/main-nav"
+import { PullaPreloader } from "@/components/pulla-preloader"
+import { ScrollReveal } from "@/components/scroll-reveal"
+import { TransitionLink } from "@/components/transition-link"
+import { StatsCounter } from "@/components/stats-counter"
+import { Timeline } from "@/components/timeline"
+import Image from "next/image"
 import BookingModal from "@/components/booking-modal"
 import ContactSupportModal from "@/components/contact-support-modal"
-import { ArrowRight, GraduationCap, Smartphone, BookOpen, Bus, Home as HomeIcon, Users, BarChart3, ShieldCheck, Fingerprint, GitCompare, Star, HelpCircle } from "lucide-react"
+import { SiteFooter } from "@/components/site-footer"
+import {
+  ArrowRight, ArrowDown, GraduationCap, Smartphone, BookOpen,
+  Bus, Home as HomeIcon, Users, BarChart3, ShieldCheck,
+  Fingerprint, Star, HelpCircle, GitCompare
+} from "lucide-react"
 
-// Concise feature highlight cards for the homepage teaser
-const featureCards = [
-  { icon: GraduationCap, title: "Admissions & Fees", desc: "Streamlined admissions, fee collection, and due tracking.", href: "/erp/features" },
-  { icon: Smartphone, title: "Student App", desc: "Digital diary, homework, LMS access, and ID card.", href: "/erp/features" },
-  { icon: BookOpen, title: "Academic & LMS", desc: "Subjects, quizzes, study material, and progress tracking.", href: "/erp/features" },
-  { icon: Bus, title: "Transport", desc: "Route planning, driver info, and real-time monitoring.", href: "/erp/features" },
-  { icon: HomeIcon, title: "Hostel", desc: "Room allocation, occupant management, and attendance.", href: "/erp/features" },
-  { icon: Users, title: "Staff & Payroll", desc: "HR records, leave, salary, and payroll automation.", href: "/erp/features" },
-  { icon: BarChart3, title: "Analytics", desc: "Instant reports for fee, attendance, and performance.", href: "/erp/features" },
-  { icon: ShieldCheck, title: "Cloud Security", desc: "Enterprise-grade encrypted, always-on cloud platform.", href: "/erp/features" },
+/* ── All ERP feature modules ── */
+const MODULES = [
+  { num: "01", icon: GraduationCap, title: "Admissions & Fees",    desc: "Streamlined admissions, fee collection, and overdue tracking — all automated." },
+  { num: "02", icon: Fingerprint,   title: "Biometric Attendance", desc: "In-hand handheld device. Scan anywhere — classrooms, fields, buses." },
+  { num: "03", icon: Smartphone,    title: "Student & Parent App", desc: "Digital diary, homework submissions, live fees, and school announcements." },
+  { num: "04", icon: BookOpen,      title: "Academic & LMS",       desc: "Subjects, quizzes, study material upload, and performance tracking." },
+  { num: "05", icon: Bus,           title: "Transport GPS",        desc: "Route planning, live driver tracking, and parent SMS alerts." },
+  { num: "06", icon: HomeIcon,      title: "Hostel Management",    desc: "Room allocation, occupant management, and daily attendance." },
+  { num: "07", icon: Users,         title: "Staff & Payroll",      desc: "HR records, leave management, salary slips, and payroll automation." },
+  { num: "08", icon: BarChart3,     title: "Analytics & Reports",  desc: "Real-time dashboards — fee collection, attendance, academics." },
 ]
 
-export default function Home() {
+const QUICK = [
+  { label: "How It Works",  desc: "The 5-step biometric attendance process",   href: "/erp/how-it-works", icon: Fingerprint },
+  { label: "Why Switch",    desc: "VeritasCo vs manual register attendance",   href: "/erp/compare",      icon: GitCompare  },
+  { label: "Testimonials",  desc: "500+ schools share their experience",        href: "/testimonials",     icon: Star        },
+  { label: "FAQ",           desc: "Instant answers to your questions",          href: "/faq",              icon: HelpCircle  },
+]
+
+export default function ERPPage() {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [isSupportOpen, setIsSupportOpen] = useState(false)
 
   return (
-    <main className="relative min-h-svh">
-      <AnimatedWaves />
+    <>
+      <PullaPreloader pageName="School ERP" />
+      <main style={{ backgroundColor: "#f4f3f0", minHeight: "100svh", overflowX: "hidden" }}>
+        <MainNav
+          onSupportOpen={() => setIsSupportOpen(true)}
+          onBookingOpen={() => setIsBookingOpen(true)}
+        />
 
-      <MainNav
-        onSupportOpen={() => setIsSupportOpen(true)}
-        onBookingOpen={() => setIsBookingOpen(true)}
-      />
+        {/* ══ HERO — light full-screen like pulla ══ */}
+        <section style={{
+          minHeight: "100svh", backgroundColor: "#2d3a52",
+          display: "flex", flexDirection: "column", justifyContent: "flex-end",
+          padding: "120px 0 0", position: "relative", overflow: "hidden",
+        }}>
+          {/* Background Image */}
+          <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden", pointerEvents: "none" }}>
+            <Image 
+              src="/erp_hero_bg.png" 
+              alt="ERP Background" 
+              fill 
+              className="object-cover animate-hero-bg" 
+              style={{ filter: "brightness(0.25)" }} 
+              priority 
+            />
+            <div className="absolute inset-0 bg-[#2d3a52]/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2d3a52] via-[#2d3a52]/60 to-transparent" />
+          </div>
 
-      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-          HERO SECTION â€” full viewport
-      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <section className="relative z-10 container mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-16 pb-6 min-h-[calc(100svh-56px)] flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
-
-          {/* Left: Copy */}
-          <div className="space-y-5 md:space-y-7 order-2 lg:order-1 relative z-20">
-            {/* Trust pill */}
-            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
-              </span>
-              <span className="text-xs md:text-sm font-semibold text-primary tracking-wide">
-                India&apos;s #1 School ERP Platform
+          <div style={{ padding: "0 8% 8%", position: "relative", zIndex: 10 }}>
+            {/* Badge */}
+            <div style={{ marginBottom: "28px" }}>
+              <span style={{
+                fontFamily: "'Open Sans',sans-serif", fontSize: "10px", fontWeight: 700,
+                letterSpacing: "0.2em", textTransform: "uppercase",
+                color: "rgba(255,255,255,0.25)",
+              }}>
+                · India's #1 School ERP Platform
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
-              India&apos;s First Complete School ERP{" "}
-              <span className="text-primary">with Biometric Attendance</span>
-            </h1>
-
-            <p className="text-sm md:text-xl text-muted-foreground leading-relaxed text-pretty max-w-xl">
-              Transform your school's attendance, fees, academics, transport, hostel, and HR â€” all in
-              one secure, cloud-based platform with in-hand biometric devices.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <SoftButton size="lg" className="w-full sm:w-auto" onClick={() => setIsBookingOpen(true)}>
-                Book a Free Demo
-              </SoftButton>
-              <Link href="/erp/features">
-                <SoftButton variant="secondary" size="lg" className="w-full sm:w-auto">
-                  Explore Features
-                </SoftButton>
-              </Link>
+            {/* Giant heading */}
+            <div style={{ overflow: "hidden", lineHeight: "0.88", marginBottom: "4px" }}>
+              <h1 className="animate-pulla-reveal" style={{
+                fontFamily: "'Cormorant Garamond',Georgia,serif",
+                fontSize: "clamp(52px,11vw,160px)", fontWeight: 700,
+                color: "#ffffff", lineHeight: "0.88",
+                letterSpacing: "-0.02em", margin: 0, display: "block",
+                animationDelay: "0ms",
+                animationFillMode: "both"
+              }}>
+                School ERP
+              </h1>
+            </div>
+            <div style={{ overflow: "hidden", lineHeight: "0.88", marginBottom: "56px" }}>
+              <span className="animate-pulla-reveal" style={{
+                fontFamily: "'Cormorant Garamond',Georgia,serif",
+                fontSize: "clamp(52px,11vw,160px)", fontWeight: 700,
+                color: "transparent", WebkitTextStroke: "1.5px rgba(255,255,255,0.15)",
+                lineHeight: "0.88", letterSpacing: "-0.02em", display: "block",
+                animationDelay: "120ms",
+                animationFillMode: "both"
+              }}>
+                School ERP
+              </span>
             </div>
 
-            {/* Trust signals */}
-            {/* <div className="flex flex-wrap gap-x-5 gap-y-2 pt-1">
-              {["500+ Schools", "50,000+ Students", "99.9% Accuracy", "Setup in 6 Days"].map((t) => (
-                <div key={t} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
-                  {t}
+            {/* Content row */}
+            <div style={{
+              display: "flex", flexWrap: "wrap", alignItems: "flex-end",
+              justifyContent: "space-between", gap: "32px",
+              borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "40px",
+            }}>
+              <p style={{
+                fontFamily: "'Open Sans',sans-serif", fontSize: "clamp(14px,1.5vw,17px)",
+                fontWeight: 300, color: "rgba(255,255,255,0.6)", lineHeight: "1.8",
+                maxWidth: "480px", margin: 0,
+              }}>
+                Transform your school's attendance, fees, academics, transport,
+                hostel, and HR — all in one secure, cloud-based platform with
+                in-hand biometric devices.
+              </p>
+              <div className="focus--mask" style={{ display: "flex", gap: "16px", flexWrap: "wrap", pointerEvents: "auto" }}>
+                <button
+                  onClick={() => setIsBookingOpen(true)}
+                  className="pulla-btn pulla-btn-primary animate-pulla-reveal"
+                  style={{ animationDelay: "400ms", animationFillMode: "both" }}
+                >
+                  Book Free Demo <ArrowRight className="w-4 h-4" />
+                </button>
+                <a 
+                  href="#features" 
+                  className="pulla-btn pulla-btn-outline-white animate-pulla-reveal inline-flex items-center gap-2 group transition-all duration-300 hover:bg-white hover:text-[#2d3a52]"
+                  style={{ 
+                    animationDelay: "550ms", 
+                    animationFillMode: "both",
+                    borderColor: "rgba(255,255,255,0.4)" 
+                  }}
+                >
+                  Explore Features <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══ STATS — light ══ */}
+        <section style={{ backgroundColor: "#f4f3f0", padding: "80px 8%" }}>
+          <ScrollReveal>
+            <div style={{
+              display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px,1fr))",
+              gap: "0", borderTop: "1px solid rgba(33,37,41,0.08)",
+              borderLeft: "1px solid rgba(33,37,41,0.08)",
+            }}>
+              {[
+                { end: 10, suffix: "+", label: "Schools Trust Us" },
+                { end: 50000, suffix: "+", label: "Students Tracked" },
+                { end: 99, suffix: ".9%", label: "Accuracy Rate" },
+                { end: 24, suffix: "/7", label: "Support Available" },
+              ].map((s, i) => (
+                <div key={i} style={{
+                  padding: "40px 32px",
+                  borderRight: "1px solid rgba(33,37,41,0.08)",
+                  borderBottom: "1px solid rgba(33,37,41,0.08)",
+                }}>
+                  <div style={{
+                    fontFamily: "'Cormorant Garamond',Georgia,serif",
+                    color: "#212529", lineHeight: 1, marginBottom: "8px",
+                  }}>
+                    <StatsCounter end={s.end} suffix={s.suffix} className="text-[clamp(36px,4.5vw,60px)] font-semibold" />
+                  </div>
+                  <div style={{
+                    fontFamily: "'Open Sans',sans-serif", fontSize: "11px",
+                    fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase",
+                    color: "rgba(33,37,41,0.3)",
+                  }}>{s.label}</div>
                 </div>
               ))}
-            </div> */}
-          </div>
-
-          {/* Right: Device */}
-          <div className="relative order-1 lg:order-2">
-            <div className="relative soft-shadow bg-gradient-to-br from-card via-card to-primary/5 rounded-xl md:rounded-3xl p-4 md:p-12 min-h-[240px] md:min-h-[520px] flex items-center justify-center border border-primary/10 overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-48 h-48 md:w-72 md:h-72 rounded-full border border-primary/10 animate-pulse" />
-              </div>
-              <HeroDevice />
-              {/* Biometric card â€” visible on all screens */}
-              <div className="absolute bottom-3 left-3 right-3 md:bottom-6 md:left-6 md:right-6 z-20">
-                <div className="relative overflow-hidden flex items-center justify-between gap-2 md:gap-3 bg-card/85 backdrop-blur-md border border-primary/15 rounded-xl px-3 md:px-4 py-2.5 md:py-3 shadow-xl shadow-primary/10">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5" />
-                  <div className="relative flex items-center gap-2 md:gap-2.5">
-                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
-                      <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-[11px] md:text-xs font-bold text-foreground leading-none">Biometric Attendance</p>
-                      <p className="text-[9px] md:text-[10px] text-muted-foreground mt-0.5">School entry Â· exit Â· real-time sync</p>
-                    </div>
-                  </div>
-                  <div className="relative flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-2 md:px-2.5 py-1 shrink-0">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
-                    </span>
-                    <span className="text-[9px] md:text-[10px] font-bold text-primary tracking-wide uppercase whitespace-nowrap">Coming Soon</span>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-
-        {/* Scroll hint arrow */}
-        <div className="flex justify-center mt-8 md:mt-12">
-          <div className="flex flex-col items-center gap-1 text-muted-foreground/50 animate-bounce">
-            <span className="text-[10px] tracking-widest uppercase font-medium">Scroll to explore</span>
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-        </div>
-      </section>
-
-      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-          STATS BAR
-      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-14">
-          <div className="soft-shadow bg-gradient-to-br from-primary to-accent rounded-2xl md:rounded-3xl p-6 md:p-14">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-10 text-center text-primary-foreground">
-              <div className="space-y-1 md:space-y-2">
-                <StatsCounter end={500} suffix="+" className="text-2xl md:text-4xl lg:text-5xl" />
-                <div className="text-xs md:text-lg opacity-90">Schools Trust Us</div>
-              </div>
-              <div className="space-y-1 md:space-y-2">
-                <StatsCounter end={50000} suffix="+" className="text-2xl md:text-4xl lg:text-5xl" />
-                <div className="text-xs md:text-lg opacity-90">Students Tracked</div>
-              </div>
-              <div className="space-y-1 md:space-y-2">
-                <div className="text-2xl md:text-4xl lg:text-5xl font-bold">99.9%</div>
-                <div className="text-xs md:text-lg opacity-90">Accuracy Rate</div>
-              </div>
-              <div className="space-y-1 md:space-y-2">
-                <div className="text-2xl md:text-4xl lg:text-5xl font-bold">24/7</div>
-                <div className="text-xs md:text-lg opacity-90">Support Available</div>
-              </div>
-            </div>
-          </div>
+          </ScrollReveal>
         </section>
-      </ScrollReveal>
 
-      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-          FEATURE TEASER GRID (preview only)
-      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-14">
-          <div className="text-center mb-8 md:mb-12">
-            <div className="inline-flex items-center gap-2 bg-primary/8 border border-primary/15 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-xs font-semibold text-primary tracking-widest uppercase">11 Modules</span>
+        {/* ══ MODULES GRID — dark ══ */}
+        <section id="features" style={{ backgroundColor: "#2d3a52", padding: "100px 8%" }}>
+          <ScrollReveal>
+            <div style={{ marginBottom: "64px" }}>
+              <p style={{
+                fontFamily: "'Open Sans',sans-serif", fontSize: "10px", fontWeight: 700,
+                letterSpacing: "0.2em", textTransform: "uppercase",
+                color: "rgba(255,255,255,0.2)", marginBottom: "16px",
+              }}>Everything Your School Needs</p>
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond',Georgia,serif",
+                fontSize: "clamp(36px,6vw,80px)", fontWeight: 400,
+                color: "#ffffff", lineHeight: "0.95",
+                letterSpacing: "-0.01em", margin: 0,
+              }}>11 Modules.<br />One Platform.</h2>
             </div>
-            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">
-              Everything Your School Needs
-            </h2>
-            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-              One unified platform to manage every aspect of school operations â€” from admission to analytics.
-            </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-8">
-            {featureCards.map(({ icon: Icon, title, desc, href }) => (
-              <Link
-                key={title}
-                href={href}
-                className="soft-shadow bg-card rounded-2xl p-4 md:p-6 text-center card-hover-effect border border-border/30 hover:border-primary/20 group block"
-              >
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center mx-auto mb-3 border border-primary/10 group-hover:from-primary/20 group-hover:to-accent/20 transition-all">
-                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+          {/* Grid — flat bordered cards like pulla */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))",
+            border: "1px solid rgba(255,255,255,0.07)",
+            borderRight: "none", borderBottom: "none",
+          }}>
+            {MODULES.map((m, idx) => (
+              <ScrollReveal key={m.num} delay={idx * 50}>
+                <div style={{
+                  padding: "36px 32px", borderRight: "1px solid rgba(255,255,255,0.07)",
+                  borderBottom: "1px solid rgba(255,255,255,0.07)",
+                  transition: "background 0.3s ease", cursor: "default",
+                }}
+                  onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
+                  onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+                    <m.icon style={{ width: 22, height: 22, color: "rgba(255,255,255,0.45)" }} />
+                    <span style={{
+                      fontFamily: "'Open Sans',sans-serif", fontSize: "10px", fontWeight: 700,
+                      color: "rgba(255,255,255,0.15)", letterSpacing: "0.12em",
+                    }}>{m.num}</span>
+                  </div>
+                  <h3 style={{
+                    fontFamily: "'Cormorant Garamond',Georgia,serif",
+                    fontSize: "clamp(20px,1.8vw,26px)", fontWeight: 500,
+                    color: "#ffffff", marginBottom: "10px", lineHeight: 1.2,
+                  }}>{m.title}</h3>
+                  <p style={{
+                    fontFamily: "'Open Sans',sans-serif", fontSize: "13px",
+                    fontWeight: 300, color: "rgba(255,255,255,0.45)", lineHeight: "1.7",
+                  }}>{m.desc}</p>
                 </div>
-                <h3 className="font-bold text-foreground text-xs md:text-sm mb-1 group-hover:text-primary transition-colors">{title}</h3>
-                <p className="text-[11px] md:text-xs text-muted-foreground leading-snug">{desc}</p>
-              </Link>
+              </ScrollReveal>
             ))}
           </div>
 
-          <div className="text-center">
-            <Link href="/erp/features">
-              <SoftButton variant="secondary" className="gap-2">
-                Explore All 11 Modules
-                <ArrowRight className="w-4 h-4" />
-              </SoftButton>
-            </Link>
-          </div>
+          <ScrollReveal delay={200}>
+            <div style={{ marginTop: "48px", display: "flex", justifyContent: "center" }}>
+              <TransitionLink href="/erp/features">
+                <button className="pulla-btn pulla-btn-outline">
+                  Explore All 11 Modules <ArrowRight className="w-4 h-4" />
+                </button>
+              </TransitionLink>
+            </div>
+          </ScrollReveal>
         </section>
-      </ScrollReveal>
 
-      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-          QUICK LINKS ROW (desktop page shortcuts)
-      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "How It Works", desc: "See the 5-step biometric process", href: "/erp/how-it-works", icon: Fingerprint },
-              { label: "Why Switch", desc: "VeritasCo vs manual attendance", href: "/erp/compare", icon: GitCompare },
-              { label: "Testimonials", desc: "500+ schools share their stories", href: "/testimonials", icon: Star },
-              { label: "FAQ", desc: "Get instant answers to your questions", href: "/faq", icon: HelpCircle },
-            ].map(({ label, desc, href, icon: Icon }) => (
-              <Link
-                key={label}
-                href={href}
-                className="soft-shadow bg-card rounded-2xl p-5 md:p-6 border border-border/30 hover:border-primary/20 card-hover-effect group block"
-              >
-                <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center mb-3 border border-primary/10 group-hover:from-primary/20 group-hover:to-accent/20 transition-all">
-                  <Icon className="w-5 h-5 text-primary" />
-                </div>
-                <h3 className="font-bold text-foreground text-sm md:text-base mb-1 group-hover:text-primary transition-colors flex items-center gap-1">
-                  {label}
-                  <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                </h3>
-                <p className="text-xs md:text-sm text-muted-foreground leading-snug">{desc}</p>
-              </Link>
+
+
+        {/* ══ QUICK LINKS — dark ══ */}
+        <section style={{ backgroundColor: "#212b3b", padding: "80px 8%" }}>
+          <ScrollReveal>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond',Georgia,serif",
+              fontSize: "clamp(28px,4vw,48px)", fontWeight: 400,
+              color: "rgba(255,255,255,0.55)", letterSpacing: "-0.01em", marginBottom: "40px",
+            }}>Explore Further</h2>
+          </ScrollReveal>
+          <div style={{
+            display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px,1fr))",
+            gap: "0", borderTop: "1px solid rgba(255,255,255,0.06)",
+            borderLeft: "1px solid rgba(255,255,255,0.06)",
+          }}>
+            {QUICK.map(({ label, desc, href, icon: Icon }, idx) => (
+              <ScrollReveal key={label} delay={idx * 60}>
+                <TransitionLink href={href} className="group" style={{ display: "block", height: "100%", textDecoration: "none" }}>
+                  <div style={{
+                    padding: "40px 32px",
+                    height: "100%",
+                    borderRight: "1px solid rgba(255,255,255,0.06)",
+                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)", 
+                    cursor: "pointer",
+                    display: "flex", flexDirection: "column",
+                  }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.04)"
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = "transparent"
+                    }}
+                  >
+                    <div style={{ marginBottom: "24px" }}>
+                      <Icon style={{ width: 22, height: 22, color: "rgba(255,255,255,0.35)", transition: "color 0.3s ease" }} className="group-hover:text-[#9bd4d7]" />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <h3 style={{
+                        fontFamily: "'Cormorant Garamond',Georgia,serif",
+                        fontSize: "24px", fontWeight: 500,
+                        color: "#ffffff", marginBottom: "12px",
+                      }}>{label}</h3>
+                      <p style={{
+                        fontFamily: "'Open Sans',sans-serif", fontSize: "14px",
+                        fontWeight: 300, color: "rgba(255,255,255,0.4)", lineHeight: "1.6",
+                      }}>{desc}</p>
+                    </div>
+                    
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "32px" }}>
+                      <span style={{ 
+                        fontSize: "11px", color: "rgba(255,255,255,0.3)", 
+                        fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.15em",
+                        transition: "color 0.3s ease"
+                      }} className="group-hover:text-white">View Details</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-white/20 group-hover:text-[#9bd4d7] group-hover:translate-x-1 transition-all" />
+                    </div>
+                  </div>
+                </TransitionLink>
+              </ScrollReveal>
             ))}
           </div>
         </section>
-      </ScrollReveal>
 
-      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-          CTA BANNER
-      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <ScrollReveal>
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-14">
-          <div className="soft-shadow bg-gradient-to-br from-primary to-accent rounded-2xl md:rounded-3xl p-8 md:p-16 text-center">
-            <h2 className="text-2xl md:text-4xl font-bold text-primary-foreground mb-4 md:mb-6">
-              Ready to Transform Your School?
-            </h2>
-            <p className="text-base md:text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto text-pretty">
-              Join 500+ schools already using VeritasCo. Book a free demo and go live in just 6 days.
-            </p>
-            <SoftButton
-              size="lg"
-              onClick={() => setIsBookingOpen(true)}
-              className="bg-background text-foreground hover:bg-background/90"
-            >
-              Book Your Free Demo
-            </SoftButton>
-            <p className="text-xs md:text-sm text-primary-foreground/80 mt-4">
-              No credit card required Â· Setup in 6 days Â· 24/7 support included
-            </p>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-          FOOTER
-      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <footer className="relative z-10 bg-card border-t border-border">
-        <div className="container mx-auto px-4 md:px-6 py-10 md:py-14">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-8">
-            {/* Brand */}
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-3 mb-3">
-                <Image src="/logo.avif" alt="VeritasCo Logo" width={36} height={36} loading="lazy" quality={85} sizes="36px" />
-                <span className="text-base font-bold text-foreground">VeritasCo</span>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4 max-w-xs">
-                Revolutionizing school management with biometric technology and cloud-based ERP solutions.
+        {/* ══ 6 DAYS GO LIVE TIMELINE ══ */}
+        <section style={{ backgroundColor: "#212529", paddingTop: "120px" }}>
+          <div className="container mx-auto px-8 md:px-14 max-w-[1400px] mb-4 text-center md:text-left">
+            <ScrollReveal>
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond',Georgia,serif",
+                fontSize: "clamp(48px,8vw,120px)", fontWeight: 700,
+                color: "#ffffff", lineHeight: "0.9",
+                letterSpacing: "-0.02em", margin: 0,
+              }}>Go Live in <span style={{ color: "#9bd4d7" }}>6 Days.</span></h2>
+              <p style={{
+                fontFamily: "'Open Sans',sans-serif", fontSize: "16px",
+                color: "rgba(255,255,255,0.6)", fontWeight: 300, marginTop: "24px",
+                maxWidth: "500px", lineHeight: "1.7"
+              }}>
+                A completely streamlined, zero-downtime integration process designed specifically for educational institutions to transition effortlessly.
               </p>
-            </div>
-
-            {/* Product */}
-            <div>
-              <h3 className="font-bold text-foreground mb-4">Product</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                {[["Features", "/erp/features"], ["How It Works", "/erp/how-it-works"], ["Why Switch", "/erp/compare"], ["Role Access", "/erp/features#role-access"]].map(([label, href]) => (
-                  <li key={label}>
-                    <Link href={href} className="hover:text-primary transition-colors">{label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h3 className="font-bold text-foreground mb-4">Company</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
-                <li><Link href="/testimonials" className="hover:text-primary transition-colors">Testimonials</Link></li>
-                <li><button onClick={() => setIsSupportOpen(true)} className="hover:text-primary transition-colors">Contact</button></li>
-              </ul>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h3 className="font-bold text-foreground mb-4">Support</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><button onClick={() => setIsSupportOpen(true)} className="hover:text-primary transition-colors">Contact Support</button></li>
-                <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
-                {[["Help Center", "#"], ["System Status", "#"]].map(([label, href]) => (
-                  <li key={label}><a href={href} className="hover:text-primary transition-colors">{label}</a></li>
-                ))}
-              </ul>
-            </div>
+            </ScrollReveal>
           </div>
+          <Timeline />
+        </section>
 
-          <div className="border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-muted-foreground">
-              Â© {new Date().getFullYear()} VeritasCo. All rights reserved.
+        {/* ══ CTA — light ══ */}
+        <section style={{ backgroundColor: "#f4f3f0", padding: "100px 8%" }}>
+          <ScrollReveal>
+            <div style={{ borderTop: "1px solid rgba(33,37,41,0.08)", paddingTop: "64px" }}>
+              <p style={{
+                fontFamily: "'Open Sans',sans-serif", fontSize: "10px", fontWeight: 700,
+                letterSpacing: "0.2em", textTransform: "uppercase",
+                color: "rgba(33,37,41,0.25)", marginBottom: "20px",
+              }}>Ready to get started?</p>
+              <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "32px" }}>
+                <h2 style={{
+                  fontFamily: "'Cormorant Garamond',Georgia,serif",
+                  fontSize: "clamp(40px,7vw,100px)", fontWeight: 700,
+                  color: "#212529", lineHeight: "0.9",
+                  letterSpacing: "-0.02em", margin: 0,
+                }}>Transform<br />Your School.</h2>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px", alignItems: "flex-start" }}>
+                  <button
+                    onClick={() => setIsBookingOpen(true)}
+                    className="pulla-btn pulla-btn-dark"
+                  >
+                    Book Free Demo <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <p style={{
+                    fontFamily: "'Open Sans',sans-serif", fontSize: "11px",
+                    color: "rgba(33,37,41,0.3)", fontWeight: 300,
+                  }}>
+                    No credit card · Setup in 6 days · 24/7 support
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-wrap justify-center gap-5 text-sm text-muted-foreground">
-                <Link href="/privacy-policy" className="hover:text-primary transition-colors">
-                  Privacy Policy
-                </Link>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Terms of Service
-                </a>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Refund Policy
-                </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+          </ScrollReveal>
+        </section>
 
-      {/* Floating Support Button */}
-      <button
-        onClick={() => setIsSupportOpen(true)}
-        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-40 w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center soft-shadow hover:scale-110 transition-transform active:scale-95"
-        aria-label="Contact Support"
-      >
-        <svg className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-        </svg>
-      </button>
+        {/* ══ FOOTER ══ */}
+        <SiteFooter onSupportOpen={() => setIsSupportOpen(true)} />
+        
+        {/* Floating support btn */}
+        <button
+          onClick={() => setIsSupportOpen(true)}
+          className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-40 w-12 h-12 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform border border-white/10"
+          style={{ background: "#2d3a52" }}
+          aria-label="Open contact support"
+        >
+          <svg className="w-5 h-5" style={{ color: "rgba(255,255,255,0.7)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+        </button>
 
-      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
-      <ContactSupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
-    </main>
+        <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+        <ContactSupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
+      </main>
+    </>
   )
 }
-

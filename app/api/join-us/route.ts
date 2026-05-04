@@ -72,32 +72,32 @@ export async function POST(request: Request) {
       resumeData = Buffer.from(arrayBuffer).toString('base64')
     }
 
-    try {
-      await prisma.application.create({
-        data: {
-          fullName: sanitized.fullName,
-          email: sanitized.email,
-          phone: sanitized.phone,
-          position: sanitized.position,
-          yearsOfExperience: sanitized.yearsOfExperience,
-          currentCompany: sanitized.currentCompany,
-          skills: sanitized.skills,
-          whyInterested: sanitized.whyInterested,
-          pastExperience: sanitized.pastExperience,
-          resumeFilename,
-          resumeContentType,
-          resumeData,
-          status: 'pending',
-        },
-      })
-      console.log("[prisma/neon] Application saved:", { name: sanitized.fullName, email: sanitized.email })
-    } catch (dbError) {
-      console.error("[prisma/neon] DB error:", dbError)
-    }
+    // Save to database
+    await prisma.application.create({
+      data: {
+        fullName: sanitized.fullName,
+        email: sanitized.email,
+        phone: sanitized.phone,
+        position: sanitized.position,
+        yearsOfExperience: sanitized.yearsOfExperience,
+        currentCompany: sanitized.currentCompany,
+        skills: sanitized.skills,
+        whyInterested: sanitized.whyInterested,
+        pastExperience: sanitized.pastExperience,
+        resumeFilename,
+        resumeContentType,
+        resumeData,
+        status: 'pending',
+      },
+    })
+    console.log("[prisma/neon] Application saved successfully:", { name: sanitized.fullName, email: sanitized.email })
 
     return NextResponse.json({ success: true, message: "Application submitted successfully" }, { status: 200 })
   } catch (error) {
-    console.error("[prisma/neon] Application API error:", error)
-    return NextResponse.json({ success: false, message: "Failed to submit application. Please try again." }, { status: 500 })
+    console.error("[prisma/neon] Join-Us API Error:", error)
+    return NextResponse.json(
+      { success: false, message: error instanceof Error ? error.message : "Failed to process application" },
+      { status: 500 }
+    )
   }
 }

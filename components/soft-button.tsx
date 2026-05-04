@@ -1,37 +1,39 @@
 "use client"
 
-import type { ReactNode, ButtonHTMLAttributes } from "react"
+import { cn } from "@/lib/utils"
+import { ButtonHTMLAttributes, forwardRef } from "react"
 
-interface SoftButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
-  children: ReactNode
-  variant?: "primary" | "secondary"
-  size?: "sm" | "default" | "lg"
-  onClick?: () => void
+interface SoftButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "secondary" | "outline"
+  size?: "sm" | "md" | "lg"
 }
 
-export function SoftButton({ children, variant = "primary", size = "default", onClick, className, ...props }: SoftButtonProps) {
-  const baseClasses =
-    "font-semibold rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
+export const SoftButton = forwardRef<HTMLButtonElement, SoftButtonProps>(
+  ({ className, variant = "primary", size = "md", children, ...props }, ref) => {
+    const base = "inline-flex items-center justify-center gap-2 font-semibold rounded-full transition-all duration-300 cursor-pointer select-none"
 
-  const variantClasses =
-    variant === "primary"
-      ? "soft-shadow bg-gradient-to-br from-primary to-accent text-primary-foreground hover:shadow-xl hover:soft-shadow-lg"
-      : "soft-shadow bg-card text-primary hover:soft-shadow-lg"
+    const variants = {
+      primary: "bg-primary text-primary-foreground hover:opacity-90 hover:scale-[1.02] hover:shadow-[0_8px_30px_rgba(56,73,130,0.35)] active:scale-[0.98]",
+      secondary: "bg-white/10 text-white border border-white/20 hover:bg-white/15 hover:border-white/30 active:scale-[0.98]",
+      outline: "border border-white/30 text-white hover:bg-white/08 hover:border-white/50 active:scale-[0.98]",
+    }
 
-  const sizeClasses = 
-    size === "lg" ? "px-10 py-5 text-lg" : 
-    size === "sm" ? "px-6 py-3 text-sm" : 
-    "px-8 py-4 text-base"
+    const sizes = {
+      sm: "text-xs px-4 py-2",
+      md: "text-sm px-5 py-2.5",
+      lg: "text-base px-7 py-3.5",
+    }
 
-  return (
-    <button 
-      className={`${baseClasses} ${variantClasses} ${sizeClasses} ${className || ''}`} 
-      onClick={onClick}
-      {...props}
-    >
-      {/* Ripple effect - fixed for mobile iOS double-tap bug by using active state mapping or isolating hover logic */}
-      <span className="absolute inset-0 bg-white/20 translate-y-full md:group-hover:translate-y-0 active:translate-y-0 transition-transform duration-500 ease-out pointer-events-none" />
-      <span className="relative z-10">{children}</span>
-    </button>
-  )
-}
+    return (
+      <button
+        ref={ref}
+        className={cn(base, variants[variant], sizes[size], className)}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  }
+)
+
+SoftButton.displayName = "SoftButton"

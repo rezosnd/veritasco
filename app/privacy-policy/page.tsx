@@ -59,10 +59,11 @@ const sections = [
 export default function PrivacyPolicyPage() {
   return (
     <PageWrapper
-      badge="Legal"
+      badge="VeritasCo — Privacy"
       title="Privacy Policy"
-      description="This policy explains how VeritasCo.Tech handles personal data when you visit our website, request a demo, or use our school ERP services."
+      description="This policy explains how VeritasCo handles personal data when you visit our website, request a demo, or use our school ERP services."
       breadcrumb={[{ label: "Privacy Policy", href: "/privacy-policy" }]}
+      bgImage="/about_hero_v3.png"
     >
       <ScrollReveal>
         <section className="container mx-auto px-4 md:px-6 py-6 md:py-12">

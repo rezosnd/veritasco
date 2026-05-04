@@ -28,11 +28,11 @@ interface Application {
 
 interface Booking {
   _id: string
-  schoolName: string
+  businessName: string
   contactPerson: string
   email: string
   phone: string
-  studentCount: number
+  volumeCount: string
   message: string
   status: string
   createdAt: string
@@ -365,7 +365,7 @@ export default function AdminVeritasco() {
                     {/* Bookings Tab */}
                     {activeTab === 'bookings' && (
                       <div className="space-y-6">
-                        <h2 className="text-xl font-semibold text-foreground">School Bookings</h2>
+                        <h2 className="text-xl font-semibold text-foreground">Leads & Bookings</h2>
                         {bookings.length === 0 ? (
                           <p className="text-muted-foreground text-center py-8">No bookings received yet.</p>
                         ) : (
@@ -374,7 +374,7 @@ export default function AdminVeritasco() {
                               <div key={booking._id} className="bg-background/50 rounded-lg p-6 border border-border/20">
                                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                                   <div>
-                                    <h3 className="font-semibold text-foreground">{booking.schoolName}</h3>
+                                    <h3 className="font-semibold text-foreground">{booking.businessName}</h3>
                                     <p className="text-sm text-muted-foreground">Contact: {booking.contactPerson}</p>
                                   </div>
                                   <div>
@@ -382,7 +382,7 @@ export default function AdminVeritasco() {
                                     <p className="text-sm"><span className="font-medium">Phone:</span> {booking.phone}</p>
                                   </div>
                                   <div>
-                                    <p className="text-sm"><span className="font-medium">Students:</span> {booking.studentCount}</p>
+                                    <p className="text-sm"><span className="font-medium">Volume/Students:</span> {booking.volumeCount}</p>
                                     <p className="text-sm"><span className="font-medium">Status:</span> {booking.status}</p>
                                   </div>
                                 </div>

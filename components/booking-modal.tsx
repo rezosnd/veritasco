@@ -1,9 +1,7 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import { SoftButton } from "./soft-button"
+import { X, Calendar, ArrowRight, Check, AlertCircle, Loader2, ChevronLeft } from "lucide-react"
 
 interface BookingModalProps {
   isOpen: boolean
@@ -11,22 +9,40 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
+  const [step, setStep] = useState<"choice" | "details">("choice")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const [formData, setFormData] = useState({
-    schoolName: "",
+    productType: "erp" as "erp" | "pos",
+    businessName: "",
     contactPerson: "",
     email: "",
     phone: "",
-    studentCount: "",
+    location: "",
+    volumeCount: "",
     message: "",
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
 
-  if (!isOpen) return null
+  const handleReset = () => {
+    setStep("choice")
+    setSubmitStatus("idle")
+    setFormData({
+      productType: "erp",
+      businessName: "",
+      contactPerson: "",
+      email: "",
+      phone: "",
+      location: "",
+      volumeCount: "",
+      message: "",
+    })
+    onClose()
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitStatus("idle")
 
     try {
       const response = await fetch("/api/booking", {
@@ -38,157 +54,219 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       if (response.ok) {
         setSubmitStatus("success")
         setTimeout(() => {
-          onClose()
-          setFormData({
-            schoolName: "",
-            contactPerson: "",
-            email: "",
-            phone: "",
-            studentCount: "",
-            message: "",
-          })
-          setSubmitStatus("idle")
-        }, 2000)
+          handleReset()
+        }, 4000)
       } else {
         setSubmitStatus("error")
       }
     } catch (error) {
-      console.error("[v0] Booking submission error:", error)
+      console.error("[Booking] submission error:", error)
       setSubmitStatus("error")
     } finally {
       setIsSubmitting(false)
     }
   }
 
+  if (!isOpen) return null
+
+  const isERP = formData.productType === "erp"
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative animate-in fade-in zoom-in duration-300">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#141414]/80 backdrop-blur-md">
+      <div className="bg-[#1a1f2e] border border-white/10 rounded-[32px] max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 md:p-12 relative animate-in fade-in zoom-in duration-500 shadow-2xl">
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 rounded-full soft-shadow-inset bg-background flex items-center justify-center text-muted-foreground hover:text-foreground transition-all hover:scale-110 active:scale-95"
+          className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all z-50"
           aria-label="Close"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <X className="w-5 h-5" />
         </button>
 
-        <div className="mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Book Now for Your School</h2>
-          <p className="text-sm md:text-base text-muted-foreground">
-            Get a <span className="text-primary font-semibold">free 1-month demo</span> and experience the future of
-            attendance management
-          </p>
-        </div>
-
         {submitStatus === "success" ? (
-          <div className="soft-shadow-inset bg-green-50 dark:bg-green-950/20 rounded-xl md:rounded-2xl p-6 md:p-8 text-center">
-            <div className="w-14 h-14 md:w-16 md:h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <svg className="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
+          <div className="py-12 text-center">
+            <div className="w-24 h-24 bg-[#9bd4d7]/10 rounded-full flex items-center justify-center mx-auto mb-8">
+              <div className="w-16 h-16 bg-[#9bd4d7] rounded-full flex items-center justify-center animate-in zoom-in duration-500">
+                <Check className="w-8 h-8 text-[#1a1f2e]" />
+              </div>
             </div>
-            <h3 className="text-lg md:text-xl font-bold text-green-700 dark:text-green-400 mb-2">Booking Submitted!</h3>
-            <p className="text-sm md:text-base text-green-600 dark:text-green-500">
-              We'll contact you within 24 hours to schedule your demo.
+            <h3 className="text-3xl font-display text-white mb-4">Request Received</h3>
+            <p className="text-white/40 font-light max-w-sm mx-auto leading-relaxed">
+              Our experts will reach out to you within 24 hours to schedule your personalized live demo.
             </p>
+            <button
+              onClick={handleReset}
+              className="mt-10 pulla-btn pulla-btn-primary mx-auto"
+            >
+              Close
+            </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-              <div>
-                <label className="block text-xs md:text-sm font-semibold text-foreground mb-2">School Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.schoolName}
-                  onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })}
-                  className="w-full soft-shadow-inset bg-background rounded-xl px-4 py-2.5 md:py-3 text-sm md:text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                  placeholder="Enter school name"
-                />
+          <>
+            {/* Header */}
+            <div className="text-center mb-10">
+              <div className="w-20 h-20 bg-[#9bd4d7] rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(155,212,215,0.2)]">
+                <Calendar className="w-9 h-9 text-[#1a1f2e]" />
               </div>
-
-              <div>
-                <label className="block text-xs md:text-sm font-semibold text-foreground mb-2">Contact Person *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.contactPerson}
-                  onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
-                  className="w-full soft-shadow-inset bg-background rounded-xl px-4 py-2.5 md:py-3 text-sm md:text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                  placeholder="Principal/Administrator name"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs md:text-sm font-semibold text-foreground mb-2">Email Address *</label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full soft-shadow-inset bg-background rounded-xl px-4 py-2.5 md:py-3 text-sm md:text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                  placeholder="school@example.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs md:text-sm font-semibold text-foreground mb-2">Phone Number *</label>
-                <input
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full soft-shadow-inset bg-background rounded-xl px-4 py-2.5 md:py-3 text-sm md:text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                  placeholder="+91 XXXXX XXXXX"
-                />
-              </div>
+              <h2 className="text-3xl font-display text-white mb-2">Book a Live Demo</h2>
+              <p className="text-white/40 font-light text-sm">Experience the future of business management.</p>
             </div>
 
-            <div>
-              <label className="block text-xs md:text-sm font-semibold text-foreground mb-2">
-                Number of Students *
-              </label>
-              <input
-                type="number"
-                required
-                value={formData.studentCount}
-                onChange={(e) => setFormData({ ...formData, studentCount: e.target.value })}
-                className="w-full soft-shadow-inset bg-background rounded-xl px-4 py-2.5 md:py-3 text-sm md:text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                placeholder="Approximate student count"
-              />
-            </div>
+            {step === "choice" ? (
+              <div className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <button
+                    onClick={() => {
+                      setFormData({ ...formData, productType: "erp" })
+                      setStep("details")
+                    }}
+                    className="group p-8 rounded-3xl border border-white/10 bg-white/5 text-left hover:border-[#9bd4d7] hover:bg-white/[0.08] transition-all duration-500"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-[#2d3a52] flex items-center justify-center text-[#9bd4d7] mb-6 group-hover:scale-110 transition-transform duration-500">
+                      <ArrowRight className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-medium text-white mb-2">School ERP</h3>
+                    <p className="text-white/30 text-sm font-light leading-relaxed">Complete automation with in-hand biometric attendance.</p>
+                  </button>
 
-            <div>
-              <label className="block text-xs md:text-sm font-semibold text-foreground mb-2">Additional Message</label>
-              <textarea
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                rows={4}
-                className="w-full soft-shadow-inset bg-background rounded-xl px-4 py-2.5 md:py-3 text-sm md:text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
-                placeholder="Tell us about your requirements..."
-              />
-            </div>
-
-            {submitStatus === "error" && (
-              <div className="soft-shadow-inset bg-red-50 dark:bg-red-950/20 rounded-xl p-3 md:p-4 text-red-600 dark:text-red-400 text-xs md:text-sm">
-                Something went wrong. Please try again or contact us directly.
+                  <button
+                    onClick={() => {
+                      setFormData({ ...formData, productType: "pos" })
+                      setStep("details")
+                    }}
+                    className="group p-8 rounded-3xl border border-white/10 bg-white/5 text-left hover:border-[#9bd4d7] hover:bg-white/[0.08] transition-all duration-500"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-[#2d3a52] flex items-center justify-center text-[#9bd4d7] mb-6 group-hover:scale-110 transition-transform duration-500">
+                      <ArrowRight className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-medium text-white mb-2">Restaurant POS</h3>
+                    <p className="text-white/30 text-sm font-light leading-relaxed">QR ordering, KDS, and automated cloud billing.</p>
+                  </button>
+                </div>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                {/* Back Button & Selection Info */}
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setStep("choice")}
+                    className="w-10 h-10 rounded-xl bg-[#2d3a52] flex items-center justify-center text-[#9bd4d7] hover:bg-[#3d4d6a] transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <div className="flex-1">
+                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-0.5">Selected Product</p>
+                    <p className="text-white font-medium text-sm capitalize">{isERP ? "School ERP Solution" : "Restaurant POS System"}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setStep("choice")}
+                    className="text-[10px] font-bold text-[#9bd4d7] uppercase tracking-widest hover:underline px-2"
+                  >
+                    Change
+                  </button>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-x-8 gap-y-6">
+                  <div className="col-span-2">
+                    <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">{isERP ? "School Name" : "Restaurant Name"} *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.businessName}
+                      onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#9bd4d7] transition-all"
+                      placeholder={isERP ? "e.g. St. Xavier's International" : "e.g. The Grand Bistro"}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">Contact Person *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.contactPerson}
+                      onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#9bd4d7] transition-all"
+                      placeholder="Your Name"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">Phone Number *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#9bd4d7] transition-all"
+                      placeholder="+91"
+                    />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">City / Location *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#9bd4d7] transition-all"
+                      placeholder="e.g. New Delhi, India"
+                    />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#9bd4d7] transition-all"
+                      placeholder="email@example.com"
+                    />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">
+                      {isERP ? "Approximate Student Count" : "Average Monthly Orders"} *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.volumeCount}
+                      onChange={(e) => setFormData({ ...formData, volumeCount: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#9bd4d7] transition-all"
+                      placeholder={isERP ? "e.g. 500+" : "e.g. 1000+"}
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full pulla-btn pulla-btn-primary flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group h-14"
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        Request Live Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </button>
+                  {submitStatus === "error" && (
+                    <p className="mt-4 text-red-400 text-sm flex items-center gap-2 justify-center animate-pulse">
+                      <AlertCircle className="w-4 h-4" /> Something went wrong. Please try again.
+                    </p>
+                  )}
+                </div>
+              </form>
             )}
-
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-              <SoftButton type="submit" size="lg" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : "Submit Booking Request"}
-              </SoftButton>
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-6 py-3 md:px-8 md:py-4 text-sm md:text-base text-muted-foreground hover:text-foreground transition-colors rounded-xl hover:bg-background/50"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
+          </>
         )}
       </div>
     </div>

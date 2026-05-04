@@ -1,6 +1,3 @@
-// This is your Prisma schema file for Prisma v7+
-// learn more: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,14 +8,17 @@ datasource db {
 
 model Booking {
   id            Int      @id @default(autoincrement())
-  schoolName    String   @map("school_name")
+  productType   String   @map("product_type")
+  businessName  String   @map("business_name")
   contactPerson String   @map("contact_person")
   email         String
   phone         String
-  studentCount  Int?     @map("student_count")
+  location      String
+  volumeCount   String?  @map("volume_count")
   message       String?
   status        String   @default("pending")
   createdAt     DateTime @default(now()) @map("created_at")
+  schoolName    String?  @map("school_name")
 
   @@map("bookings")
 }

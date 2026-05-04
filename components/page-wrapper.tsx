@@ -1,13 +1,13 @@
-﻿"use client"
+"use client"
 
 import { useState } from "react"
 import { MainNav } from "@/components/main-nav"
-import { AnimatedWaves } from "@/components/animated-waves"
-import { SoftButton } from "@/components/soft-button"
+import { TransitionLink } from "@/components/transition-link"
 import BookingModal from "@/components/booking-modal"
 import ContactSupportModal from "@/components/contact-support-modal"
 import Image from "next/image"
-import Link from "next/link"
+import { ArrowDown } from "lucide-react"
+import { SiteFooter } from "./site-footer"
 
 interface PageWrapperProps {
   children: React.ReactNode
@@ -16,154 +16,8 @@ interface PageWrapperProps {
   description?: string
   breadcrumb?: { label: string; href: string }[]
   hideHero?: boolean
-}
-
-/** Shared footer used on every sub-page */
-function SiteFooter({
-  onSupportOpen,
-}: {
-  onSupportOpen: () => void
-}) {
-  return (
-    <footer className="relative z-10 bg-card border-t border-border mt-10">
-      <div className="container mx-auto px-4 sm:px-6 py-10 md:py-14">
-        {/* 4-col grid â€” collapses to 2-col on mobile */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-8">
-          {/* Brand â€” full width on smallest screens */}
-          <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-3 mb-3">
-              <Image
-                src="/logo.avif"
-                alt="VeritasCo.Tech Logo"
-                width={36}
-                height={36}
-                loading="lazy"
-                quality={85}
-                sizes="36px"
-              />
-              <span className="text-base font-bold text-foreground">
-                VeritasCo.Tech
-              </span>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Revolutionizing school management with biometric technology and
-              cloud-based ERP solutions.
-            </p>
-          </div>
-
-          {/* Product */}
-          <div>
-            <h3 className="font-bold text-foreground mb-3 text-sm uppercase tracking-wider">
-              Product
-            </h3>
-            <ul className="space-y-2.5 text-sm text-muted-foreground">
-              {[
-                ["ERP Features", "/erp/features"],
-                ["ERP Guides", "/erp/how-it-works"],
-                ["Compare ERP", "/erp/compare"],
-                ["Role Access", "/erp/features#role-access"],
-              ].map(([label, href]) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="font-bold text-foreground mb-3 text-sm uppercase tracking-wider">
-              Company
-            </h3>
-            <ul className="space-y-2.5 text-sm text-muted-foreground">
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-primary transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/testimonials"
-                  className="hover:text-primary transition-colors"
-                >
-                  Testimonials
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={onSupportOpen}
-                  className="hover:text-primary transition-colors"
-                >
-                  Contact
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h3 className="font-bold text-foreground mb-3 text-sm uppercase tracking-wider">
-              Support
-            </h3>
-            <ul className="space-y-2.5 text-sm text-muted-foreground">
-              <li>
-                <button
-                  onClick={onSupportOpen}
-                  className="hover:text-primary transition-colors"
-                >
-                  Contact Support
-                </button>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="hover:text-primary transition-colors"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Help Center
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  System Status
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="border-t border-border pt-5 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-xs text-muted-foreground text-center sm:text-left">
-            Â© {new Date().getFullYear()} VeritasCo.Tech. All rights reserved.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
-            <Link href="/privacy-policy" className="hover:text-primary transition-colors">
-              Privacy Policy
-            </Link>
-            <a href="#" className="hover:text-primary transition-colors">
-              Terms of Service
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
-              Refund Policy
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  )
+  darkHero?: boolean
+  bgImage?: string
 }
 
 export function PageWrapper({
@@ -173,119 +27,113 @@ export function PageWrapper({
   description,
   breadcrumb,
   hideHero = false,
+  darkHero = true,
+  bgImage,
 }: PageWrapperProps) {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [isSupportOpen, setIsSupportOpen] = useState(false)
 
   return (
-    <main className="relative min-h-svh">
-      <AnimatedWaves />
-
+    <main className="relative min-h-svh overflow-x-hidden">
       <MainNav
         onSupportOpen={() => setIsSupportOpen(true)}
         onBookingOpen={() => setIsBookingOpen(true)}
       />
 
-      {/* â”€â”€ Page Hero Banner â”€â”€ */}
+      {/* Page Hero Banner */}
       {!hideHero && (
-        <section className="relative z-10 container mx-auto px-4 sm:px-6 pt-5 sm:pt-8 md:pt-14 pb-4 md:pb-10">
-          {/* Breadcrumb nav */}
-          {breadcrumb && breadcrumb.length > 0 && (
-            <nav
-              className="flex items-center flex-wrap gap-1.5 text-[11px] sm:text-xs text-muted-foreground mb-4"
-              aria-label="Breadcrumb"
-            >
-              <Link href="/" className="hover:text-primary transition-colors">
-                Home
-              </Link>
-              {breadcrumb.map((crumb, i) => (
-                <span key={i} className="flex items-center gap-1.5">
-                  <span aria-hidden="true">/</span>
-                  {i === breadcrumb.length - 1 ? (
-                    <span className="text-foreground font-medium" aria-current="page">
-                      {crumb.label}
-                    </span>
-                  ) : (
-                    <Link
-                      href={crumb.href}
-                      className="hover:text-primary transition-colors"
-                    >
-                      {crumb.label}
-                    </Link>
-                  )}
-                </span>
-              ))}
-            </nav>
+        <section
+          className={`relative z-10 flex flex-col justify-end min-h-[55vh] pt-32 pb-16 md:pt-40 md:pb-20 px-8 md:px-14 overflow-hidden ${darkHero ? "section-hero" : "section-light"}`}
+        >
+          {darkHero && !bgImage && (
+            <div className="absolute inset-0 z-0 overflow-hidden bg-[#1a2332]">
+              {/* Premium CSS Fluid Animated Background matching Home */}
+              <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#3d4d6a]/40 blur-[120px] animate-blob" />
+              <div className="absolute bottom-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-[#2d3a52]/60 blur-[140px] animate-blob animation-delay-4000" />
+              <div className="absolute top-[30%] left-[40%] w-[50vw] h-[50vw] rounded-full bg-[#9bd4d7]/15 blur-[100px] animate-blob animation-delay-2000" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a2332]/20 to-[#1a2332]/80 pointer-events-none" />
+            </div>
           )}
 
-          {/* Page title block */}
-          <div className="max-w-2xl">
+          {bgImage && (
+            <div className="absolute inset-0 z-0 overflow-hidden">
+              <Image src={bgImage} alt="" fill priority className="object-cover animate-hero-bg" quality={90} />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#2d3a52]/80 via-[#2d3a52]/40 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#2d3a52]/80 pointer-events-none" />
+            </div>
+          )}
+
+          <div className="container mx-auto max-w-[1400px] relative z-10">
+            {breadcrumb && breadcrumb.length > 0 && (
+              <nav className="flex items-center gap-2 mb-8 flex-wrap" style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                <TransitionLink href="/" style={{ color: darkHero ? "rgba(255,255,255,0.4)" : "rgba(33,37,41,0.4)", textDecoration: "none" }}>Home</TransitionLink>
+                {breadcrumb.map((crumb, i) => (
+                  <span key={i} className="flex items-center gap-2">
+                    <span style={{ color: darkHero ? "rgba(255,255,255,0.15)" : "rgba(33,37,41,0.15)" }}>/</span>
+                    <span style={{ color: darkHero ? "rgba(255,255,255,0.55)" : "rgba(33,37,41,0.55)" }}>{crumb.label}</span>
+                  </span>
+                ))}
+              </nav>
+            )}
+
             {badge && (
-              <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-3">
-                <span className="relative flex h-1.5 w-1.5 flex-shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
-                </span>
-                <span className="text-[10px] sm:text-xs font-semibold text-primary tracking-wide">
+              <div className="mb-6">
+                <span
+                  className="inline-flex items-center gap-2 border rounded-full px-4 py-1.5"
+                  style={{
+                    fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700,
+                    letterSpacing: "0.2em", textTransform: "uppercase",
+                    borderColor: darkHero ? "rgba(255,255,255,0.15)" : "rgba(33,37,41,0.12)",
+                    color: darkHero ? "rgba(255,255,255,0.55)" : "rgba(33,37,41,0.5)",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
                   {badge}
                 </span>
               </div>
             )}
 
             {title && (
-              <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-2 sm:mb-3 text-balance">
-                {title}
-              </h1>
+              <div className="focus--mask mb-5">
+                <h1
+                  className="pulla-section-title focus--mask-inner animate-pulla-reveal"
+                  style={{ color: darkHero ? "#ffffff" : "#212529" }}
+                >
+                  {title}
+                </h1>
+              </div>
             )}
+
             {description && (
-              <p className="text-sm md:text-lg text-muted-foreground leading-relaxed text-pretty">
-                {description}
-              </p>
+              <div className="focus--mask">
+                <p className="focus--mask-inner animate-pulla-reveal font-light leading-relaxed max-w-2xl" style={{ animationDelay: "150ms", fontFamily: "var(--font-body)", fontSize: "16px", color: darkHero ? "rgba(255,255,255,0.7)" : "rgba(33,37,41,0.65)" }}>
+                  {description}
+                </p>
+              </div>
             )}
           </div>
+
         </section>
       )}
 
-      {/* â”€â”€ Page Content â”€â”€ */}
       <div className="relative z-10">{children}</div>
 
-      {/* â”€â”€ Footer â”€â”€ */}
       <SiteFooter onSupportOpen={() => setIsSupportOpen(true)} />
 
-      {/* â”€â”€ Floating support button (safe-area aware) â”€â”€ */}
+      {/* Floating support btn */}
       <button
         onClick={() => setIsSupportOpen(true)}
-        className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-40 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center soft-shadow hover:scale-110 transition-transform active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-40 w-12 h-12 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform border border-white/10"
+        style={{ background: "#2d3a52" }}
         aria-label="Open contact support"
-        style={{ marginBottom: "env(safe-area-inset-bottom, 0px)" }}
       >
-        <svg
-          className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-          />
+        <svg className="w-5 h-5" style={{ color: "rgba(255,255,255,0.7)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
       </button>
 
-      <BookingModal
-        isOpen={isBookingOpen}
-        onClose={() => setIsBookingOpen(false)}
-      />
-      <ContactSupportModal
-        isOpen={isSupportOpen}
-        onClose={() => setIsSupportOpen(false)}
-      />
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+      <ContactSupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
     </main>
   )
 }
-
-
-

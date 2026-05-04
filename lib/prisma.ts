@@ -17,3 +17,4 @@ export const prisma: PrismaClient = global.prisma ?? createPrismaClient()
 if (process.env.NODE_ENV !== 'production') {
   global.prisma = prisma
 }
+// trigger reload

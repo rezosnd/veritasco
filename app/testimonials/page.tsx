@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { PageWrapper } from "@/components/page-wrapper"
 import { ScrollReveal } from "@/components/scroll-reveal"
+import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Testimonials — What Schools Say About VeritasCo.Tech",
@@ -67,68 +68,98 @@ export default function TestimonialsPage() {
       title="What Schools Say About VeritasCo.Tech"
       description="Real feedback from real schools. Principals, administrators, and directors across India share how VeritasCo.Tech has transformed their school operations."
       breadcrumb={[{ label: "Testimonials", href: "/testimonials" }]}
+      bgImage="/testimonials_bg.png"
+      darkHero
     >
-      {/* Stats Strip */}
-      <ScrollReveal>
-        <section className="container mx-auto px-4 md:px-6 py-6 md:py-10">
-          <div className="soft-shadow bg-gradient-to-br from-primary to-accent rounded-2xl md:rounded-3xl p-6 md:p-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center text-primary-foreground">
+      {/* Stats Strip — light */}
+      <section className="bg-[#eeeeee] pulla-section">
+        <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
+          <ScrollReveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               {stats.map(({ value, label }) => (
-                <div key={label} className="space-y-1">
-                  <div className="text-2xl md:text-4xl font-bold">{value}</div>
-                  <div className="text-xs md:text-base opacity-90">{label}</div>
+                <div key={label}>
+                  <div className="text-5xl md:text-7xl font-light tracking-tighter text-[#141414] mb-2">{value}</div>
+                  <p className="text-sm font-medium text-black/50 uppercase tracking-wider">{label}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Testimonials Grid — dark */}
+      <section className="relative bg-[#141414] pulla-section overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src="/testimonials_bg.png" 
+            alt="Background" 
+            fill 
+            className="object-cover opacity-30" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#141414] via-[#141414]/90 to-[#141414]" />
+        </div>
+
+        <div className="container relative z-10 mx-auto px-6 md:px-10 max-w-[1400px]">
+          <ScrollReveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter text-white leading-[0.95]">
+                Stories from<br />the Field
+              </h2>
+              <p className="text-base text-white/40 font-light max-w-sm">
+                Trusted by leading educational institutions across India.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Infinite Marquee Section */}
+          <div className="marquee-container relative overflow-hidden py-10 -mx-6 md:-mx-10 select-none">
+            {/* Fade gradients on the sides - slightly narrower for better visibility */}
+            <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#141414] to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#141414] to-transparent z-20 pointer-events-none" />
+            
+            {/* The actual moving track */}
+            <div className="animate-marquee flex flex-nowrap gap-8 w-max px-4">
+              {[...testimonials, ...testimonials].map((t, i) => (
+                <div 
+                  key={i} 
+                  className="w-[350px] md:w-[550px] flex-shrink-0 bg-white/[0.03] border border-white/10 rounded-[32px] p-8 md:p-12 hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between"
+                >
+                  {/* Subtle background glow on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#9bd4d7]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  
+                  <div>
+                    {/* Rating stars */}
+                    <div className="flex gap-1.5 mb-8 relative z-10">
+                      {[...Array(5)].map((_, starIdx) => (
+                        <svg key={starIdx} className={`w-4 h-4 ${starIdx < t.rating ? "text-[#9bd4d7]" : "text-white/10"}`} fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    
+                    <blockquote className="relative z-10">
+                      <p className="text-white/90 text-lg md:text-2xl font-light leading-relaxed mb-12 whitespace-normal">
+                        &ldquo;{t.text}&rdquo;
+                      </p>
+                    </blockquote>
+                  </div>
+                  
+                  <div className="flex items-center gap-5 pt-8 border-t border-white/5 relative z-10">
+                    <div className="w-16 h-16 rounded-full bg-[#2d3a52] flex items-center justify-center text-[#9bd4d7] font-bold text-2xl border border-white/5 group-hover:scale-105 transition-transform duration-500">
+                      {t.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium text-lg md:text-xl">{t.name}</h4>
+                      <p className="text-white/40 text-[10px] md:text-xs uppercase tracking-[0.2em] mt-2 font-bold">{t.role} · {t.school}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-        </section>
-      </ScrollReveal>
-
-      {/* Testimonials Grid */}
-      <ScrollReveal>
-        <section className="container mx-auto px-4 md:px-6 pb-10 md:pb-16">
-          <div className="text-center mb-10 md:mb-14">
-            <div className="inline-flex items-center gap-2 bg-primary/8 border border-primary/15 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-xs font-semibold text-primary tracking-widest uppercase">Reviews</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Stories from the Field</h2>
-            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Trusted by leading educational institutions across India
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {testimonials.map((t, i) => (
-              <div key={i} className="soft-shadow bg-card rounded-2xl p-6 md:p-8 card-hover-effect border border-border/30 flex flex-col">
-                {/* Stars */}
-                <div className="flex gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, s) => (
-                    <svg key={s} className="w-4 h-4 md:w-5 md:h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                    </svg>
-                  ))}
-                </div>
-
-                {/* Quote */}
-                <p className="text-sm md:text-base text-muted-foreground mb-5 leading-relaxed italic flex-1">
-                  &ldquo;{t.text}&rdquo;
-                </p>
-
-                {/* Author */}
-                <div className="flex items-center gap-3 pt-4 border-t border-border/40">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center soft-shadow flex-shrink-0">
-                    <span className="text-primary-foreground font-bold text-sm">{t.name.charAt(0)}</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground text-sm md:text-base">{t.name}</div>
-                    <div className="text-xs md:text-sm text-muted-foreground">{t.role}, {t.school}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </ScrollReveal>
+        </div>
+      </section>
     </PageWrapper>
   )
 }

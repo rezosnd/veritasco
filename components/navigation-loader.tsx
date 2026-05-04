@@ -2,144 +2,121 @@
 
 import { useEffect, useRef, useState } from "react"
 import { usePathname } from "next/navigation"
-import Image from "next/image"
 
-// Only show the logo overlay if navigation takes longer than this threshold.
-// Fast cached navigations (<150ms) just get the subtle top progress bar.
-const OVERLAY_THRESHOLD_MS = 150
+const PAGE_NAMES: Record<string, string> = {
+  "/":              "Home",
+  "/erp":           "School ERP",
+  "/pos":           "Restaurant POS",
+  "/about":         "About",
+  "/contact":       "Contact",
+  "/faq":           "FAQ",
+  "/testimonials":  "Testimonials",
+  "/privacy-policy":"Privacy",
+  "/join-us":       "Join Us",
+  "/category-proof":"Category",
+}
 
 export function NavigationLoader() {
   const pathname = usePathname()
   const [progress, setProgress] = useState(0)
   const [barVisible, setBarVisible] = useState(false)
-  const [overlayVisible, setOverlayVisible] = useState(false)
-  const isFirstMount = useRef(true)
-  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
+  const [pageLabel, setPageLabel] = useState("")
+  const [phase, setPhase] = useState<"idle"|"in"|"out">("idle")
+  const isFirst = useRef(true)
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
-  const clearAllTimers = () => {
-    timersRef.current.forEach(clearTimeout)
-    timersRef.current = []
-  }
-
-  const push = (fn: () => void, ms: number) => {
-    timersRef.current.push(setTimeout(fn, ms))
-  }
+  const clear = () => { timers.current.forEach(clearTimeout); timers.current = [] }
+  const push = (fn: () => void, ms: number) => timers.current.push(setTimeout(fn, ms))
 
   useEffect(() => {
-    // Skip the very first mount — page already rendered via SSR
-    if (isFirstMount.current) {
-      isFirstMount.current = false
-      return
-    }
+    if (isFirst.current) { isFirst.current = false; return }
+    clear()
 
-    clearAllTimers()
+    const name =
+      PAGE_NAMES[pathname] ??
+      PAGE_NAMES[Object.keys(PAGE_NAMES).find(k => k !== "/" && pathname.startsWith(k)) ?? ""] ??
+      "Loading"
 
-    // ─── Start top progress bar immediately (subtle, barely noticeable) ───
+    setPageLabel(name)
     setProgress(0)
     setBarVisible(true)
+    setPhase("idle") // reset first
 
-    push(() => setProgress(35), 60)
-    push(() => setProgress(65), 200)
-    push(() => setProgress(82), 400)
+    push(() => setProgress(40), 30)
+    push(() => setProgress(72), 200)
+    push(() => setProgress(90), 420)
+    push(() => setPhase("in"), 50)
+    push(() => setPhase("out"), 720)
+    push(() => setPhase("idle"), 1250)
+    push(() => setProgress(100), 680)
+    push(() => { setBarVisible(false); setProgress(0) }, 950)
 
-    // ─── Only show the full logo overlay for slower navigations ───────────
-    push(() => setOverlayVisible(true), OVERLAY_THRESHOLD_MS)
-
-    // ─── Complete progress and hide ───────────────────────────────────────
-    push(() => setProgress(100), 560)
-    push(() => {
-      setOverlayVisible(false)
-    }, 680)
-    push(() => {
-      setBarVisible(false)
-      setProgress(0)
-    }, 900)
-
-    return clearAllTimers
+    return clear
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   return (
     <>
-      {/* ── Top NProgress-style bar ─────────────────────────────────────── */}
+      {/* Top progress bar */}
       <div
-        aria-hidden="true"
-        className="fixed top-0 left-0 right-0 z-[10000] h-[2px] pointer-events-none"
+        aria-hidden
         style={{
-          opacity: barVisible ? 1 : 0,
-          transition: "opacity 0.15s ease",
+          position: "fixed", top: 0, left: 0, right: 0, zIndex: 10000,
+          height: "1.5px", opacity: barVisible ? 1 : 0,
+          transition: "opacity 0.2s ease", pointerEvents: "none",
         }}
       >
-        <div
-          className="h-full rounded-r-full"
-          style={{
-            width: `${progress}%`,
-            background:
-              "linear-gradient(90deg, var(--color-primary), var(--color-accent))",
-            boxShadow: "0 0 6px var(--color-primary)",
-            transition:
-              progress === 0
-                ? "none"
-                : "width 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
-          }}
-        />
+        <div style={{
+          height: "100%", width: `${progress}%`,
+          background: "linear-gradient(90deg, #5d6d8e, #8090ad)",
+          borderRadius: "0 2px 2px 0",
+          transition: progress === 0 ? "none" : "width 0.4s cubic-bezier(0.4,0,0.2,1)",
+        }} />
       </div>
 
-      {/* ── Premium logo overlay (only on slow navigations) ─────────────── */}
+      {/* Pulla page-name overlay — slides up from bottom, then up to reveal */}
       <div
-        aria-hidden="true"
-        className="fixed inset-0 z-[9999] flex items-center justify-center bg-background pointer-events-none"
+        aria-hidden
         style={{
-          opacity: overlayVisible ? 1 : 0,
-          transition: "opacity 0.2s ease",
-          // Don't render in DOM at all when not needed (avoids paint cost)
-          visibility: overlayVisible ? "visible" : "hidden",
+          position: "fixed", inset: 0, zIndex: 9999,
+          backgroundColor: "#2d3a52",
+          clipPath: phase === "idle" ? "inset(100% 0 0 0)"
+                  : phase === "in"   ? "inset(0% 0 0 0)"
+                  :                    "inset(0% 0 100% 0)",
+          transition: phase === "in"  ? "clip-path 0.6s cubic-bezier(0.12,0.41,0.11,0.9)"
+                    : phase === "out" ? "clip-path 0.5s cubic-bezier(0.12,0.41,0.11,0.9)"
+                    :                   "none",
+          pointerEvents: "none",
         }}
       >
-        <div
-          className="flex flex-col items-center gap-4"
-          style={{
-            transform: overlayVisible ? "scale(1)" : "scale(0.94)",
-            transition: "transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
-          }}
-        >
-          {/* Logo */}
-          <div className="relative">
-            <div
-              className="absolute inset-0 rounded-2xl bg-primary/15"
-              style={{
-                animation: overlayVisible
-                  ? "logoPulse 1.2s ease-in-out infinite"
-                  : "none",
-              }}
-            />
-            <Image
-              src="/logo.avif"
-              alt="VeritasCo.Tech"
-              width={52}
-              height={52}
-              priority
-              quality={85}
-              className="relative drop-shadow-md"
-            />
-          </div>
-
-          {/* Brand name */}
-          <span className="text-sm font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-            VeritasCo.Tech
-          </span>
-
-          {/* Progress bar */}
-          <div className="w-24 h-[1.5px] bg-border rounded-full overflow-hidden">
-            <div
-              className="h-full loading-bar rounded-full"
-              style={{
-                background:
-                  "linear-gradient(90deg, var(--color-primary), var(--color-accent))",
-              }}
-            />
-          </div>
+        {/* · PageName — bottom-left */}
+        <div style={{
+          position: "absolute", bottom: "11%", left: "10%",
+          display: "flex", alignItems: "center", gap: "16px",
+          opacity: phase === "in" ? 1 : 0,
+          transform: phase === "in" ? "translateY(0)" : "translateY(24px)",
+          transition: "opacity 0.35s ease 0.18s, transform 0.35s ease 0.18s",
+        }}>
+          <span style={{
+            width: 7, height: 7, borderRadius: "50%",
+            background: "rgba(255,255,255,0.3)", display: "block", flexShrink: 0,
+          }} />
+          <span style={{
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontSize: "clamp(26px,4.5vw,54px)",
+            fontWeight: 300, color: "rgba(255,255,255,0.75)",
+            letterSpacing: "-0.01em", lineHeight: 1,
+          }}>{pageLabel}</span>
         </div>
+        {/* brand — bottom-right */}
+        <div style={{
+          position: "absolute", bottom: "11%", right: "10%",
+          fontFamily: "'Open Sans',sans-serif", fontSize: "10px",
+          fontWeight: 700, color: "rgba(255,255,255,0.18)",
+          letterSpacing: "0.2em", textTransform: "uppercase",
+          opacity: phase === "in" ? 1 : 0,
+          transition: "opacity 0.35s ease 0.28s",
+        }}>VeritasCo.Tech</div>
       </div>
     </>
   )

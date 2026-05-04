@@ -1,84 +1,72 @@
 "use client"
 
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useEffect, useRef, ReactNode } from "react"
 
 interface ScrollRevealProps {
   children: ReactNode
+  animation?: "fade-up" | "slide-left" | "slide-right" | "fade" | "reveal-text"
   delay?: number
   className?: string
-  mobileOptimized?: boolean
+  threshold?: number
 }
 
-export function ScrollReveal({ children, delay = 0, className = "", mobileOptimized = true }: ScrollRevealProps) {
+export function ScrollReveal({
+  children,
+  animation = "fade-up",
+  delay = 0,
+  className = "",
+  threshold = 0.12,
+}: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const [hasAnimated, setHasAnimated] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+    const el = ref.current
+    if (!el) return
 
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (prefersReducedMotion) {
-      if (ref.current) {
-        ref.current.classList.remove("opacity-0", "translate-y-8", "md:translate-y-12")
-      }
-      return
+    if (animation === "reveal-text") {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            const inners = el.querySelectorAll(".focus--mask-inner")
+            inners.forEach((inner, i) => {
+              setTimeout(() => inner.classList.add("visible"), delay + i * 150)
+            })
+            observer.unobserve(el)
+          }
+        },
+        { threshold }
+      )
+      observer.observe(el)
+      return () => observer.disconnect()
     }
+
+    const cls =
+      animation === "slide-left" ? "sr-left"
+      : animation === "slide-right" ? "sr-right"
+      : "sr-hidden"
+
+    el.classList.add(cls)
+    el.style.transitionDelay = `${delay}ms`
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated) {
-            setTimeout(() => {
-              if (entry.target) {
-                entry.target.classList.remove("opacity-0", "translate-y-4", "translate-y-8", "md:translate-y-12")
-                entry.target.classList.add("opacity-100", "translate-y-0")
-                setHasAnimated(true)
-              }
-            }, delay)
-            observer.unobserve(entry.target)
-          }
-        })
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          requestAnimationFrame(() => {
+            el.classList.add("sr-visible")
+            el.classList.add("is-revealed") // Triggers border traces
+          })
+          observer.unobserve(el)
+        }
       },
-      {
-        threshold: isMobile && mobileOptimized ? 0.05 : 0.1,
-        rootMargin: isMobile && mobileOptimized ? "0px 0px -20px 0px" : "0px 0px -50px 0px",
-      },
+      { threshold, rootMargin: "0px 0px -40px 0px" }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
-      }
-    }
-  }, [delay, hasAnimated, isMobile, mobileOptimized])
-
-  const initialClasses = "opacity-0 translate-y-8"
-
-  // On Mobile, entirely disable scroll animations to prevent hide/show flickering and performance drops
-  if (isMobile) {
-    return <div className={className}>{children}</div>
-  }
+    const timer = setTimeout(() => observer.observe(el), 100)
+    return () => { clearTimeout(timer); observer.disconnect() }
+  }, [animation, delay, threshold])
 
   return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ease-out will-change-[opacity,transform] ${hasAnimated ? "opacity-100 translate-y-0" : initialClasses} ${className}`}
-      style={{
-        transitionDelay: `${delay}ms`
-      }}
-    >
+    <div ref={ref} className={className}>
       {children}
     </div>
   )
