@@ -4,9 +4,17 @@ import { GeistMono } from 'geist/font/mono'
 import { Analytics } from '@vercel/analytics/next'
 import { NavigationLoader } from '@/components/navigation-loader'
 import './globals.css'
+import type { Viewport } from 'next'
 
 const siteUrl = 'https://veritasco.tech'
 const siteName = 'VeritasCo.Tech'
+
+export const viewport: Viewport = {
+  themeColor: '#3b5998',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -79,12 +87,12 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: siteUrl,
     siteName,
-    title: 'VeritasCo.Tech — Digital Ecosystem for Schools & Restaurants',
+    title: 'VeritasCo.Tech — #1 School ERP & Restaurant POS Solutions in India',
     description:
       'Transform your operations with VeritasCo.Tech. Leading School ERP with Biometric Attendance and QR-based Restaurant POS systems. Scalable, secure, and cloud-ready.',
     images: [
       {
-        url: '/og.png?v=2',
+        url: `${siteUrl}/og.png?v=2`,
         width: 1200,
         height: 630,
         alt: 'VeritasCo.Tech — School ERP & Restaurant POS Solutions',
@@ -98,10 +106,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@veritascotech',
     creator: '@veritascotech',
-    title: 'VeritasCo.Tech — Digital Ecosystem for Schools & Restaurants',
+    title: 'VeritasCo.Tech — #1 School ERP & Restaurant POS Solutions in India',
     description:
       'School ERP with biometric attendance + Restaurant POS with QR ordering. The complete digital ecosystem for your business.',
-    images: ['/og.png?v=2'],
+    images: [`${siteUrl}/og.png?v=2`],
   },
 }
 
@@ -184,32 +192,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Favicons */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        {/* Theme */}
-        <meta name="theme-color" content="#3b5998" />
-        <meta name="color-scheme" content="light dark" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-        {/* Geo targeting for Indian market */}
-        <meta name="geo.region" content="IN" />
-        <meta name="geo.placename" content="India" />
-        <meta name="language" content="English" />
-        {/* Google Fonts — Open Sans (exact pulla.digital font) + Cormorant Garamond (display) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet" />
+      </head>
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <NavigationLoader />
         {children}
         <Analytics />
