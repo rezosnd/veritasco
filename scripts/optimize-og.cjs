@@ -8,10 +8,10 @@ async function optimizeOG() {
   const output = path.join(pub, 'og_temp.png');
 
   if (fs.existsSync(input)) {
-    console.log('Optimizing og.png for production...');
+    console.log('Optimizing og.png for production (WhatsApp compatible)...');
     await sharp(input)
       .resize(1200, 630, { fit: 'cover' })
-      .png({ quality: 80, compressionLevel: 9 })
+      .png({ quality: 60, compressionLevel: 9, palette: true }) // Added palette: true for significant size reduction
       .toFile(output);
     
     fs.unlinkSync(input);

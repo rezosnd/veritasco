@@ -92,7 +92,7 @@ export const metadata: Metadata = {
       'Transform your operations with VeritasCo.Tech. Leading School ERP with Biometric Attendance and QR-based Restaurant POS systems. Scalable, secure, and cloud-ready.',
     images: [
       {
-        url: `${siteUrl}/og.png?v=2`,
+        url: `${siteUrl}/og.png?v=3`,
         width: 1200,
         height: 630,
         alt: 'VeritasCo.Tech — School ERP & Restaurant POS Solutions',
@@ -109,7 +109,7 @@ export const metadata: Metadata = {
     title: 'VeritasCo.Tech — #1 School ERP & Restaurant POS Solutions in India',
     description:
       'School ERP with biometric attendance + Restaurant POS with QR ordering. The complete digital ecosystem for your business.',
-    images: [`${siteUrl}/og.png?v=2`],
+    images: [`${siteUrl}/og.png?v=3`],
   },
 }
 
