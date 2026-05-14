@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Prevent crawlers from indexing private areas
+Disallow: /admin-veritasco/
+Disallow: /api/
+
+# Point all search engines and AI crawlers to your sitemap
+Sitemap: https://veritasco.tech/sitemap.xml
