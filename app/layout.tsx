@@ -193,6 +193,7 @@ const jsonLd = {
       url: siteUrl,
       offers: {
         '@type': 'Offer',
+        price: '0',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
         seller: { '@id': `${siteUrl}/#organization` },
