@@ -42,9 +42,16 @@ export const metadata: Metadata = {
     'VeritasCo Tech',
     'Education Technology India',
     'Hospitality Tech Solutions',
+    'Founder of Veritasco',
+    'Rehan Suman',
+    'Aman Kumar Veritasco',
   ],
 
-  authors: [{ name: siteName, url: siteUrl }],
+  authors: [
+    { name: 'Rehan Suman', url: `${siteUrl}/founders#rehan-suman` },
+    { name: 'Aman Kumar', url: `${siteUrl}/founders#aman-kumar` },
+    { name: siteName, url: siteUrl },
+  ],
   creator: siteName,
   publisher: siteName,
   category: 'Education Technology',
@@ -117,23 +124,67 @@ export const metadata: Metadata = {
 const founderSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
   name: 'Veritasco',
+  alternateName: ['VeritasCo', 'VeritasCo.Tech'],
   url: siteUrl,
-  logo: `${siteUrl}/logo.avif`,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteUrl}/logo.avif`,
+    width: 512,
+    height: 512,
+  },
+  foundingDate: '2023',
+  foundingLocation: {
+    '@type': 'Place',
+    name: 'India',
+  },
   founder: [
     {
       '@type': 'Person',
+      '@id': `${siteUrl}/founders#rehan-suman`,
       name: 'Rehan Suman',
-      image: `${siteUrl}/rehan.png`,
-      sameAs: ['https://www.linkedin.com/in/rezosnd/']
+      givenName: 'Rehan',
+      familyName: 'Suman',
+      jobTitle: 'Co-Founder & CEO',
+      description:
+        'Rehan Suman is the Co-Founder and CEO of Veritasco, an Indian technology startup building cloud-based School ERP and Restaurant POS systems.',
+      image: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/rehan.png`,
+        caption: 'Rehan Suman — Co-Founder & CEO of Veritasco',
+      },
+      url: `${siteUrl}/founders#rehan-suman`,
+      sameAs: [
+        'https://www.linkedin.com/in/rezosnd/',
+      ],
+      worksFor: { '@id': `${siteUrl}/#organization` },
+      nationality: 'Indian',
+      knowsAbout: ['School ERP', 'Restaurant POS', 'EdTech', 'Business Development'],
     },
     {
       '@type': 'Person',
-      name: 'Aman Thakur',
-      image: `${siteUrl}/aman.png`,
-      sameAs: ['https://www.linkedin.com/in/amankumarthakur/']
-    }
-  ]
+      '@id': `${siteUrl}/founders#aman-kumar`,
+      name: 'Aman Kumar',
+      givenName: 'Aman',
+      familyName: 'Kumar',
+      jobTitle: 'Co-Founder & CTO',
+      description:
+        'Aman Kumar is the Co-Founder and CTO of Veritasco, driving the engineering and technical architecture of India\'s first biometric-integrated School ERP and QR-based Restaurant POS platform.',
+      image: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/aman.png`,
+        caption: 'Aman Kumar — Co-Founder & CTO of Veritasco',
+      },
+      url: `${siteUrl}/founders#aman-kumar`,
+      sameAs: [
+        'https://www.linkedin.com/in/amankumarthakur/',
+      ],
+      worksFor: { '@id': `${siteUrl}/#organization` },
+      nationality: 'Indian',
+      knowsAbout: ['Software Architecture', 'Biometric Systems', 'Cloud Computing', 'Full Stack Development'],
+    },
+  ],
 }
 
 // JSON-LD structured data (Organization + WebSite)

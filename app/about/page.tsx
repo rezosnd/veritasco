@@ -378,6 +378,201 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ══ FOUNDERS SECTION — light ══ */}
+      <section className="section-light pulla-section">
+        <div className="container mx-auto px-8 md:px-14 max-w-[1400px]">
+          <ScrollReveal>
+            <div className="mb-16 md:mb-20 pb-8" style={{ borderBottom: "1px solid rgba(33,37,41,0.08)" }}>
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "10px",
+                  fontWeight: 700,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "rgba(33,37,41,0.3)",
+                  marginBottom: "16px",
+                }}
+              >
+                Leadership
+              </p>
+              <h2
+                className="pulla-section-title"
+                style={{ color: "#212529" }}
+              >
+                Founders of Veritasco
+              </h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+            {/* Rehan Suman */}
+            <ScrollReveal animation="slide-left">
+              <article
+                itemScope
+                itemType="https://schema.org/Person"
+                className="flex flex-col md:flex-row gap-8 items-start"
+              >
+                <div
+                  className="relative rounded-2xl overflow-hidden flex-shrink-0"
+                  style={{ width: "160px", height: "200px" }}
+                >
+                  <Image
+                    src="/rehan.png"
+                    alt="Rehan Suman — Co-Founder and CEO of Veritasco"
+                    fill
+                    className="object-cover object-top"
+                    sizes="160px"
+                    itemProp="image"
+                  />
+                </div>
+                <div className="flex-1">
+                  <span
+                    style={{
+                      display: "inline-block",
+                      background: "rgba(13,95,183,0.08)",
+                      color: "#0d5fb7",
+                      fontSize: "10px",
+                      fontWeight: 700,
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      padding: "4px 12px",
+                      borderRadius: "100px",
+                      marginBottom: "10px",
+                      fontFamily: "var(--font-body)",
+                    }}
+                    itemProp="jobTitle"
+                  >
+                    Co-Founder &amp; CEO
+                  </span>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "clamp(24px,3vw,36px)",
+                      fontWeight: 400,
+                      color: "#212529",
+                      lineHeight: 1.1,
+                      marginBottom: "12px",
+                    }}
+                    itemProp="name"
+                  >
+                    Rehan Suman
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "15px",
+                      color: "rgba(33,37,41,0.6)",
+                      lineHeight: "1.8",
+                      fontWeight: 300,
+                      marginBottom: "16px",
+                    }}
+                    itemProp="description"
+                  >
+                    Rehan Suman is the Co-Founder and CEO of Veritasco, leading product vision, strategic growth, and business development. He is the driving force behind Veritasco&apos;s mission to bring enterprise-grade ERP and POS technology to Indian schools and restaurants.
+                  </p>
+                  <TransitionLink
+                    href="/founders#rehan-suman"
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: "#0d5fb7",
+                      textDecoration: "none",
+                      letterSpacing: "0.05em",
+                      fontFamily: "var(--font-body)",
+                    }}
+                  >
+                    Read Full Profile →
+                  </TransitionLink>
+                </div>
+              </article>
+            </ScrollReveal>
+
+            {/* Aman Kumar */}
+            <ScrollReveal animation="slide-right">
+              <article
+                itemScope
+                itemType="https://schema.org/Person"
+                className="flex flex-col md:flex-row gap-8 items-start"
+              >
+                <div
+                  className="relative rounded-2xl overflow-hidden flex-shrink-0"
+                  style={{ width: "160px", height: "200px" }}
+                >
+                  <Image
+                    src="/aman.png"
+                    alt="Aman Kumar — Co-Founder and CTO of Veritasco"
+                    fill
+                    className="object-cover object-top"
+                    sizes="160px"
+                    itemProp="image"
+                  />
+                </div>
+                <div className="flex-1">
+                  <span
+                    style={{
+                      display: "inline-block",
+                      background: "rgba(13,95,183,0.08)",
+                      color: "#0d5fb7",
+                      fontSize: "10px",
+                      fontWeight: 700,
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      padding: "4px 12px",
+                      borderRadius: "100px",
+                      marginBottom: "10px",
+                      fontFamily: "var(--font-body)",
+                    }}
+                    itemProp="jobTitle"
+                  >
+                    Co-Founder &amp; CTO
+                  </span>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "clamp(24px,3vw,36px)",
+                      fontWeight: 400,
+                      color: "#212529",
+                      lineHeight: 1.1,
+                      marginBottom: "12px",
+                    }}
+                    itemProp="name"
+                  >
+                    Aman Kumar
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "15px",
+                      color: "rgba(33,37,41,0.6)",
+                      lineHeight: "1.8",
+                      fontWeight: 300,
+                      marginBottom: "16px",
+                    }}
+                    itemProp="description"
+                  >
+                    Aman Kumar is the Co-Founder and CTO of Veritasco, architecting the cloud infrastructure and technical backbone of India&apos;s first biometric-integrated School ERP and QR-based Restaurant POS platform.
+                  </p>
+                  <TransitionLink
+                    href="/founders#aman-kumar"
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: "#0d5fb7",
+                      textDecoration: "none",
+                      letterSpacing: "0.05em",
+                      fontFamily: "var(--font-body)",
+                    }}
+                  >
+                    Read Full Profile →
+                  </TransitionLink>
+                </div>
+              </article>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
       {/* Contact CTA Removed (Already in footer) */}
     </PageWrapper>
   )
