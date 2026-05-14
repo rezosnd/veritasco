@@ -160,7 +160,7 @@ const founderSchema = {
       ],
       worksFor: { '@id': `${siteUrl}/#organization` },
       nationality: 'Indian',
-      knowsAbout: ['School ERP', 'Restaurant POS', 'EdTech', 'Business Development'],
+      knowsAbout: ['School ERP', 'Restaurant POS', 'EdTech', 'Business Development', 'Full‑Stack Development', 'Scalable Cloud Infrastructure', 'API Design', 'Data Analytics'],
     },
     {
       '@type': 'Person',
@@ -168,9 +168,9 @@ const founderSchema = {
       name: 'Aman Kumar',
       givenName: 'Aman',
       familyName: 'Kumar',
-      jobTitle: 'Co-Founder & CTO',
+      jobTitle: 'Co-Founder \u0026 CEO \u0026 CTO',
       description:
-        'Aman Kumar is the Co-Founder and CTO of Veritasco, driving the engineering and technical architecture of India\'s first biometric-integrated School ERP and QR-based Restaurant POS platform.',
+        'Aman Kumar is the Co-Founder, CEO \u0026 CTO of Veritasco, driving engineering, technical architecture, and marketing strategy for India\'s first biometric‑integrated School ERP and QR‑based Restaurant POS platform.',
       image: {
         '@type': 'ImageObject',
         url: `${siteUrl}/aman.png`,
@@ -182,7 +182,7 @@ const founderSchema = {
       ],
       worksFor: { '@id': `${siteUrl}/#organization` },
       nationality: 'Indian',
-      knowsAbout: ['Software Architecture', 'Biometric Systems', 'Cloud Computing', 'Full Stack Development'],
+      knowsAbout: ['Software Architecture', 'Biometric Systems', 'Cloud Computing', 'Full Stack Development', 'Marketing Strategy', 'Brand Management'],
     },
   ],
 }
