@@ -113,6 +113,29 @@ export const metadata: Metadata = {
   },
 }
 
+// Hidden SEO Founder Schema for Google Knowledge Graph
+const founderSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Veritasco',
+  url: siteUrl,
+  logo: `${siteUrl}/logo.avif`,
+  founder: [
+    {
+      '@type': 'Person',
+      name: 'Rehan Suman',
+      image: `${siteUrl}/rehan.png`,
+      sameAs: ['https://www.linkedin.com/in/rezosnd/']
+    },
+    {
+      '@type': 'Person',
+      name: 'Aman Thakur',
+      image: `${siteUrl}/aman.png`,
+      sameAs: ['https://www.linkedin.com/in/amankumarthakur/']
+    }
+  ]
+}
+
 // JSON-LD structured data (Organization + WebSite)
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -195,6 +218,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet" />
+        {/* Hidden SEO Founder Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }}
+        />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         {/* JSON-LD Structured Data */}
