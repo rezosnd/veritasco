@@ -120,87 +120,26 @@ export const metadata: Metadata = {
   },
 }
 
-// Hidden SEO Founder Schema for Google Knowledge Graph
-const founderSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  '@id': `${siteUrl}/#organization`,
-  name: 'Veritasco',
-  alternateName: ['VeritasCo', 'VeritasCo.Tech'],
-  url: siteUrl,
-  logo: {
-    '@type': 'ImageObject',
-    url: `${siteUrl}/logo.avif`,
-    width: 512,
-    height: 512,
-  },
-  foundingDate: '2023',
-  foundingLocation: {
-    '@type': 'Place',
-    name: 'India',
-  },
-  founder: [
-    {
-      '@type': 'Person',
-      '@id': `${siteUrl}/founders#rehan-suman`,
-      name: 'Rehan Suman',
-      givenName: 'Rehan',
-      familyName: 'Suman',
-      jobTitle: 'Co-Founder & CEO',
-      description:
-        'Rehan Suman is the Co-Founder and CEO of Veritasco, an Indian technology startup building cloud-based School ERP and Restaurant POS systems.',
-      image: {
-        '@type': 'ImageObject',
-        url: `${siteUrl}/rehan.png`,
-        caption: 'Rehan Suman — Co-Founder & CEO of Veritasco',
-      },
-      url: `${siteUrl}/founders#rehan-suman`,
-      sameAs: [
-        'https://www.linkedin.com/in/rezosnd/',
-      ],
-      worksFor: { '@id': `${siteUrl}/#organization` },
-      nationality: 'Indian',
-      knowsAbout: ['School ERP', 'Restaurant POS', 'EdTech', 'Business Development', 'Full‑Stack Development', 'Scalable Cloud Infrastructure', 'API Design', 'Data Analytics'],
-    },
-    {
-      '@type': 'Person',
-      '@id': `${siteUrl}/founders#aman-kumar`,
-      name: 'Aman Kumar',
-      givenName: 'Aman',
-      familyName: 'Kumar',
-      jobTitle: 'Co-Founder \u0026 CEO \u0026 CTO',
-      description:
-        'Aman Kumar is the Co-Founder, CEO \u0026 CTO of Veritasco, driving engineering, technical architecture, and marketing strategy for India\'s first biometric‑integrated School ERP and QR‑based Restaurant POS platform.',
-      image: {
-        '@type': 'ImageObject',
-        url: `${siteUrl}/aman.png`,
-        caption: 'Aman Kumar — Co-Founder & CTO of Veritasco',
-      },
-      url: `${siteUrl}/founders#aman-kumar`,
-      sameAs: [
-        'https://www.linkedin.com/in/amankumarthakur/',
-      ],
-      worksFor: { '@id': `${siteUrl}/#organization` },
-      nationality: 'Indian',
-      knowsAbout: ['Software Architecture', 'Biometric Systems', 'Cloud Computing', 'Full Stack Development', 'Marketing Strategy', 'Brand Management'],
-    },
-  ],
-}
-
-// JSON-LD structured data (Organization + WebSite)
+// JSON-LD structured data (Organization + WebSite + Founders)
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Organization',
       '@id': `${siteUrl}/#organization`,
-      name: siteName,
+      name: 'Veritasco',
+      alternateName: ['VeritasCo', 'VeritasCo.Tech'],
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/favicon-512x512.png`,
+        url: `${siteUrl}/logo.avif`,
         width: 512,
         height: 512,
+      },
+      foundingDate: '2023',
+      foundingLocation: {
+        '@type': 'Place',
+        name: 'India',
       },
       contactPoint: {
         '@type': 'ContactPoint',
@@ -219,6 +158,53 @@ const jsonLd = {
       ],
       description:
         "India's first complete School ERP with in-hand biometric attendance devices — managing admissions, fees, academics, transport, hostel, library, HR & payroll.",
+      founder: [
+        {
+          '@type': 'Person',
+          '@id': `${siteUrl}/founders#rehan-suman`,
+          name: 'Rehan Suman',
+          givenName: 'Rehan',
+          familyName: 'Suman',
+          jobTitle: 'Founder & CEO',
+          description:
+            'Rehan Suman is the Founder and CEO of Veritasco, an Indian technology startup building cloud-based School ERP and Restaurant POS systems.',
+          image: {
+            '@type': 'ImageObject',
+            url: `${siteUrl}/rehan.png`,
+            caption: 'Rehan Suman — Founder & CEO of Veritasco',
+          },
+          url: `${siteUrl}/founders#rehan-suman`,
+          sameAs: [
+            'https://www.linkedin.com/in/rezosnd/',
+            'https://github.com/rezosnd'
+          ],
+          worksFor: { '@id': `${siteUrl}/#organization` },
+          nationality: 'Indian',
+          knowsAbout: ['School ERP', 'Restaurant POS', 'EdTech', 'Business Development', 'Full‑Stack Development', 'Scalable Cloud Infrastructure', 'API Design', 'Data Analytics'],
+        },
+        {
+          '@type': 'Person',
+          '@id': `${siteUrl}/founders#aman-kumar`,
+          name: 'Aman Kumar',
+          givenName: 'Aman',
+          familyName: 'Kumar',
+          jobTitle: 'Co-Founder & CTO',
+          description:
+            'Aman Kumar is the Co-Founder & CTO of Veritasco, driving engineering, technical architecture, and marketing strategy for India\'s first biometric‑integrated School ERP and QR‑based Restaurant POS platform.',
+          image: {
+            '@type': 'ImageObject',
+            url: `${siteUrl}/aman.png`,
+            caption: 'Aman Kumar — Co-Founder & CTO of Veritasco',
+          },
+          url: `${siteUrl}/founders#aman-kumar`,
+          sameAs: [
+            'https://www.linkedin.com/in/amankumarthakur/',
+          ],
+          worksFor: { '@id': `${siteUrl}/#organization` },
+          nationality: 'Indian',
+          knowsAbout: ['Software Architecture', 'Biometric Systems', 'Cloud Computing', 'Full Stack Development', 'Marketing Strategy', 'Brand Management'],
+        },
+      ],
     },
     {
       '@type': 'WebSite',
@@ -270,11 +256,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet" />
-        {/* Hidden SEO Founder Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }}
-        />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         {/* JSON-LD Structured Data */}
