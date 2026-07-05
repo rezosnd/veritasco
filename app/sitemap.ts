@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/about',
     '/erp',
     '/pos',
+    '/nidhi',
     '/founders',
     '/contact',
     '/faq',

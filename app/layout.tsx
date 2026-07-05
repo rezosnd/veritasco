@@ -69,6 +69,11 @@ export const metadata: Metadata = {
     'VeritasCo Technologies',
     'VeritasCo Software',
     'Top ERP Providers in India',
+    'Nidhi Software',
+    'Nidhi Company Software',
+    'Nidhi Banking Software',
+    'Nidhi ERP',
+    'Nidhi Core Banking',
   ],
 
   authors: [
@@ -287,6 +292,22 @@ const jsonLd = {
       operatingSystem: 'Web, Android, iOS',
       url: 'https://bazarchowk.com/',
       description: 'India\'s Local Commerce Super App connecting towns and villages to local businesses.',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'INR',
+        availability: 'https://schema.org/InStock',
+        seller: { '@id': `${siteUrl}/#organization` },
+      },
+    },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${siteUrl}/#product-nidhi`,
+      name: 'VeritasCo Nidhi Software',
+      applicationCategory: 'FinanceApplication',
+      operatingSystem: 'Web, Android',
+      url: `${siteUrl}/nidhi`,
+      description: 'Enterprise Banking Infrastructure for Nidhi Companies. Purely as per Government Act.',
       offers: {
         '@type': 'Offer',
         price: '0',

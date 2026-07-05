@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from "react"
 import BookingModal from "@/components/booking-modal"
 import ContactSupportModal from "@/components/contact-support-modal"
 import { SiteFooter } from "@/components/site-footer"
-import { GraduationCap, Utensils, ArrowRight, ArrowDown, Zap, ShieldCheck, LifeBuoy, ShoppingCart } from "lucide-react"
+import { GraduationCap, Utensils, ArrowRight, ArrowDown, Zap, ShieldCheck, LifeBuoy, ShoppingCart, Landmark } from "lucide-react"
 
 /* ── Scroll reveal for lines using pulla's exact .focus--mask approach ── */
 function useRevealLines(ref: React.RefObject<HTMLElement | null>) {
@@ -156,7 +156,7 @@ export default function Home() {
               </div>
             </ScrollReveal>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* ERP Card — glassmorphism light */}
               <ScrollReveal animation="slide-left">
                 <TransitionLink href="/erp" className="group block h-full">
@@ -314,6 +314,59 @@ export default function Home() {
                   </div>
                 </a>
               </ScrollReveal>
+
+              {/* Nidhi Card — glassmorphism premium blue */}
+              <ScrollReveal animation="slide-right" delay={360}>
+                <TransitionLink href="/nidhi" className="group block h-full">
+                  <div
+                    className="relative overflow-hidden"
+                    style={{
+                      borderRadius: "24px",
+                      minHeight: "500px",
+                      background: "rgba(13,29,54,0.88)",
+                      backdropFilter: "blur(32px)",
+                      WebkitBackdropFilter: "blur(32px)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      boxShadow: "0 8px 48px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)",
+                      padding: "44px 44px",
+                      transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = "translateY(-8px)"
+                      e.currentTarget.style.boxShadow = "0 32px 80px rgba(13,95,183,0.2), inset 0 1px 0 rgba(255,255,255,0.1)"
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = "translateY(0)"
+                      e.currentTarget.style.boxShadow = "0 8px 48px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)"
+                    }}
+                  >
+                    {/* Shimmer accent top-right */}
+                    <div aria-hidden style={{ position: "absolute", top: "-50px", right: "-50px", width: "220px", height: "220px", borderRadius: "50%", background: "radial-gradient(circle, rgba(13,95,183,0.25) 0%, transparent 70%)", pointerEvents: "none" }} />
+                    <div aria-hidden style={{ position: "absolute", bottom: "-30px", left: "-30px", width: "180px", height: "180px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
+                    <div style={{ position: "relative", zIndex: 1 }}>
+                      <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", display: "block", marginBottom: "36px" }}>04 — Finance & Banking</span>
+                      <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px,4vw,56px)", fontWeight: 500, color: "#ffffff", lineHeight: 1.0, letterSpacing: "-0.02em", marginBottom: "18px" }}>Nidhi Software</h3>
+                      <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: "1.78", fontWeight: 300, maxWidth: "360px", marginBottom: "32px" }}>Purely as per Government Act. Manage members, deposits, and loans seamlessly.</p>
+                      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
+                        {["IMPS, NEFT & Card Services", "CIBIL Score Integration", "Deposits, Loans & Shares", "100+ MIS Accounting Reports"].map(t => (
+                          <li key={t} style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", gap: "12px" }}>
+                            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "rgba(13,95,183,0.8)", display: "block", flexShrink: 0 }} />{t}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "28px", borderTop: "1px solid rgba(255,255,255,0.07)", marginTop: "32px", position: "relative", zIndex: 1 }}>
+                      <div className="pulla-arrow-link pulla-arrow-link-white">
+                        <span>Explore Nidhi</span>
+                        <span className="arrow-icon">→</span>
+                      </div>
+                    </div>
+                  </div>
+                </TransitionLink>
+              </ScrollReveal>
             </div>
           </div>
         </section>
@@ -342,7 +395,7 @@ export default function Home() {
                 { icon: GraduationCap, title: "Schools", num: "01", desc: "Complete ERP with biometric attendance, fee management, LMS, and real-time analytics." },
                 { icon: Utensils, title: "Restaurants", num: "02", desc: "QR-based ordering system with real-time kitchen display and auto billing." },
                 { icon: ShoppingCart, title: "Commerce", num: "03", desc: "India's Local Commerce Super App connecting towns and villages to local businesses." },
-                { icon: Zap, title: "Future", num: "04", desc: "We are continuously expanding — retail, healthcare, and enterprise software.", muted: true },
+                { icon: Landmark, title: "Banking", num: "04", desc: "Enterprise Nidhi banking infrastructure strictly as per Govt Act with IMPS/NEFT." },
               ].map((item, idx) => (
                 <ScrollReveal key={idx} delay={idx * 100}>
                   <div className={`pulla-card rounded-[20px] p-8 md:p-10 h-full ${item.muted ? "opacity-35" : ""}`}>
