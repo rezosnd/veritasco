@@ -56,6 +56,14 @@ export default function NidhiPage() {
         }}>
           {/* Background Gradient / Imagery */}
           <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden", pointerEvents: "none" }}>
+            <Image 
+              src="/workspace.png" 
+              alt="Nidhi Banking Background" 
+              fill 
+              className="object-cover animate-hero-bg" 
+              style={{ filter: "brightness(0.4) saturate(1.2)" }} 
+              priority 
+            />
             <div className="absolute inset-0 bg-[#0d1d36]/80" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d1d36] via-[#0d1d36]/90 to-transparent" />
             {/* Shimmer accent */}

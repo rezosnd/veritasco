@@ -325,7 +325,7 @@ export default function Home() {
                     style={{
                       borderRadius: "24px",
                       minHeight: "500px",
-                      background: "rgba(13,29,54,0.88)",
+                      background: "rgba(33,43,59,0.88)",
                       backdropFilter: "blur(32px)",
                       WebkitBackdropFilter: "blur(32px)",
                       border: "1px solid rgba(255,255,255,0.1)",
@@ -338,7 +338,7 @@ export default function Home() {
                     }}
                     onMouseEnter={e => {
                       e.currentTarget.style.transform = "translateY(-8px)"
-                      e.currentTarget.style.boxShadow = "0 32px 80px rgba(13,95,183,0.2), inset 0 1px 0 rgba(255,255,255,0.1)"
+                      e.currentTarget.style.boxShadow = "0 32px 80px rgba(100,149,237,0.15), inset 0 1px 0 rgba(255,255,255,0.1)"
                     }}
                     onMouseLeave={e => {
                       e.currentTarget.style.transform = "translateY(0)"
@@ -346,11 +346,14 @@ export default function Home() {
                     }}
                   >
                     {/* Shimmer accent top-right */}
-                    <div aria-hidden style={{ position: "absolute", top: "-50px", right: "-50px", width: "220px", height: "220px", borderRadius: "50%", background: "radial-gradient(circle, rgba(13,95,183,0.25) 0%, transparent 70%)", pointerEvents: "none" }} />
+                    <div aria-hidden style={{ position: "absolute", top: "-50px", right: "-50px", width: "220px", height: "220px", borderRadius: "50%", background: "radial-gradient(circle, rgba(100,149,237,0.2) 0%, transparent 70%)", pointerEvents: "none" }} />
                     <div aria-hidden style={{ position: "absolute", bottom: "-30px", left: "-30px", width: "180px", height: "180px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
                     <div style={{ position: "relative", zIndex: 1 }}>
                       <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", display: "block", marginBottom: "36px" }}>04 — Finance & Banking</span>
-                      <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px,4vw,56px)", fontWeight: 500, color: "#ffffff", lineHeight: 1.0, letterSpacing: "-0.02em", marginBottom: "18px" }}>Nidhi Software</h3>
+                      <div style={{ marginBottom: "22px", display: "flex", alignItems: "center", gap: "12px" }}>
+                        <img src="/logo.avif" alt="VeritasCo Logo" style={{ height: "32px", width: "32px", objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.9 }} />
+                        <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,3vw,44px)", fontWeight: 500, color: "#ffffff", lineHeight: 1.0, letterSpacing: "-0.02em", margin: 0 }}>Nidhi</h3>
+                      </div>
                       <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: "1.78", fontWeight: 300, maxWidth: "360px", marginBottom: "32px" }}>Purely as per Government Act. Manage members, deposits, and loans seamlessly.</p>
                       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
                         {["IMPS, NEFT & Card Services", "CIBIL Score Integration", "Deposits, Loans & Shares", "100+ MIS Accounting Reports"].map(t => (

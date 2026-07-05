@@ -13,7 +13,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const [formData, setFormData] = useState({
-    productType: "erp" as "erp" | "pos",
+    productType: "erp" as "erp" | "pos" | "nidhi",
     businessName: "",
     contactPerson: "",
     email: "",
@@ -70,10 +70,11 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   if (!isOpen) return null
 
   const isERP = formData.productType === "erp"
+  const isNidhi = formData.productType === "nidhi"
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#141414]/80 backdrop-blur-md">
-      <div className="bg-[#1a1f2e] border border-white/10 rounded-[32px] max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 md:p-12 relative animate-in fade-in zoom-in duration-500 shadow-2xl">
+      <div className="bg-[#1a1f2e] border border-white/10 rounded-[32px] max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8 md:p-12 relative animate-in fade-in zoom-in duration-500 shadow-2xl">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -114,7 +115,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
             {step === "choice" ? (
               <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-3 gap-6">
                   <button
                     onClick={() => {
                       setFormData({ ...formData, productType: "erp" })
@@ -142,6 +143,20 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     <h3 className="text-xl font-medium text-white mb-2">Restaurant POS</h3>
                     <p className="text-white/30 text-sm font-light leading-relaxed">QR ordering, KDS, and automated cloud billing.</p>
                   </button>
+
+                  <button
+                    onClick={() => {
+                      setFormData({ ...formData, productType: "nidhi" })
+                      setStep("details")
+                    }}
+                    className="group p-8 rounded-3xl border border-white/10 bg-white/5 text-left hover:border-[#9bd4d7] hover:bg-white/[0.08] transition-all duration-500"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-[#2d3a52] flex items-center justify-center text-[#9bd4d7] mb-6 group-hover:scale-110 transition-transform duration-500">
+                      <ArrowRight className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-medium text-white mb-2">Nidhi Banking</h3>
+                    <p className="text-white/30 text-sm font-light leading-relaxed">Enterprise banking infrastructure with NEFT & CIBIL.</p>
+                  </button>
                 </div>
               </div>
             ) : (
@@ -157,7 +172,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   </button>
                   <div className="flex-1">
                     <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-0.5">Selected Product</p>
-                    <p className="text-white font-medium text-sm capitalize">{isERP ? "School ERP Solution" : "Restaurant POS System"}</p>
+                    <p className="text-white font-medium text-sm capitalize">{isERP ? "School ERP Solution" : isNidhi ? "Nidhi Banking Software" : "Restaurant POS System"}</p>
                   </div>
                   <button
                     type="button"
@@ -170,14 +185,14 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
                 <div className="grid md:grid-cols-2 gap-x-8 gap-y-6">
                   <div className="col-span-2">
-                    <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">{isERP ? "School Name" : "Restaurant Name"} *</label>
+                    <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">{isERP ? "School Name" : isNidhi ? "Nidhi Company Name" : "Restaurant Name"} *</label>
                     <input
                       type="text"
                       required
                       value={formData.businessName}
                       onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
                       className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#9bd4d7] transition-all"
-                      placeholder={isERP ? "e.g. St. Xavier's International" : "e.g. The Grand Bistro"}
+                      placeholder={isERP ? "e.g. St. Xavier's International" : isNidhi ? "e.g. Suvidha Nidhi Ltd." : "e.g. The Grand Bistro"}
                     />
                   </div>
 
@@ -231,7 +246,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
                   <div className="col-span-2">
                     <label className="block text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">
-                      {isERP ? "Approximate Student Count" : "Average Monthly Orders"} *
+                      {isERP ? "Approximate Student Count" : isNidhi ? "Approximate Member Count" : "Average Monthly Orders"} *
                     </label>
                     <input
                       type="text"
@@ -239,7 +254,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                       value={formData.volumeCount}
                       onChange={(e) => setFormData({ ...formData, volumeCount: e.target.value })}
                       className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#9bd4d7] transition-all"
-                      placeholder={isERP ? "e.g. 500+" : "e.g. 1000+"}
+                      placeholder={isERP ? "e.g. 500+" : isNidhi ? "e.g. 2000+" : "e.g. 1000+"}
                     />
                   </div>
                 </div>
