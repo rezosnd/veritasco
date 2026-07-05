@@ -270,7 +270,7 @@ export default function Home() {
                     style={{
                       borderRadius: "24px",
                       minHeight: "500px",
-                      background: "rgba(50,25,10,0.88)",
+                      background: "rgba(66,50,38,0.9)",
                       backdropFilter: "blur(32px)",
                       WebkitBackdropFilter: "blur(32px)",
                       border: "1px solid rgba(255,255,255,0.1)",
@@ -296,7 +296,7 @@ export default function Home() {
                     <div style={{ position: "relative", zIndex: 1 }}>
                       <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", display: "block", marginBottom: "36px" }}>03 — Local Commerce</span>
                       <div style={{ marginBottom: "22px" }}>
-                        <img src="https://bazarchowk.com/logo.png" alt="BazarChowk Logo" style={{ height: "clamp(60px, 8vw, 100px)", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+                        <img src="https://bazarchowk.com/logo.png" alt="BazarChowk Logo" style={{ height: "clamp(60px, 8vw, 100px)", objectFit: "contain" }} />
                       </div>
                       <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: "1.78", fontWeight: 300, maxWidth: "360px", marginBottom: "32px" }}>India's Local Commerce Super App. Groceries, food, and local essentials delivered fast.</p>
                       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
