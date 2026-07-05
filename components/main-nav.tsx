@@ -5,11 +5,15 @@ import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 
 const MENU_ITEMS = [
-  { num: "01", label: "HOME",           href: "/" },
-  { num: "02", label: "SCHOOL ERP",     href: "/erp" },
-  { num: "03", label: "RESTAURANT POS", href: "/pos" },
-  { num: "04", label: "ABOUT",          href: "/about" },
-  { num: "05", label: "CONTACT",        href: "/contact" },
+  { num: "01", label: "HOME",       href: "/" },
+  { num: "02", label: "PRODUCTS",   href: "", subItems: [
+    { label: "School ERP", href: "/erp" },
+    { label: "Restaurant POS", href: "/pos" },
+    { label: "Nidhi Banking", href: "/nidhi" },
+    { label: "BazarChowk", href: "https://bazarchowk.com/" },
+  ] },
+  { num: "03", label: "ABOUT",      href: "/about" },
+  { num: "04", label: "CONTACT",    href: "/contact" },
 ]
 
 const SOCIAL = [
@@ -165,15 +169,50 @@ export function MainNav({
                   </div>
                 )}
 
-                <div className="pulla-item-reveal">
+                <div className="pulla-item-reveal flex flex-col justify-center h-full">
                   <button
-                    onClick={() => navigate(item.href)}
-                    className="pulla-item-inner py-4"
-                    style={{ background: "none", border: "none", padding: "10px 0", textAlign: "left" }}
+                    onClick={() => item.href ? navigate(item.href) : setHovered(idx)}
+                    className="pulla-item-inner py-4 group"
+                    style={{ background: "none", border: "none", padding: "10px 0", textAlign: "left", display: "flex", alignItems: "center" }}
                   >
                     <span className="pulla-item-num">{item.num}</span>
-                    <span className="pulla-item-label">{item.label}</span>
+                    <span className="pulla-item-label flex items-center gap-4">
+                      {item.label}
+                      {item.subItems && (
+                        <svg className={`w-8 h-8 md:w-12 md:h-12 text-[#212529]/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${hovered === idx ? "-rotate-90 md:rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      )}
+                    </span>
                   </button>
+
+                  {/* Sub-items container */}
+                  <div
+                    className={`flex flex-col gap-3 md:gap-5 ml-[clamp(30px,6vw,90px)] overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      hovered === idx && item.subItems ? "max-h-[500px] opacity-100 mt-2 md:mt-8" : "max-h-0 opacity-0 mt-0"
+                    }`}
+                  >
+                    {item.subItems?.map((sub, sIdx) => (
+                      <button
+                        key={sub.label}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (sub.href.startsWith("http")) {
+                            setMenuOpen(false);
+                            window.open(sub.href, "_blank");
+                          } else {
+                            navigate(sub.href);
+                          }
+                        }}
+                        className={`text-left font-display text-[clamp(24px,3vw,48px)] tracking-tight text-[#212529]/40 hover:text-[#212529] hover:translate-x-3 transition-all duration-300 ${
+                          hovered === idx ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+                        }`}
+                        style={{ transitionDelay: hovered === idx ? `${sIdx * 100}ms` : "0ms" }}
+                      >
+                        {sub.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
