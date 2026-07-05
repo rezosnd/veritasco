@@ -38,7 +38,7 @@ export function SiteFooter({ onSupportOpen }: { onSupportOpen: () => void }) {
           {[
             { title: "Products", links: [{ l: "School ERP", h: "/erp" }, { l: "Restaurant POS", h: "/pos" }, { l: "BazarChowk", h: "https://bazarchowk.com/", external: true }] },
             { title: "Company",  links: [{ l: "About Us", h: "/about" }, { l: "Testimonials", h: "/testimonials" }, { l: "Contact", action: onSupportOpen }] },
-            { title: "Support",  links: [{ l: "FAQ", h: "/faq" }, { l: "Privacy Policy", h: "/privacy-policy" }] },
+            { title: "Support",  links: [{ l: "FAQ", h: "/faq" }, { l: "Privacy Policy", h: "/privacy-policy" }, { l: "Terms of Service", h: "/terms-of-service" }, { l: "Refund Policy", h: "/refund-policy" }] },
             { 
               title: "Socials",  
               links: [
@@ -84,7 +84,10 @@ export function SiteFooter({ onSupportOpen }: { onSupportOpen: () => void }) {
               </a>
             </p>
           </div>
-          <TransitionLink href="/privacy-policy" style={{ color: "rgba(255,255,255,0.18)", textDecoration: "none" }}>Privacy Policy</TransitionLink>
+          <div className="flex gap-4">
+            <TransitionLink href="/privacy-policy" style={{ color: "rgba(255,255,255,0.18)", textDecoration: "none" }}>Privacy Policy</TransitionLink>
+            <TransitionLink href="/terms-of-service" style={{ color: "rgba(255,255,255,0.18)", textDecoration: "none" }}>Terms</TransitionLink>
+          </div>
         </div>
       </div>
     </footer>
