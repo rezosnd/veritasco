@@ -20,17 +20,23 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: 'VeritasCo.Tech — #1 School ERP & Restaurant POS Solutions in India',
+    default: 'VeritasCo.Tech — #1 School ERP, Restaurant POS & BazarChowk',
     template: '%s | VeritasCo.Tech',
   },
 
   description:
-    'VeritasCo.Tech provides India\'s first School ERP with in-hand biometric devices and advanced Restaurant POS systems. Manage schools (admissions, fees, LMS) or restaurants (QR ordering, billing, KDS) from one powerful cloud dashboard.',
+    'VeritasCo.Tech provides India\'s first School ERP, advanced Restaurant POS systems, and BazarChowk — India\'s local commerce super app. Founded by Rehan Suman and Aman Kumar.',
 
+  generator: 'Next.js',
+  applicationName: siteName,
+  referrer: 'origin-when-cross-origin',
   keywords: [
     'School ERP Software India',
     'Biometric Attendance System for Schools',
     'Restaurant POS System India',
+    'BazarChowk',
+    'Bazar Chowk',
+    'Local Commerce Super App',
     'QR Code Ordering System',
     'School Management Software',
     'Restaurant Management Software',
@@ -42,9 +48,26 @@ export const metadata: Metadata = {
     'VeritasCo Tech',
     'Education Technology India',
     'Hospitality Tech Solutions',
+    'Who is the founder of Veritasco',
     'Founder of Veritasco',
+    'Who founded Veritasco',
+    'Who is the CEO of Veritasco',
+    'Who is the CTO of Veritasco',
+    'Veritasco founder name',
+    'Veritasco founders',
+    'Veritasco CEO',
+    'Veritasco CTO',
+    'Rehan Suman founder of Veritasco',
+    'Aman Kumar founder of Veritasco',
+    'Rehan Suman CEO Veritasco',
+    'Aman Kumar CTO Veritasco',
     'Rehan Suman',
-    'Aman Kumar Veritasco',
+    'Aman Kumar',
+    'Best EdTech Startup India',
+    'Best POS Startup India',
+    'VeritasCo Technologies',
+    'VeritasCo Software',
+    'Top ERP Providers in India',
   ],
 
   authors: [
@@ -52,10 +75,20 @@ export const metadata: Metadata = {
     { name: 'Aman Kumar', url: `${siteUrl}/founders#aman-kumar` },
     { name: siteName, url: siteUrl },
   ],
-  creator: siteName,
+  creator: 'Rehan Suman & Aman Kumar',
   publisher: siteName,
-  category: 'Education Technology',
-  applicationName: siteName,
+  category: 'Technology & Education',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+
+  appleWebApp: {
+    title: siteName,
+    statusBarStyle: 'black-translucent',
+    capable: true,
+  },
 
   robots: {
     index: true,
@@ -94,15 +127,18 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: siteUrl,
     siteName,
-    title: 'VeritasCo.Tech — #1 School ERP & Restaurant POS Solutions in India',
+    title: 'VeritasCo.Tech — #1 School ERP, Restaurant POS & BazarChowk',
     description:
-      'Transform your operations with VeritasCo.Tech. Leading School ERP with Biometric Attendance and QR-based Restaurant POS systems. Scalable, secure, and cloud-ready.',
+      'Transform your operations with VeritasCo.Tech. Leading School ERP, Restaurant POS systems, and BazarChowk local commerce app. Founded by Rehan Suman and Aman Kumar.',
+    emails: ['info@veritasco.tech'],
+    phoneNumbers: ['+918709442363'],
+    countryName: 'India',
     images: [
       {
         url: `${siteUrl}/og.png?v=3`,
         width: 1200,
         height: 630,
-        alt: 'VeritasCo.Tech — School ERP & Restaurant POS Solutions',
+        alt: 'VeritasCo.Tech — School ERP, Restaurant POS & BazarChowk',
         type: 'image/png',
       },
     ],
@@ -113,9 +149,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@veritascotech',
     creator: '@veritascotech',
-    title: 'VeritasCo.Tech — #1 School ERP & Restaurant POS Solutions in India',
+    title: 'VeritasCo.Tech — #1 School ERP, Restaurant POS & BazarChowk',
     description:
-      'School ERP with biometric attendance + Restaurant POS with QR ordering. The complete digital ecosystem for your business.',
+      'School ERP, Restaurant POS, and BazarChowk. The complete digital ecosystem for your business, founded by Rehan Suman and Aman Kumar.',
     images: [`${siteUrl}/og.png?v=3`],
   },
 }
@@ -242,6 +278,116 @@ const jsonLd = {
         bestRating: '5',
       },
     },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${siteUrl}/#product-bazarchowk`,
+      name: 'BazarChowk',
+      applicationCategory: 'ShoppingApplication',
+      operatingSystem: 'Web, Android, iOS',
+      url: 'https://bazarchowk.com/',
+      description: 'India\'s Local Commerce Super App connecting towns and villages to local businesses.',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'INR',
+        availability: 'https://schema.org/InStock',
+        seller: { '@id': `${siteUrl}/#organization` },
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Who is the founder of Veritasco?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Rehan Suman is the Founder and CEO of Veritasco, and Aman Kumar is the Co-Founder and CTO. Together they built VeritasCo into a leading tech company providing School ERP, Restaurant POS, and BazarChowk.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'Who is the CEO of Veritasco?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Rehan Suman is the Founder and CEO of Veritasco.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'Who is the CTO of Veritasco?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Aman Kumar is the Co-Founder and CTO of Veritasco.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'Who founded Veritasco?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Veritasco was founded by Rehan Suman (CEO) and Aman Kumar (CTO).'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'Who are the founders of Veritasco?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The founders of Veritasco are Rehan Suman and Aman Kumar.'
+          }
+        }
+      ]
+    },
+    {
+      '@type': 'LocalBusiness',
+      '@id': `${siteUrl}/#localbusiness`,
+      name: 'Veritasco Tech Solutions',
+      image: `${siteUrl}/logo.avif`,
+      telephone: '+91-8709442363',
+      email: 'info@veritasco.tech',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'IN',
+        addressRegion: 'Bihar',
+      },
+      url: siteUrl,
+      priceRange: '₹₹',
+      founder: [
+        { '@id': `${siteUrl}/founders#rehan-suman` },
+        { '@id': `${siteUrl}/founders#aman-kumar` }
+      ],
+      sameAs: [
+        'https://facebook.com/veritascotech',
+        'https://twitter.com/veritascotech',
+        'https://www.linkedin.com/company/veritasco',
+        'https://www.instagram.com/veritasco.tech',
+      ]
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${siteUrl}/#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: siteUrl
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'About Us',
+          item: `${siteUrl}/about`
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'Founders',
+          item: `${siteUrl}/founders`
+        }
+      ]
+    }
   ],
 }
 

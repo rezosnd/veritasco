@@ -400,7 +400,7 @@ export default function AboutPage() {
                 className="pulla-section-title"
                 style={{ color: "#212529" }}
               >
-                Founders of Veritasco
+                Who is the founder of Veritasco?
               </h2>
             </div>
           </ScrollReveal>
