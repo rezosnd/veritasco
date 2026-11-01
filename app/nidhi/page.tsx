@@ -80,28 +80,9 @@ export default function NidhiPage() {
                       Core Platform.
                     </h1>
 
-                    <p className="text-sm sm:text-base md:text-lg font-normal leading-relaxed text-[#f5f4f0]/75 max-w-xl mb-8">
+                    <p className="text-sm sm:text-base md:text-lg font-normal leading-relaxed text-[#f5f4f0]/75 max-w-xl">
                       Enterprise banking software built strictly as per the Government Nidhi Act. Manage members, deposits, loans, shares, and complete double-entry accounting.
                     </p>
-
-                    <div className="buttons_row">
-                      <VantraButton
-                        onClick={() => setIsBookingOpen(true)}
-                        variant="light"
-                        ariaLabel="Book Live Demo"
-                      >
-                        Book Live Demo
-                      </VantraButton>
-
-                      <VantraButton
-                        href="#features"
-                        variant="ghost"
-                        className="text-white border-white/30"
-                        ariaLabel="Explore Modules"
-                      >
-                        Explore Modules
-                      </VantraButton>
-                    </div>
                   </div>
                 </div>
               </div>
