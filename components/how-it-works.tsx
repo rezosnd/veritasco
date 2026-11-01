@@ -1,27 +1,15 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import { ScrollReveal } from "./scroll-reveal"
 
 export function HowItWorks() {
-  const [visibleSteps, setVisibleSteps] = useState<Set<number>>(new Set())
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([])
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-
   const steps = [
     {
       number: "01",
       title: "Device in Classroom",
       description: "A handheld biometric device is kept in the classroom, ready for attendance marking.",
       icon: (
-        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -36,7 +24,7 @@ export function HowItWorks() {
       title: "Teacher Selects Section",
       description: "At the start of class, the teacher simply selects the class section from the device menu.",
       icon: (
-        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -52,7 +40,7 @@ export function HowItWorks() {
       description:
         "The device is passed around and each student places their finger on the scanner for instant recognition.",
       icon: (
-        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -68,7 +56,7 @@ export function HowItWorks() {
       description:
         "The technology matches their unique fingerprint and marks them present automatically in under 2 seconds.",
       icon: (
-        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -83,7 +71,7 @@ export function HowItWorks() {
       title: "Zero Proxy Attendance",
       description: "Biometric verification prevents classmates from proxy-marking attendance, ensuring 100% accuracy.",
       icon: (
-        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -95,87 +83,73 @@ export function HowItWorks() {
     },
   ]
 
-  useEffect(() => {
-    const observers: IntersectionObserver[] = []
-
-    stepRefs.current.forEach((ref, index) => {
-      if (ref) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                setVisibleSteps((prev) => new Set(prev).add(index))
-              }
-            })
-          },
-          { threshold: 0.2 },
-        )
-
-        observer.observe(ref)
-        observers.push(observer)
-      }
-    })
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect())
-    }
-  }, [])
-
   return (
     <ScrollReveal>
-      <section className="relative z-10 container mx-auto px-4 md:px-6 py-12 md:py-20">
-        <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-6 md:p-12">
-          <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">How Attendance Works</h2>
-            <p className="text-base md:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
-              Simple, fast, and foolproof biometric attendance in 5 easy steps
+      <section className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16 border-b border-[rgba(10,10,10,0.08)] pb-8">
+          <div>
+            <div className="label-mono mb-3 text-[#737373]">( Execution Sequence )</div>
+            <h2 className="heading-style-h2 text-[#0a0a0a] tracking-tight">
+              How Attendance Works
+            </h2>
+          </div>
+          <p className="text-sm md:text-base text-[#737373] max-w-xl font-normal leading-relaxed">
+            Simple, fast, and foolproof biometric attendance in 5 easy steps — designed for Indian classrooms.
+          </p>
+        </div>
+
+        {/* 5-Step Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              className={`group relative border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-8 hover:border-[rgba(10,10,10,0.2)] transition-all duration-300 flex flex-col justify-between ${
+                index === 4 ? "md:col-span-2 lg:col-span-2" : ""
+              }`}
+            >
+              {/* Top row */}
+              <div className="flex items-center justify-between mb-8">
+                <span className="label-mono text-xs text-[#737373]">
+                  STEP {step.number}
+                </span>
+                <div className="w-10 h-10 rounded-full border border-[rgba(10,10,10,0.08)] bg-[#faf9f5] flex items-center justify-center text-[#0a0a0a] group-hover:bg-[#0a0a0a] group-hover:text-white transition-colors duration-300">
+                  {step.icon}
+                </div>
+              </div>
+
+              {/* Main Content */}
+              <div>
+                <h3 className="heading-style-h4 text-[#0a0a0a] tracking-tight mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-[#737373] leading-relaxed font-normal">
+                  {step.description}
+                </p>
+              </div>
+
+              {/* Footnote */}
+              <div className="mt-8 pt-4 border-t border-[rgba(10,10,10,0.06)] flex items-center justify-between text-[11px] label-mono text-[#a3a3a3]">
+                <span>VERITASCO BIOMETRIC PROTOCOL</span>
+                <span>VERIFIED</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Efficiency Callout */}
+        <div className="mt-12 p-8 md:p-10 rounded-3xl border border-[rgba(10,10,10,0.08)] bg-[#faf9f5] flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="space-y-1">
+            <div className="label-mono text-xs text-[#737373]">( Class Efficiency Benchmark )</div>
+            <div className="text-lg md:text-xl font-medium text-[#0a0a0a]">
+              Complete attendance for 50 students in under 3 minutes
+            </div>
+            <p className="text-xs md:text-sm text-[#737373]">
+              Save 15+ hours per week compared to manual roll-call registers.
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                ref={(el) => {
-                  stepRefs.current[index] = el
-                }}
-                className={`relative soft-shadow bg-background rounded-xl md:rounded-2xl p-6 md:p-8 transition-all duration-700 ease-out hover:scale-105 ${
-                  isMobile || visibleSteps.has(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                }`}
-                style={{ transitionDelay: `${index * 150}ms` }}
-              >
-                {/* Step number badge */}
-                <div className="absolute -top-4 -right-4 w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center soft-shadow">
-                  <span className="text-primary-foreground font-bold text-sm md:text-base">{step.number}</span>
-                </div>
-
-                {/* Icon */}
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 md:mb-6 soft-shadow-inset">
-                  <div className="w-10 h-10 md:w-12 md:h-12 text-primary">{step.icon}</div>
-                </div>
-
-                {/* Content */}
-                <h3 className="text-lg md:text-xl font-bold text-foreground mb-2 md:mb-3">{step.title}</h3>
-                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{step.description}</p>
-
-                {/* Connecting line for desktop */}
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-primary to-accent opacity-30" />
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom CTA */}
-          <div className="mt-10 md:mt-16 text-center">
-            <div className="soft-shadow-inset bg-primary/10 rounded-xl md:rounded-2xl p-6 md:p-8 inline-block">
-              <p className="text-sm md:text-base text-primary font-semibold mb-2">
-                ⚡ Complete attendance for 50 students in under 3 minutes
-              </p>
-              <p className="text-xs md:text-sm text-muted-foreground">
-                Save 15+ hours per week compared to manual attendance
-              </p>
-            </div>
+          <div className="label-mono text-xs px-4 py-2 rounded-full border border-[rgba(10,10,10,0.12)] bg-[#ffffff] text-[#0a0a0a] font-medium shrink-0">
+            ZERO PROXY GUARANTEE
           </div>
         </div>
       </section>

@@ -2,62 +2,55 @@
 
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 
-const MENU_ITEMS = [
-  { num: "01", label: "HOME",       href: "/" },
-  { num: "02", label: "PRODUCTS",   href: "", subItems: [
-    { label: "School ERP", href: "/erp" },
-    { label: "Restaurant POS", href: "/pos" },
-    { label: "Nidhi Banking", href: "/nidhi" },
-    { label: "BazarChowk", href: "https://bazarchowk.com/" },
-  ] },
-  { num: "03", label: "ABOUT",      href: "/about" },
-  { num: "04", label: "CONTACT",    href: "/contact" },
-]
-
-const SOCIAL = [
-  { label: "LINKEDIN",  href: "https://linkedin.com/company/veritascotech" },
-  { label: "INSTAGRAM", href: "https://instagram.com/veritascotech" },
-  { label: "FACEBOOK",  href: "https://facebook.com/veritascotech" },
-  { label: "TWITTER",   href: "https://twitter.com/veritascotech" },
-]
-
-export function MainNav({
-  onSupportOpen,
-  onBookingOpen,
-}: {
+interface MainNavProps {
   onSupportOpen?: () => void
   onBookingOpen?: () => void
-}) {
+}
+
+export function MainNav({ onSupportOpen, onBookingOpen }: MainNavProps) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [hovered, setHovered] = useState(0)
+  const [solutionsOpen, setSolutionsOpen] = useState(false)
+  const [aboutOpen, setAboutOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
 
   useEffect(() => {
-    const idx = MENU_ITEMS.findIndex(item =>
-      item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
-    )
-    setHovered(idx >= 0 ? idx : 0)
-  }, [pathname])
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 50)
-    window.addEventListener("scroll", fn, { passive: true })
-    return () => window.removeEventListener("scroll", fn)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40)
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  useEffect(() => { setMenuOpen(false) }, [pathname])
-
+  // Close menus on route change
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : ""
-    return () => { document.body.style.overflow = "" }
+    setMenuOpen(false)
+    setSolutionsOpen(false)
+    setAboutOpen(false)
+  }, [pathname])
+
+  // Prevent background scroll when nav panel is expanded
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
   }, [menuOpen])
 
   const navigate = useCallback((href: string) => {
     setMenuOpen(false)
+    if (href.startsWith("http")) {
+      window.open(href, "_blank", "noopener,noreferrer")
+      return
+    }
     if ("startViewTransition" in document) {
       ;(document as any).startViewTransition(() => router.push(href))
     } else {
@@ -65,206 +58,359 @@ export function MainNav({
     }
   }, [router])
 
-  const navColor = menuOpen ? "#212529" : "#ffffff"
-
   return (
     <>
-      {/* ── NAVBAR ── */}
-      <nav
-        className={`pulla-nav ${scrolled && !menuOpen ? "scrolled" : ""}`}
-        aria-label="Main navigation"
-      >
-        {/* Logo */}
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center gap-2.5 z-10 bg-transparent border-none"
-          aria-label="VeritasCo Home"
-        >
-          <Image
-            src="/logo.avif"
-            alt="VeritasCo"
-            width={34}
-            height={34}
-            priority
-            className="w-8 h-8 transition-all duration-500"
-            style={{ filter: menuOpen ? "brightness(0)" : "brightness(1)" }}
-          />
-          <span
-            className="text-sm font-semibold tracking-tight transition-colors duration-500"
-            style={{ fontFamily: "var(--font-body)", color: navColor }}
-          >
-            VeritasCo
-          </span>
-        </button>
-
-
-        {/* 2-line hamburger */}
-        <div className="flex items-center gap-6">
-          <button
-            onClick={() => onBookingOpen?.()}
-            className="hidden sm:inline-flex pulla-btn-nav"
-            style={{ 
-              borderColor: menuOpen ? "rgba(33,37,41,0.15)" : "rgba(255,255,255,0.25)",
-              color: navColor
-            }}
-          >
-            BOOK DEMO
-          </button>
-          <button
-            onClick={() => setMenuOpen(v => !v)}
-            className={`pulla-hamburger z-10 ${menuOpen ? "open" : ""}`}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-          >
-            <span style={{ background: navColor }} />
-            <span style={{ background: navColor }} />
-          </button>
-        </div>
-      </nav>
-
-      {/* ── FULL-SCREEN MENU ── */}
+      {/* Background Dimming Scrim */}
       <div
-        className={`pulla-menu ${menuOpen ? "open" : ""}`}
-        aria-hidden={!menuOpen}
-        role="dialog"
-        aria-modal="true"
-      >
-        {/* Social links — rotated vertical left */}
-        <div className="pulla-menu-social">
-          {SOCIAL.map(s => (
-            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
-              {s.label}
-            </a>
-          ))}
-        </div>
+        className={`header-bg ${menuOpen ? "is-visible" : ""}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
 
-        {/* Main content */}
-        <div className="pulla-menu-main">
-          {/* Nav items — horizontal, all 5 visible */}
-          <div
-            className="pulla-menu-items scrollbar-hide"
-            style={{
-              gap: "clamp(30px, 5vw, 80px)",
-              overflowX: "auto",
-              paddingBottom: "20px",
-              display: "flex",
-              width: "100%",
-              msOverflowStyle: "none",
-              scrollbarWidth: "none",
-            }}
-          >
-            {MENU_ITEMS.map((item, idx) => (
-              <div
-                key={item.href}
-                className={`pulla-menu-item-wrap flex-shrink-0 ${hovered === idx ? "is-active" : ""}`}
-                onMouseEnter={() => setHovered(idx)}
-                onClick={() => setHovered(idx)}
+      <header className="header">
+        <div className={`nav_shell ${menuOpen ? "is-expanded" : ""} ${scrolled ? "is-scrolled" : ""}`}>
+          {/* Top Bar Pill */}
+          <div className="nav_bar">
+            {/* Logo Link */}
+            <Link
+              href="/"
+              className="nav_logo-link"
+              aria-label="VeritasCo Home"
+              onClick={() => setMenuOpen(false)}
+            >
+              <Image
+                src="/logo.avif"
+                alt="VeritasCo Logo"
+                width={26}
+                height={26}
+                priority
+                className="logo_image"
+              />
+              <span className="text-sm font-semibold tracking-tight text-white font-sans">
+                VeritasCo
+              </span>
+            </Link>
+
+            {/* Center Tagline */}
+            <div className="nav_page-title text-white/70">
+              One ecosystem, zero handoffs
+            </div>
+
+            {/* Right Buttons: Quick Demo + 4-Dot Glyph */}
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setMenuOpen(false)
+                  onBookingOpen?.()
+                }}
+                className="hidden sm:inline-flex items-center text-[11px] font-mono uppercase tracking-[0.14em] text-white/90 hover:text-white bg-white/10 hover:bg-white/15 px-3.5 py-1.5 rounded-full border border-white/20 transition-all cursor-pointer"
               >
-                {/* Concentric circles on active */}
-                {hovered === idx && (
-                  <div className="pulla-circles" aria-hidden="true">
-                    <div className="pulla-circle pulla-circle-1" />
-                    <div className="pulla-circle pulla-circle-2" />
-                    <div className="pulla-circle pulla-circle-3" />
-                  </div>
-                )}
+                Book Demo
+              </button>
 
-                <div className="pulla-item-reveal flex flex-col justify-center h-full">
-                  <button
-                    onClick={() => item.href ? navigate(item.href) : setHovered(idx)}
-                    className="pulla-item-inner py-4 group"
-                    style={{ background: "none", border: "none", padding: "10px 0", textAlign: "left", display: "flex", alignItems: "center" }}
-                  >
-                    <span className="pulla-item-num">{item.num}</span>
-                    <span className="pulla-item-label flex items-center gap-4">
-                      {item.label}
-                      {item.subItems && (
-                        <svg className={`w-8 h-8 md:w-12 md:h-12 text-[#212529]/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${hovered === idx ? "-rotate-90 md:rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      )}
-                    </span>
-                  </button>
+              <button
+                type="button"
+                role="button"
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen((prev) => !prev)}
+                className="nav_menu-button"
+              >
+                <div className="nav_menu-glyph">
+                  <div className="nav_menu-dot is-a" />
+                  <div className="nav_menu-dot is-b" />
+                  <div className="nav_menu-dot is-c" />
+                  <div className="nav_menu-dot is-d" />
+                </div>
+              </button>
+            </div>
+          </div>
 
-                  {/* Sub-items container */}
-                  <div
-                    className={`flex flex-col gap-3 md:gap-5 ml-[clamp(30px,6vw,90px)] overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                      hovered === idx && item.subItems ? "max-h-[500px] opacity-100 mt-2 md:mt-8" : "max-h-0 opacity-0 mt-0"
-                    }`}
-                  >
-                    {item.subItems?.map((sub, sIdx) => (
-                      <button
-                        key={sub.label}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (sub.href.startsWith("http")) {
-                            setMenuOpen(false);
-                            window.open(sub.href, "_blank");
-                          } else {
-                            navigate(sub.href);
-                          }
-                        }}
-                        className={`text-left font-display text-[clamp(24px,3vw,48px)] tracking-tight text-[#212529]/40 hover:text-[#212529] hover:translate-x-3 transition-all duration-300 ${
-                          hovered === idx ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-                        }`}
-                        style={{ transitionDelay: hovered === idx ? `${sIdx * 100}ms` : "0ms" }}
-                      >
-                        {sub.label}
-                      </button>
-                    ))}
+          {/* Navigation Overlay Panel */}
+          <div className="nav_panel">
+            <div className="nav_panel-inner">
+              <nav className="nav_menu-list" aria-label="Main navigation menu">
+                {/* Home */}
+                <div
+                  className="nav_menu-row group"
+                  onClick={() => navigate("/")}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <span className="nav_menu-label text-white font-medium text-lg md:text-xl">Home</span>
+                  <div className="nav_menu-icon text-white/70 group-hover:text-white">
+                    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+                      <path d="M5 13 13 5M6.5 5H13v6.5" />
+                    </svg>
                   </div>
                 </div>
+
+                {/* Solutions (Submenu) */}
+                <div className="nav_submenu">
+                  <div
+                    className="nav_menu-row group"
+                    onClick={() => setSolutionsOpen((prev) => !prev)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <span className="nav_menu-label text-white font-medium text-lg md:text-xl">Solutions</span>
+                    <div className="nav_menu-icon text-white/70 group-hover:text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={`w-4 h-4 transition-transform duration-300 ${solutionsOpen ? "rotate-45" : ""}`}
+                      >
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className={`nav_submenu-wrap ${solutionsOpen ? "is-open" : ""}`}>
+                    <div className="nav_submenu-list space-y-1 my-2">
+                      <div
+                        className="nav_submenu-link cursor-pointer flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+                        onClick={() => navigate("/erp")}
+                      >
+                        <div>
+                          <div className="font-medium text-white text-sm">School ERP Suite</div>
+                          <div className="text-xs text-white/40 font-mono">Biometric Attendance, Fees & LMS</div>
+                        </div>
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-white/60">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+
+                      <div
+                        className="nav_submenu-link cursor-pointer flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+                        onClick={() => navigate("/pos")}
+                      >
+                        <div>
+                          <div className="font-medium text-white text-sm">Restaurant POS</div>
+                          <div className="text-xs text-white/40 font-mono">QR Table Ordering & Kitchen Display</div>
+                        </div>
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-white/60">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+
+                      <div
+                        className="nav_submenu-link cursor-pointer flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+                        onClick={() => navigate("/nidhi")}
+                      >
+                        <div>
+                          <div className="font-medium text-white text-sm">Nidhi Banking Software</div>
+                          <div className="text-xs text-white/40 font-mono">Govt Act Compliant Core Banking</div>
+                        </div>
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-white/60">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+
+                      <div
+                        className="nav_submenu-link cursor-pointer flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+                        onClick={() => navigate("https://bazarchowk.com/")}
+                      >
+                        <div>
+                          <div className="font-medium text-white text-sm">BazarChowk Super App</div>
+                          <div className="text-xs text-white/40 font-mono">India's Local Commerce App</div>
+                        </div>
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-white/60">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* About (Submenu) */}
+                <div className="nav_submenu">
+                  <div
+                    className="nav_menu-row group"
+                    onClick={() => setAboutOpen((prev) => !prev)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <span className="nav_menu-label text-white font-medium text-lg md:text-xl">About</span>
+                    <div className="nav_menu-icon text-white/70 group-hover:text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={`w-4 h-4 transition-transform duration-300 ${aboutOpen ? "rotate-45" : ""}`}
+                      >
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className={`nav_submenu-wrap ${aboutOpen ? "is-open" : ""}`}>
+                    <div className="nav_submenu-list space-y-1 my-2">
+                      <div
+                        className="nav_submenu-link cursor-pointer flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+                        onClick={() => navigate("/about")}
+                      >
+                        <span className="font-medium text-white text-sm">The Company Overview</span>
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-white/60">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+
+                      <div
+                        className="nav_submenu-link cursor-pointer flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+                        onClick={() => navigate("/founders")}
+                      >
+                        <span className="font-medium text-white text-sm">Founders & Leadership</span>
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-white/60">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+
+                      <div
+                        className="nav_submenu-link cursor-pointer flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+                        onClick={() => navigate("/category-proof")}
+                      >
+                        <span className="font-medium text-white text-sm">Category Proof & Innovation</span>
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-white/60">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Testimonials */}
+                <div
+                  className="nav_menu-row group"
+                  onClick={() => navigate("/testimonials")}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <span className="nav_menu-label text-white font-medium text-lg md:text-xl">Testimonials</span>
+                  <div className="nav_menu-icon text-white/70 group-hover:text-white">
+                    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+                      <path d="M5 13 13 5M6.5 5H13v6.5" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* FAQ */}
+                <div
+                  className="nav_menu-row group"
+                  onClick={() => navigate("/faq")}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <span className="nav_menu-label text-white font-medium text-lg md:text-xl">FAQ</span>
+                  <div className="nav_menu-icon text-white/70 group-hover:text-white">
+                    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+                      <path d="M5 13 13 5M6.5 5H13v6.5" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Careers */}
+                <div
+                  className="nav_menu-row group"
+                  onClick={() => navigate("/join-us")}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <span className="nav_menu-label text-white font-medium text-lg md:text-xl">Careers</span>
+                  <div className="nav_menu-icon text-white/70 group-hover:text-white">
+                    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+                      <path d="M5 13 13 5M6.5 5H13v6.5" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Contact */}
+                <div
+                  className="nav_menu-row group"
+                  onClick={() => navigate("/contact")}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <span className="nav_menu-label text-white font-medium text-lg md:text-xl">Contact</span>
+                  <div className="nav_menu-icon text-white/70 group-hover:text-white">
+                    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+                      <path d="M5 13 13 5M6.5 5H13v6.5" />
+                    </svg>
+                  </div>
+                </div>
+              </nav>
+
+              {/* Bottom Quick Demo Button in Nav Panel */}
+              <div className="nav_panel-cta-wrap mt-6 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false)
+                    onBookingOpen?.()
+                  }}
+                  className="button is-light w-full justify-between"
+                >
+                  <div className="button_text-col">
+                    <div className="button_text-row">
+                      <span className="button_text">Book a Free Demo</span>
+                    </div>
+                    <div className="button_text-row">
+                      <span className="button_text">Book a Free Demo</span>
+                    </div>
+                  </div>
+                  <div className="button_chip">
+                    <div className="button_chip-row">
+                      <div className="button_icon">
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.75" className="w-3.5 h-3.5">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false)
+                    onSupportOpen?.()
+                  }}
+                  className="button is-ghost w-full justify-between text-white border-white/20"
+                >
+                  <div className="button_text-col">
+                    <div className="button_text-row">
+                      <span className="button_text">24/7 Support</span>
+                    </div>
+                    <div className="button_text-row">
+                      <span className="button_text">24/7 Support</span>
+                    </div>
+                  </div>
+                  <div className="button_chip">
+                    <div className="button_chip-row">
+                      <div className="button_icon">
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.75" className="w-3.5 h-3.5">
+                          <path d="M5 13 13 5M6.5 5H13v6.5" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </button>
               </div>
-            ))}
-          </div>
-
-          {/* Arrows — exact pulla */}
-          <div className="pulla-menu-arrows">
-            <button
-              className="pulla-arrow-btn"
-              onClick={() => setHovered(h => Math.max(0, h - 1))}
-              aria-label="Previous"
-            >←</button>
-            <div className="pulla-arrow-line" />
-            <button
-              className="pulla-arrow-btn"
-              onClick={() => setHovered(h => Math.min(MENU_ITEMS.length - 1, h + 1))}
-              aria-label="Next"
-            >→</button>
-          </div>
-
-          {/* Active page label (replaces preview image) */}
-          <div
-            className="pulla-menu-preview-label"
-            style={{
-              marginTop: "24px",
-              opacity: 0,
-              transform: "translateY(12px)",
-              transition: "all 0.5s cubic-bezier(0.16,1,0.3,1) 0.5s",
-            }}
-          >
-            <span style={{
-              fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700,
-              letterSpacing: "0.2em", textTransform: "uppercase",
-              color: "rgba(33,37,41,0.3)",
-            }}>
-              Navigate to {MENU_ITEMS[hovered]?.label}
-            </span>
+            </div>
           </div>
         </div>
-
-        {/* Bottom bar */}
-        <div className="pulla-menu-bottom">
-          <p>© {new Date().getFullYear()} VeritasCo.Tech</p>
-          <button
-            onClick={() => { onBookingOpen?.(); setMenuOpen(false) }}
-            className="pulla-btn pulla-btn-primary"
-            style={{ fontSize: "12px", padding: "10px 22px" }}
-          >
-            Book Demo
-          </button>
-        </div>
-      </div>
+      </header>
     </>
   )
 }

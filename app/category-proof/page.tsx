@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { PageWrapper } from "@/components/page-wrapper"
-import { ScrollReveal } from "@/components/scroll-reveal"
+import { ArrowUpRight, ShieldCheck, Cpu, Cloud, Zap } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Category Proof — VeritasCo.Tech",
@@ -10,114 +10,113 @@ export const metadata: Metadata = {
 export default function CategoryProofPage() {
   return (
     <PageWrapper
-      badge="Category Proof"
-      title="Establishing a New Category"
-      description="VeritasCo is pioneering portable biometric attendance systems for schools, addressing the limitations of traditional fixed-device solutions with a handheld, flexible approach."
+      badge="Category Proof &amp; Innovation"
+      title="Establishing a new standard in educational technology."
+      description="VeritasCo is pioneering portable biometric attendance systems for schools, eliminating the bottlenecks and fragility of fixed wall-mounted hardware."
       breadcrumb={[{ label: "Category Proof", href: "/category-proof" }]}
+      darkHero
     >
-      <ScrollReveal>
-        <section className="container mx-auto px-4 md:px-6 py-6 md:py-12">
-          <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-6 md:p-12">
-            <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-start mb-8 md:mb-12">
-              <div className="space-y-4">
-                <div className="soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-5 md:p-8 card-hover-effect border border-border/30">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center mb-4 border border-primary/10">
-                    <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <h2 className="text-xl font-bold text-foreground mb-3">Limitations of Traditional Solutions</h2>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                    Traditional fixed-device solutions require complex wiring, lack flexibility, and often cause bottlenecks when students queue up. They struggle with connectivity drops and fail to adapt to dynamic school environments.
-                  </p>
-                </div>
+      {/* ══ 1. COMPARISON HEAD-TO-HEAD ══ */}
+      <section className="section-light padding-section">
+        <div className="padding-global">
+          <div className="container-max">
+            <div className="section_header">
+              <div>
+                <h2 className="heading-style-h2 text-[#0a0a0a]">
+                  Category
+                  <br />
+                  differentiation.
+                </h2>
               </div>
-              <div className="space-y-4">
-                <div className="soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-5 md:p-8 card-hover-effect border border-border/30">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center mb-4 border border-primary/10">
-                    <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h2 className="text-xl font-bold text-foreground mb-3">Our Portable & Flexible Approach</h2>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                    We bring attendance directly to the classroom with a handheld, portable approach. Supported by real-time cloud sync and seamless offline capability, we eliminate hardware constraints completely.
-                  </p>
-                </div>
+              <div className="section_meta">
+                <div className="section_meta-text">( Portable Architecture )</div>
+                <div className="section_meta-text">Fixed hardware vs in-hand mobility</div>
               </div>
             </div>
 
-            <div className="soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-5 md:p-8 card-hover-effect mb-12 text-center border border-border/30">
-               <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-primary/10">
-                 <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                 </svg>
-               </div>
-               <h2 className="text-2xl font-bold text-foreground mb-4">Current Stage & Growth Strategy</h2>
-               <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                 Currently, VeritasCo is in its early stage and has not yet been widely featured in media or search platforms; however, we are actively engaging schools through demos, pilot programs, and direct outreach. We are building early awareness and preparing for upcoming launches and partnerships to strengthen visibility in this category.
-               </p>
-            </div>
-            
-            <div className="relative mb-8">
-              <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                <div className="w-full border-t border-border/30"></div>
+            <div className="grid md:grid-cols-2 gap-8 mb-16">
+              {/* Traditional */}
+              <div className="p-8 md:p-12 rounded-2xl bg-white border border-black/10">
+                <div className="label-mono text-[10px] text-red-500 mb-4">( Legacy Approach )</div>
+                <h3 className="heading-style-h3 text-[#0a0a0a] mb-4">
+                  Limitations of Traditional Solutions
+                </h3>
+                <p className="text-sm md:text-base text-[#0a0a0a]/70 leading-relaxed font-normal">
+                  Traditional fixed-device solutions require complex wiring, lack flexibility, and often cause bottlenecks when students queue up. They struggle with connectivity drops and fail to adapt to dynamic school environments.
+                </p>
               </div>
-              <div className="relative flex justify-center">
-                <span className="bg-card px-4 text-lg font-bold text-foreground">Supporting Evidence</span>
+
+              {/* VeritasCo */}
+              <div className="p-8 md:p-12 rounded-2xl bg-[#0a0a0a] text-white border border-white/10">
+                <div className="label-mono is-light text-[10px] text-emerald-400 mb-4">( VeritasCo Category )</div>
+                <h3 className="heading-style-h3 text-white mb-4">
+                  Our Portable &amp; Flexible Approach
+                </h3>
+                <p className="text-sm md:text-base text-[#f5f4f0]/75 leading-relaxed font-normal">
+                  We bring attendance directly to the classroom with a handheld, portable approach. Supported by real-time cloud sync and seamless offline capability, we eliminate hardware constraints completely.
+                </p>
               </div>
             </div>
-            
-            <div className="max-w-2xl mx-auto space-y-6">
-              <a 
-                href="#" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-5 md:p-8 card-hover-effect border border-border/30 group transition-all"
+
+            {/* Growth Strategy */}
+            <div className="p-8 md:p-12 rounded-3xl bg-white border border-black/10 text-center max-w-4xl mx-auto">
+              <div className="label-mono text-[10px] mb-3">( Direct Outreach )</div>
+              <h3 className="heading-style-h3 text-[#0a0a0a] mb-4">
+                Current Stage &amp; Growth Strategy
+              </h3>
+              <p className="text-sm md:text-base text-[#0a0a0a]/70 leading-relaxed max-w-2xl mx-auto">
+                Currently, VeritasCo is in its early stage and has not yet been widely featured in media or search platforms; however, we are actively engaging schools through demos, pilot programs, and direct outreach. We are building early awareness and preparing for upcoming launches and partnerships to strengthen visibility in this category.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 2. SUPPORTING EVIDENCE ══ */}
+      <section className="section-dark padding-section">
+        <div className="padding-global">
+          <div className="container-max max-w-3xl mx-auto">
+            <div className="section_header is-center text-center">
+              <div className="label-mono is-light mb-2">Documentation</div>
+              <h2 className="heading-style-h2 text-white">
+                Supporting Evidence.
+              </h2>
+            </div>
+
+            <div className="space-y-4">
+              <a
+                href="#"
+                className="p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/25 flex items-center justify-between text-white transition-all group"
               >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-sm md:text-base font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                      Media, Search & Community Association
-                    </h3>
-                    <p className="text-xs md:text-sm text-muted-foreground">
-                      View our Drive folder containing brand association evidence in this category.
-                    </p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </div>
+                <div>
+                  <h3 className="font-display text-lg font-semibold text-white mb-1 group-hover:text-white/80">
+                    Media, Search &amp; Community Association
+                  </h3>
+                  <p className="text-xs md:text-sm text-white/50 font-mono">
+                    View brand association evidence in this category.
+                  </p>
                 </div>
+                <ArrowUpRight className="w-5 h-5 text-white/40 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </a>
 
-              <a 
-                href="#" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-5 md:p-8 card-hover-effect border border-border/30 group transition-all"
+              <a
+                href="#"
+                className="p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/25 flex items-center justify-between text-white transition-all group"
               >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-sm md:text-base font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                      Press Mentions, SEO Rank & Social Proof
-                    </h3>
-                    <p className="text-xs md:text-sm text-muted-foreground">
-                      View our supporting documents, press mentions, and social evidence.
-                    </p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </div>
+                <div>
+                  <h3 className="font-display text-lg font-semibold text-white mb-1 group-hover:text-white/80">
+                    Press Mentions, SEO Rank &amp; Social Proof
+                  </h3>
+                  <p className="text-xs md:text-sm text-white/50 font-mono">
+                    View supporting documents, pilot feedback, and social evidence.
+                  </p>
                 </div>
+                <ArrowUpRight className="w-5 h-5 text-white/40 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </a>
             </div>
           </div>
-        </section>
-      </ScrollReveal>
+        </div>
+      </section>
     </PageWrapper>
   )
 }

@@ -2,305 +2,172 @@
 
 import { useState } from "react"
 import { MainNav } from "@/components/main-nav"
+import { SiteFooter } from "@/components/site-footer"
 import { PullaPreloader } from "@/components/pulla-preloader"
+import { VantraButton } from "@/components/vantra-button"
 import BookingModal from "@/components/booking-modal"
 import ContactSupportModal from "@/components/contact-support-modal"
-import { TransitionLink } from "@/components/transition-link"
-import { Linkedin, Instagram, Facebook, Twitter } from "lucide-react"
+import { Linkedin, Instagram, Facebook, Twitter, ArrowUpRight, Mail, Phone, MapPin } from "lucide-react"
 
 export default function ContactPage() {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [isSupportOpen, setIsSupportOpen] = useState(false)
 
+  const socials = [
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/veritasco", icon: Linkedin },
+    { label: "Instagram", href: "https://www.instagram.com/veritasco.tech", icon: Instagram },
+    { label: "Facebook", href: "https://facebook.com/veritascotech", icon: Facebook },
+    { label: "Twitter", href: "https://twitter.com/veritascotech", icon: Twitter },
+  ]
+
   return (
     <>
       <PullaPreloader pageName="Contact" />
-      <main style={{ backgroundColor: "#f4f3f0", minHeight: "100svh", overflowX: "hidden" }}>
+
+      <main className="relative min-h-svh bg-[#f5f4f0] text-[#0a0a0a] overflow-x-hidden">
         <MainNav
           onSupportOpen={() => setIsSupportOpen(true)}
           onBookingOpen={() => setIsBookingOpen(true)}
         />
 
-        {/* ══ PULLA-EXACT CONTACT LAYOUT ══
-            - Giant "Contact Us" fills the screen vertically
-            - Content row (email | line | address | social) sits BELOW the title
-            - No hero image, no hero section — just pure typography + light bg */}
-        <section
-          style={{
-            minHeight: "100svh",
-            backgroundColor: "#f4f3f0",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            padding: "120px 0 0",
-          }}
-        >
-          {/* Container */}
-          <div style={{ padding: "0 8% 7%" }}>
-
-            {/* Giant "Contact Us" - Pulla Exact Repeating Scroll Effect */}
-            <div style={{ position: "relative", marginBottom: "40px" }}>
-              
-              {/* Layer 1: Primary Title (Solid with layered skew reveal) */}
-              <div className="font-curtain contact-transition" style={{ position: "relative" }}>
-                <div className="overflow-hidden" style={{ lineHeight: "0.88" }}>
-                  <div className="animate-marquee">
-                    {[1, 2, 3].map(i => (
-                      <h1
-                        key={i}
-                        className="animate-skew-reveal-bg"
-                        style={{
-                          fontFamily: "'Cormorant Garamond', Georgia, serif",
-                          fontSize: "clamp(60px, 13.5vw, 190px)",
-                          fontWeight: 700,
-                          color: "#0d5fb7",
-                          lineHeight: "0.88",
-                          letterSpacing: "-0.02em",
-                          textTransform: "uppercase",
-                          margin: "0 40px 0 0",
-                          display: "block",
-                          transformOrigin: "left center"
-                        }}
-                      >
-                        Contact Us
-                      </h1>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Foreground Black Mask Wipe */}
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, overflow: "hidden", lineHeight: "0.88", pointerEvents: "none" }}>
-                  <div className="animate-marquee">
-                    {[1, 2, 3].map(i => (
-                      <span
-                        key={i}
-                        className="animate-skew-reveal-fg"
-                        style={{
-                          fontFamily: "'Cormorant Garamond', Georgia, serif",
-                          fontSize: "clamp(60px, 13.5vw, 190px)",
-                          fontWeight: 700,
-                          color: "#212529",
-                          lineHeight: "0.88",
-                          letterSpacing: "-0.02em",
-                          textTransform: "uppercase",
-                          margin: "0 40px 0 0",
-                          display: "block",
-                          transformOrigin: "left center",
-                        }}
-                      >
-                        Contact Us
-                      </span>
-                    ))}
-                  </div>
-                </div>
+        {/* ══ VANTRA EDITORIAL CONTACT HERO ══ */}
+        <section className="pt-36 pb-20 md:pt-48 md:pb-28">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="mb-6">
+                <span className="label-mono px-3 py-1 rounded-full border border-black/10 bg-black/5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0a0a0a] animate-pulse" />
+                  Contact · Bhubaneswar — India
+                </span>
               </div>
 
-              {/* Layer 2: Repeated Outline Titles (The 'title-repeat' Scroll Effect) */}
-              {[1, 2].map((i) => (
-                <div key={i} className="font-curtain contact-transition title-repeat" style={{ marginTop: "8px" }}>
-                  <div className="overflow-hidden" style={{ lineHeight: "0.88" }}>
-                    <div className="animate-marquee">
-                      {[1, 2, 3].map(j => (
-                        <h1
-                          key={j}
-                          className="animate-skew-reveal-bg"
-                          style={{
-                            fontFamily: "'Cormorant Garamond', Georgia, serif",
-                            fontSize: "clamp(60px, 13.5vw, 190px)",
-                            fontWeight: 700,
-                            color: "transparent",
-                            WebkitTextStroke: "1.5px rgba(33,37,41,0.1)",
-                            lineHeight: "0.88",
-                            letterSpacing: "-0.02em",
-                            textTransform: "uppercase",
-                            margin: "0 40px 0 0",
-                            display: "block",
-                            transformOrigin: "left center",
-                            animationDelay: `${0.1 + (i * 0.15)}s`
-                          }}
-                        >
-                          Contact Us
-                        </h1>
-                      ))}
-                    </div>
+              <h1 className="heading-style-h0 text-[#0a0a0a] mb-12">
+                Let’s build
+                <br />
+                together.
+              </h1>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-4 mb-20">
+                <VantraButton
+                  onClick={() => setIsBookingOpen(true)}
+                  variant="dark"
+                  ariaLabel="Book a Live Product Demo"
+                >
+                  Book a Product Demo
+                </VantraButton>
+
+                <VantraButton
+                  onClick={() => setIsSupportOpen(true)}
+                  variant="ghost"
+                  className="border-black/20 text-[#0a0a0a]"
+                  ariaLabel="Contact Support Desk"
+                >
+                  Contact Support Desk
+                </VantraButton>
+              </div>
+
+              {/* ══ METADATA INFORMATION GRID ══ */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-12 border-t border-black/10">
+                {/* Email */}
+                <div className="space-y-3">
+                  <div className="label-mono text-[10px] text-black/40">Direct Email</div>
+                  <div>
+                    <a
+                      href="mailto:info@veritasco.tech"
+                      className="font-display text-xl md:text-2xl font-medium text-[#0a0a0a] hover:opacity-60 transition-opacity block"
+                    >
+                      info@veritasco.tech
+                    </a>
+                    <p className="text-xs text-black/50 mt-1 font-mono">Replies within 4 business hours</p>
                   </div>
                 </div>
-              ))}
-            </div>
 
-            {/* ── Content row — pulla exact: email | line | address | social ── */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                gap: "clamp(24px, 4vw, 64px)",
-                marginTop: "clamp(40px, 6vw, 80px)",
-                flexWrap: "wrap",
-              }}
-            >
-              {/* Contact Info (Email & Phone) — large links */}
-              <div style={{ flex: "2 1 240px", display: "flex", flexDirection: "column", gap: "24px" }}>
-                <div>
-                  <h3 style={{
-                    fontFamily: "'Open Sans', sans-serif",
-                    fontSize: "9px", fontWeight: 700,
-                    letterSpacing: "0.2em", textTransform: "uppercase",
-                    color: "rgba(33,37,41,0.3)", marginBottom: "8px",
-                  }}>Email Us</h3>
-                  <a
-                    href="mailto:info@veritasco.tech"
-                    style={{
-                      fontFamily: "'Open Sans', sans-serif",
-                      fontSize: "clamp(16px, 2vw, 24px)",
-                      fontWeight: 600,
-                      color: "#0d5fb7",
-                      textDecoration: "none",
-                      borderBottom: "1px solid rgba(13,95,183,0.2)",
-                      paddingBottom: "4px",
-                      display: "inline-block",
-                      transition: "border-color 0.3s ease",
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = "#0d5fb7")}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(13,95,183,0.2)")}
-                  >
-                    info@veritasco.tech
-                  </a>
+                {/* Phone */}
+                <div className="space-y-3">
+                  <div className="label-mono text-[10px] text-black/40">Direct Phone</div>
+                  <div>
+                    <a
+                      href="tel:+918709442363"
+                      className="font-display text-xl md:text-2xl font-medium text-[#0a0a0a] hover:opacity-60 transition-opacity block"
+                    >
+                      +91 87094 42363
+                    </a>
+                    <p className="text-xs text-black/50 mt-1 font-mono">Mon – Sat: 9:00 AM – 7:00 PM IST</p>
+                  </div>
                 </div>
 
-                <div>
-                  <h3 style={{
-                    fontFamily: "'Open Sans', sans-serif",
-                    fontSize: "9px", fontWeight: 700,
-                    letterSpacing: "0.2em", textTransform: "uppercase",
-                    color: "rgba(33,37,41,0.3)", marginBottom: "8px",
-                  }}>Call Us</h3>
-                  <a
-                    href="tel:+918709442363"
-                    style={{
-                      fontFamily: "'Open Sans', sans-serif",
-                      fontSize: "clamp(16px, 2vw, 24px)",
-                      fontWeight: 600,
-                      color: "#0d5fb7",
-                      textDecoration: "none",
-                      borderBottom: "1px solid rgba(13,95,183,0.2)",
-                      paddingBottom: "4px",
-                      display: "inline-block",
-                      transition: "border-color 0.3s ease",
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = "#0d5fb7")}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(13,95,183,0.2)")}
-                  >
-                    +91 87094 42363
-                  </a>
+                {/* Headquarters */}
+                <div className="space-y-3">
+                  <div className="label-mono text-[10px] text-black/40">Studio Location</div>
+                  <address className="not-italic text-sm text-[#0a0a0a]/80 leading-relaxed font-body">
+                    <strong className="font-semibold block text-[#0a0a0a]">VeritasCo Technologies</strong>
+                    Bhubaneswar, Odisha<br />
+                    India — 751001
+                  </address>
                 </div>
-              </div>
 
-              {/* Vertical separator line */}
-              <div style={{
-                width: "1px",
-                height: "80px",
-                background: "rgba(33,37,41,0.12)",
-                flexShrink: 0,
-                alignSelf: "center",
-              }} />
-
-              {/* Address */}
-              <div style={{ flex: "1 1 160px", display: "flex", flexDirection: "column" }}>
-                <h3 style={{
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontSize: "9px", fontWeight: 700,
-                  letterSpacing: "0.2em", textTransform: "uppercase",
-                  color: "rgba(33,37,41,0.3)", marginBottom: "16px",
-                }}>Visit Us</h3>
-                <address style={{
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontSize: "14px", fontWeight: 400,
-                  color: "#212529", lineHeight: "1.8",
-                  fontStyle: "normal",
-                  position: "relative",
-                  paddingLeft: "16px",
-                  borderLeft: "2px solid #0d5fb7",
-                }}>
-                  <strong style={{ fontWeight: 700, color: "#0d5fb7", display: "block", marginBottom: "4px" }}>VeritasCo.Tech</strong>
-                  Bhubaneswar, Odisha<br />
-                  India — 751001
-                </address>
-              </div>
-
-              {/* Social */}
-              <div style={{ flex: "1 1 140px" }}>
-                <h3 style={{
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontSize: "9px", fontWeight: 700,
-                  letterSpacing: "0.2em", textTransform: "uppercase",
-                  color: "rgba(33,37,41,0.3)", marginBottom: "16px",
-                }}>Social Media</h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {[
-                    { label: "LinkedIn",  href: "https://www.linkedin.com/company/veritasco", icon: Linkedin },
-                    { label: "Instagram", href: "https://www.instagram.com/veritasco.tech", icon: Instagram },
-                    { label: "Facebook",  href: "https://facebook.com/veritascotech", icon: Facebook },
-                    { label: "Twitter",   href: "https://twitter.com/veritascotech", icon: Twitter },
-                  ].map(s => {
-                    const Icon = s.icon;
-                    return (
+                {/* Social Channels */}
+                <div className="space-y-3">
+                  <div className="label-mono text-[10px] text-black/40">Follow The Studio</div>
+                  <div className="flex flex-col gap-2">
+                    {socials.map((s) => (
                       <a
                         key={s.label}
                         href={s.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center"
-                        style={{
-                          fontFamily: "'Open Sans', sans-serif",
-                          fontSize: "14px", fontWeight: 600,
-                          color: "#212529", textDecoration: "none",
-                          transition: "color 0.3s ease",
-                        }}
-                        onMouseEnter={e => (e.currentTarget.style.color = "#0d5fb7")}
-                        onMouseLeave={e => (e.currentTarget.style.color = "#212529")}
+                        className="inline-flex items-center justify-between py-1 text-sm text-[#0a0a0a]/75 hover:text-[#0a0a0a] border-b border-black/5 transition-colors"
                       >
-                        <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[rgba(33,37,41,0.15)] text-[rgba(33,37,41,0.6)] group-hover:border-[#0d5fb7] group-hover:bg-[#0d5fb7] group-hover:text-white transition-all duration-300 mr-3">
-                          <Icon className="w-4 h-4" />
-                        </span>
-                        <span className="relative overflow-hidden inline-flex items-center">
-                          {s.label}
-                          <svg className="w-3 h-3 ml-2 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                          </svg>
-                        </span>
+                        <span>{s.label}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100" />
                       </a>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Minimal footer */}
-        <footer style={{
-          background: "#2d3a52",
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          padding: "32px 8%",
-          display: "flex", flexWrap: "wrap",
-          alignItems: "center", justifyContent: "space-between", gap: "16px",
-        }}>
-          <p style={{
-            fontFamily: "'Open Sans',sans-serif", fontSize: "11px",
-            color: "rgba(255,255,255,0.2)", letterSpacing: "0.08em",
-          }}>
-            © {new Date().getFullYear()} VeritasCo.Tech
-          </p>
-          <div style={{ display: "flex", gap: "32px" }}>
-            {[{l:"Home",h:"/"},{l:"School ERP",h:"/erp"},{l:"Restaurant POS",h:"/pos"},{l:"Privacy",h:"/privacy-policy"}].map(({l,h}) => (
-              <TransitionLink key={l} href={h} style={{
-                fontFamily: "'Open Sans',sans-serif", fontSize: "12px",
-                fontWeight: 300, color: "rgba(255,255,255,0.3)", textDecoration: "none",
-              }}>{l}</TransitionLink>
-            ))}
+        {/* ══ MAP / COMMITMENT SECTION ══ */}
+        <section className="section-dark padding-section">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                  <div className="label-mono is-light mb-3">( Response Commitment )</div>
+                  <h2 className="heading-style-h2 text-white mb-6">
+                    Zero waiting.
+                    <br />
+                    Direct engineers.
+                  </h2>
+                  <p className="text-[#f5f4f0]/70 text-base md:text-lg leading-relaxed">
+                    When you contact VeritasCo, you are not handed down to junior script readers. You speak directly with the team who designs the hardware and writes the cloud code.
+                  </p>
+                </div>
+
+                <div className="p-8 rounded-2xl bg-white/[0.04] border border-white/10 space-y-4">
+                  <div className="flex items-center gap-3 text-white font-display text-lg">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    <span>Active Support &amp; Deployment Hours</span>
+                  </div>
+                  <div className="text-sm text-white/60 font-mono space-y-1">
+                    <div>Admissions &amp; Academic Onboarding: Active</div>
+                    <div>Hardware Dispatch &amp; Replacement: Immediate</div>
+                    <div>24/7 Cloud Monitoring: Operational</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </footer>
+        </section>
+
+        {/* Footer */}
+        <SiteFooter
+          onSupportOpen={() => setIsSupportOpen(true)}
+          onBookingOpen={() => setIsBookingOpen(true)}
+        />
 
         <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
         <ContactSupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />

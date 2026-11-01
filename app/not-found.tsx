@@ -1,46 +1,47 @@
 import { PageWrapper } from "@/components/page-wrapper"
 import { ScrollReveal } from "@/components/scroll-reveal"
-import { TransitionLink } from "@/components/transition-link"
-import { ArrowLeft } from "lucide-react"
+import { VantraButton } from "@/components/vantra-button"
 
 export default function NotFound() {
   return (
     <PageWrapper
-      badge="404 — Not Found"
+      badge="404 — Status Error"
       title="Page Not Found"
-      description="The page you are looking for doesn't exist or has been moved."
+      description="The page you are looking for doesn't exist or has been moved to a different coordinate."
       breadcrumb={[{ label: "404 Error", href: "#" }]}
       bgImage="/hero-bg.png"
     >
-      <section className="section-dark pulla-section relative min-h-[50vh] flex flex-col items-center justify-center text-center overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(135deg, rgba(93,109,142,0.15) 0%, #2d3a52 100%)" }} />
-        
-        <div className="container mx-auto px-8 md:px-14 max-w-[800px] relative z-10">
-          <ScrollReveal>
-            <h1 
-              style={{ 
-                fontFamily: "var(--font-display)", 
-                fontSize: "clamp(60px, 15vw, 180px)", 
-                fontWeight: 500, 
-                color: "rgba(255,255,255,0.05)",
-                lineHeight: 1,
-                marginBottom: "-20px"
-              }}
-            >
+      <section className="relative w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 flex flex-col items-center justify-center text-center">
+        <ScrollReveal>
+          <div className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-10 md:p-20 shadow-sm flex flex-col items-center max-w-2xl mx-auto">
+            <span className="label-mono text-xs text-[#737373] mb-4">
+              ERROR CODE [ 404 ]
+            </span>
+            
+            <div className="heading-style-h0 text-[#0a0a0a] leading-none mb-6 font-semibold tracking-tighter">
               404
-            </h1>
-            <h2 className="pulla-section-title text-white mb-6">Lost in the cloud?</h2>
-            <p className="font-light mb-12 max-w-lg mx-auto" style={{ fontFamily: "var(--font-body)", fontSize: "16px", color: "rgba(255,255,255,0.6)", lineHeight: "1.8" }}>
+            </div>
+
+            <h2 className="heading-style-h3 text-[#0a0a0a] tracking-tight mb-4">
+              Lost in the cloud?
+            </h2>
+
+            <p className="text-sm md:text-base text-[#737373] leading-relaxed max-w-md mb-10 font-normal">
               It seems we can't find the page you're looking for. It might have been removed, renamed, or temporarily unavailable.
             </p>
-            
-            <div className="flex items-center justify-center gap-4">
-              <TransitionLink href="/" className="pulla-btn pulla-btn-outline-white flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" /> Back to Home
-              </TransitionLink>
+
+            <div className="flex items-center justify-center">
+              <VantraButton href="/" variant="dark">
+                Return to Homepage
+              </VantraButton>
             </div>
-          </ScrollReveal>
-        </div>
+
+            <div className="mt-12 pt-6 border-t border-[rgba(10,10,10,0.06)] w-full flex items-center justify-between text-[11px] label-mono text-[#a3a3a3]">
+              <span>VERITASCO CLOUD NETWORK</span>
+              <span>ORIGIN VERIFIED</span>
+            </div>
+          </div>
+        </ScrollReveal>
       </section>
     </PageWrapper>
   )

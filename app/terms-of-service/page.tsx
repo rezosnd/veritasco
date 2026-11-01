@@ -57,37 +57,45 @@ export default function TermsOfServicePage() {
       bgImage="/hero-bg.png"
     >
       <ScrollReveal>
-        <section className="container mx-auto px-4 md:px-6 py-6 md:py-12">
-          <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-6 md:p-10">
-            <div className="flex flex-col gap-3 mb-8 border-b border-border pb-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold">
-                Last updated: May 2, 2026
-              </p>
-              <p className="text-sm md:text-base text-muted-foreground max-w-3xl leading-relaxed">
-                Please read these terms carefully before utilizing our SaaS products or biometric hardware. By using our services, you agree to comply with the rules outlined below.
-              </p>
+        <section className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          {/* Header Card */}
+          <div className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-8 md:p-12 mb-10 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-6 border-b border-[rgba(10,10,10,0.08)]">
+              <span className="label-mono text-xs text-[#737373]">
+                LAST UPDATED: MAY 2, 2026
+              </span>
+              <span className="label-mono text-xs text-[#0a0a0a]">
+                CONTRACTUAL GOVERNANCE & SLA
+              </span>
             </div>
+            <p className="text-base md:text-lg text-[#737373] leading-relaxed font-normal">
+              Please read these terms carefully before utilizing our SaaS products or biometric hardware. By using our services, you agree to comply with the rules outlined below.
+            </p>
+          </div>
 
-            <div className="grid gap-5 md:gap-6">
-               {sections.map((section) => (
-                <article
-                  key={section.title}
-                  className="soft-shadow-inset bg-background rounded-xl md:rounded-2xl p-5 md:p-7"
-                >
-                  <h2 className="text-lg md:text-xl font-bold text-foreground mb-3">
+          {/* Terms Sections */}
+          <div className="space-y-6">
+            {sections.map((section) => (
+              <article
+                key={section.title}
+                className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-8 md:p-10 shadow-sm hover:border-[rgba(10,10,10,0.18)] transition-colors"
+              >
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[rgba(10,10,10,0.06)]">
+                  <h2 className="heading-style-h4 text-[#0a0a0a] tracking-tight">
                     {section.title}
                   </h2>
-                  <ul className="space-y-2.5 text-sm md:text-base text-muted-foreground leading-relaxed">
-                    {section.items.map((item) => (
-                      <li key={item} className="flex gap-3">
-                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
+                </div>
+
+                <ul className="space-y-3.5">
+                  {section.items.map((item) => (
+                    <li key={item} className="flex items-start gap-3.5 text-sm md:text-base text-[#737373] leading-relaxed">
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#0a0a0a] flex-shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
         </section>
       </ScrollReveal>

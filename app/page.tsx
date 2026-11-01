@@ -1,490 +1,647 @@
 "use client"
 
-import { MainNav } from "@/components/main-nav"
-import { TransitionLink } from "@/components/transition-link"
-import { ScrollReveal } from "@/components/scroll-reveal"
-import { PullaPreloader } from "@/components/pulla-preloader"
+import { useState } from "react"
 import Image from "next/image"
-import { useState, useEffect, useRef } from "react"
+import Link from "next/link"
+import { MainNav } from "@/components/main-nav"
+import { SiteFooter } from "@/components/site-footer"
+import { VantraButton } from "@/components/vantra-button"
+import { CalDirectEmbed } from "@/components/cal-direct-embed"
 import BookingModal from "@/components/booking-modal"
 import ContactSupportModal from "@/components/contact-support-modal"
-import { SiteFooter } from "@/components/site-footer"
-import { GraduationCap, Utensils, ArrowRight, ArrowDown, Zap, ShieldCheck, LifeBuoy, ShoppingCart, Landmark } from "lucide-react"
-
-/* ── Scroll reveal for lines using pulla's exact .focus--mask approach ── */
-function useRevealLines(ref: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const lines = el.querySelectorAll<HTMLElement>(".pulla-reveal-line")
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          lines.forEach((line, i) =>
-            setTimeout(() => line.classList.add("visible"), i * 130)
-          )
-          observer.unobserve(entry.target)
-        }
-      },
-      { threshold: 0.15 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [ref])
-}
+import {
+  GraduationCap,
+  Utensils,
+  ShoppingCart,
+  Landmark,
+  ArrowUpRight,
+  Calendar,
+  CheckCircle2,
+} from "lucide-react"
 
 export default function Home() {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [isSupportOpen, setIsSupportOpen] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(0)
 
-  const platformRef = useRef<HTMLElement>(null)
-  const visionRef = useRef<HTMLElement>(null)
-  useRevealLines(platformRef)
-  useRevealLines(visionRef)
+  const faqItems = [
+    {
+      q: "How does the biometric attendance hardware operate?",
+      a: "Our handheld biometric devices operate in-hand anywhere across classrooms, assembly fields, or school buses. With full offline storage for up to 10,000 records, attendance marks in under 2 seconds per student and automatically synchronizes with the cloud when connected.",
+    },
+    {
+      q: "How long does onboarding and deployment take?",
+      a: "For schools, full deployment, staff onboarding, and device setup are completed in just 6 days. For Restaurant POS, we configure digital menus and kitchen displays within 48 hours.",
+    },
+    {
+      q: "Can parents monitor attendance and pay school fees via mobile?",
+      a: "Yes. Parents receive instant SMS alerts the moment a child checks in. The native parent mobile app provides real-time access to digital diaries, fee payment via UPI/cards, homework submissions, and bus tracking.",
+    },
+    {
+      q: "What makes Restaurant POS different from standard billing software?",
+      a: "VeritasCo Restaurant POS eliminates waiter bottlenecks with contactless QR table ordering. Customers scan, order, and pay from their phones while orders stream straight to the Kitchen Display System (KDS) in real time.",
+    },
+    {
+      q: "Is Nidhi Software compliant with Government of India regulations?",
+      a: "Strictly. Our Nidhi core banking software is designed purely as per the Government Nidhi Companies Act, providing full member KYC, share management, loans, term deposits, and 100+ automated MIS accounting reports.",
+    },
+  ]
 
   return (
     <>
-      <PullaPreloader pageName="Home" />
-      <main className="relative min-h-svh overflow-x-hidden">
+      <main className="relative min-h-svh overflow-x-hidden bg-[#f5f4f0] text-[#0a0a0a]">
+        {/* Top Minimal Floating Navbar */}
         <MainNav
           onSupportOpen={() => setIsSupportOpen(true)}
           onBookingOpen={() => setIsBookingOpen(true)}
         />
 
-        {/* ══ HERO — steel-blue + 3D glass cube ══ */}
-        <section className="relative min-h-screen section-hero flex flex-col overflow-hidden">
-          <div className="absolute inset-0 z-0 overflow-hidden">
-            <Image src="/hero-bg.png" alt="" fill priority className="object-cover animate-hero-bg scale-105" quality={95} />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#141414]/80 via-[#141414]/30 to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#141414]/90 pointer-events-none" />
-
-            {/* Dynamic Glass Orbs */}
-            <div className="absolute top-[10%] right-[15%] w-[400px] h-[400px] bg-[#9bd4d7]/10 rounded-full blur-[100px] animate-pulse" />
-            <div className="absolute bottom-[20%] left-[5%] w-[300px] h-[300px] bg-[#3d4d6a]/20 rounded-full blur-[80px] animate-blob animation-delay-2000" />
-          </div>
-
-          <div className="relative z-10 flex flex-col justify-end flex-1 px-8 md:px-14 pb-16 md:pb-20 pt-32 pointer-events-none">
-            {/* Badge */}
-            <div className="focus--mask mb-6 pointer-events-auto">
-              <span
-                className="focus--mask-inner inline-flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5"
-                style={{ fontFamily: "var(--font-body)", fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.65)" }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-white/65 animate-pulse" />
-                VeritasCo Ecosystem
-              </span>
+        {/* ══ 1. HERO SECTION (Framed Canvas with 4-Side Soft Bone Border) ══ */}
+        <div className="hero_frame_wrap">
+          <section data-surface="dark" data-screen-label="Hero" className="section_hero">
+            {/* Cinematic Background Image */}
+            <div className="hero_image">
+              <Image
+                src="/hero1.png"
+                alt="VeritasCo Platform Background"
+                fill
+                priority
+                quality={95}
+                className="object-cover scale-105"
+              />
             </div>
 
-            {/* Giant serif hero heading — Staggered Letter Reveal */}
-            <h1 className="pulla-hero-title text-white mb-8">
-              <span className="focus--mask flex overflow-hidden">
-                {"VeritasCo".split("").map((char, i) => (
-                  <span key={`v-${i}`} className="focus--mask-inner animate-pulla-reveal" style={{ animationDelay: `${2400 + i * 80}ms`, animationDuration: "1.6s", display: "inline-block" }}>
-                    {char}
-                  </span>
-                ))}
-              </span>
-            </h1>
+            <div className="hero_content">
+              <div className="padding-global">
+                <div className="container-max">
+                  <div className="hero_layout">
+                    {/* Left Column: Editorial Heading & Subtitle */}
+                    <div className="max-w-2xl">
+                      <h1 className="heading-style-h0 text-white mb-6">
+                        Build.{" "}
+                        <br />
+                        Every System.{" "}
+                        <br />
+                        Smarter.
+                      </h1>
 
-            {/* Bottom row */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-6 border-t border-white/15 pointer-events-auto">
-              <div className="focus--mask">
-                <p
-                  className="focus--mask-inner max-w-md text-base md:text-lg font-light leading-relaxed animate-pulla-reveal"
-                  style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.75)", animationDelay: "2900ms" }}
-                >
-                  From schools to restaurants — manage everything with powerful,
-                  scalable, cloud-based systems built for the modern age.
+                      <p className="text-sm sm:text-base md:text-lg font-normal leading-relaxed text-[#f5f4f0]/75 max-w-lg mb-8">
+                        We engineer unified operational platforms — from India&apos;s #1 School ERP &amp; Handheld Biometrics to QR Restaurant POS, Nidhi Core Banking, and Custom Software Architecture.
+                      </p>
+
+                      <div className="buttons_row">
+                        <VantraButton
+                          href="#work"
+                          variant="light"
+                          ariaLabel="Explore Solutions"
+                        >
+                          Explore Solutions
+                        </VantraButton>
+
+                        <VantraButton
+                          onClick={() => setIsBookingOpen(true)}
+                          variant="ghost"
+                          className="text-white border-white/30"
+                          ariaLabel="Book a Free Demo"
+                        >
+                          Book a Free Demo
+                        </VantraButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* ══ 2. STATEMENT & MARQUEE SECTION ══ */}
+        <section className="section_statement">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="statement_wrap">
+                <p className="statement_text">
+                  VeritasCo builds School ERP, digital{" "}
+                  <br className="hidden md:inline" />
+                  POS, and local commerce. All of it{" "}
+                  <br className="hidden md:inline" />
+                  made to hold together.
                 </p>
+
+                {/* Infinite Partner / Institution Marquee */}
+                <div className="statement_marquee">
+                  <div className="statement_track">
+                    {/* First Loop */}
+                    <div className="statement_set">
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <GraduationCap className="w-6 h-6 text-black/40" />
+                        <span>Delhi Public School</span>
+                      </div>
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <Utensils className="w-6 h-6 text-black/40" />
+                        <span>Spice Route Bistro</span>
+                      </div>
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <GraduationCap className="w-6 h-6 text-black/40" />
+                        <span>St. Mary's Convent</span>
+                      </div>
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <ShoppingCart className="w-6 h-6 text-black/40" />
+                        <span>BazarChowk Local</span>
+                      </div>
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <Landmark className="w-6 h-6 text-black/40" />
+                        <span>Modern Academy</span>
+                      </div>
+                    </div>
+
+                    {/* Duplicate Loop for Continuous Marquee */}
+                    <div className="statement_set" aria-hidden="true">
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <GraduationCap className="w-6 h-6 text-black/40" />
+                        <span>Delhi Public School</span>
+                      </div>
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <Utensils className="w-6 h-6 text-black/40" />
+                        <span>Spice Route Bistro</span>
+                      </div>
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <GraduationCap className="w-6 h-6 text-black/40" />
+                        <span>St. Mary's Convent</span>
+                      </div>
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <ShoppingCart className="w-6 h-6 text-black/40" />
+                        <span>BazarChowk Local</span>
+                      </div>
+                      <div className="flex items-center gap-3 font-display font-semibold text-xl tracking-tight text-black/60">
+                        <Landmark className="w-6 h-6 text-black/40" />
+                        <span>Modern Academy</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="statement_cover" />
+                </div>
               </div>
-              <div className="focus--mask flex items-center gap-4">
+            </div>
+          </div>
+        </section>
+
+        {/* ══ 3. WORK & SOLUTIONS GRID (Vantra Project Cards) ══ */}
+        <section id="work" data-screen-label="Selected work" className="section_work padding-section">
+          <div className="padding-global">
+            <div className="container-max">
+              {/* Header */}
+              <div className="section_header">
+                <div>
+                  <h2 className="heading-style-h2 text-[#0a0a0a]">
+                    Solutions{" "}
+                    <br className="hidden sm:inline" />
+                    that last.
+                  </h2>
+                </div>
+                <div className="section_meta">
+                  <div className="section_meta-text">( Featured Solutions )</div>
+                  <div className="section_meta-text">ERP, POS, Banking, Super App</div>
+                </div>
+              </div>
+
+              {/* 2x2 Grid */}
+              <div className="work_grid">
+                {/* Card 1: School ERP */}
+                <Link href="/erp" className="work_card group">
+                  <Image
+                    src="/erp_hero_bg.png"
+                    alt="School ERP Platform"
+                    fill
+                    className="work_card-img"
+                  />
+                  <div className="work_panel">
+                    <div className="work_panel-left">
+                      <h3 className="work_client">School ERP+</h3>
+                      <div className="work_meta-stack">
+                        <span className="work_meta-year">2026</span>
+                        <span className="work_meta-cat">Education &amp; Biometric</span>
+                      </div>
+                    </div>
+                    <div className="work_cta-wrap">
+                      <div className="work_link">
+                        <span className="work_link-text">Discover platform</span>
+                        <ArrowUpRight className="work_link-icon w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Card 2: Restaurant POS */}
+                <Link href="/pos" className="work_card group">
+                  <Image
+                    src="/pos-bg.png"
+                    alt="Restaurant POS System"
+                    fill
+                    className="work_card-img"
+                  />
+                  <div className="work_panel">
+                    <div className="work_panel-left">
+                      <h3 className="work_client">Restaurant POS®</h3>
+                      <div className="work_meta-stack">
+                        <span className="work_meta-year">2026</span>
+                        <span className="work_meta-cat">QR Ordering &amp; KDS</span>
+                      </div>
+                    </div>
+                    <div className="work_cta-wrap">
+                      <div className="work_link">
+                        <span className="work_link-text">Discover platform</span>
+                        <ArrowUpRight className="work_link-icon w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Card 3: BazarChowk Super App */}
                 <a
-                  href="#platform"
-                  className="pulla-btn pulla-btn-primary animate-pulla-reveal inline-flex items-center gap-2"
-                  style={{ animationDelay: "3000ms" }}
+                  href="https://bazarchowk.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="work_card group"
                 >
-                  Explore Products <ArrowRight className="w-4 h-4" />
-                </a>
-                <button
-                  onClick={() => setIsBookingOpen(true)}
-                  className="pulla-btn pulla-btn-outline-white animate-pulla-reveal"
-                  style={{ animationDelay: "3100ms" }}
-                >
-                  Book Demo
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Pulla-style scroll indicator — moved to right */}
-          <div className="pulla-scroll-indicator">
-            <div className="pulla-scroll-line" />
-            <div className="pulla-scroll-circle" onClick={() => {
-              const el = document.getElementById("platform")
-              if (el) {
-                const y = el.getBoundingClientRect().top + window.scrollY - 100
-                window.scrollTo({ top: y, behavior: "smooth" })
-              }
-            }}>
-              <ArrowDown className="w-4 h-4 text-white/70" />
-            </div>
-          </div>
-        </section>
-
-        {/* ══ PRODUCTS — glassmorphism upgrade ══ */}
-        <section id="products" className="section-light pulla-section" style={{ overflow: "hidden", position: "relative" }}>
-          {/* Blurred color blobs behind cards — pulla premium feel */}
-          <div aria-hidden style={{ position: "absolute", top: "10%", left: "-5%", width: "40vw", height: "40vw", borderRadius: "50%", background: "radial-gradient(circle, rgba(93,109,142,0.08) 0%, transparent 70%)", filter: "blur(60px)", pointerEvents: "none" }} />
-          <div aria-hidden style={{ position: "absolute", bottom: "10%", right: "-5%", width: "35vw", height: "35vw", borderRadius: "50%", background: "radial-gradient(circle, rgba(45,58,82,0.07) 0%, transparent 70%)", filter: "blur(60px)", pointerEvents: "none" }} />
-
-          <div className="container mx-auto px-8 md:px-14 max-w-[1400px]" style={{ position: "relative", zIndex: 1 }}>
-            <ScrollReveal animation="reveal-text">
-              <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-6">
-                <h2 className="pulla-section-title" style={{ color: "#212529" }}>
-                  <span className="focus--mask block">
-                    <span className="focus--mask-inner">Choose Your</span>
-                  </span>
-                  <span className="focus--mask block">
-                    <span className="focus--mask-inner">Solution</span>
-                  </span>
-                </h2>
-                <div className="focus--mask">
-                  <p className="focus--mask-inner" style={{ fontFamily: "var(--font-body)", fontSize: "15px", color: "rgba(33,37,41,0.55)", maxWidth: "280px", lineHeight: "1.7", fontWeight: 300 }}>
-                    Select the product built specifically for your industry.
-                  </p>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* ERP Card — glassmorphism light */}
-              <ScrollReveal animation="slide-left">
-                <TransitionLink href="/erp" className="group block h-full">
-                  <div
-                    className="relative overflow-hidden"
-                    style={{
-                      borderRadius: "24px",
-                      minHeight: "500px",
-                      background: "rgba(255,255,255,0.55)",
-                      backdropFilter: "blur(32px)",
-                      WebkitBackdropFilter: "blur(32px)",
-                      border: "1px solid rgba(255,255,255,0.85)",
-                      boxShadow: "0 8px 48px rgba(93,109,142,0.1), inset 0 1px 0 rgba(255,255,255,0.9)",
-                      padding: "44px 44px",
-                      transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.transform = "translateY(-8px)"
-                      e.currentTarget.style.boxShadow = "0 24px 72px rgba(93,109,142,0.18), inset 0 1px 0 rgba(255,255,255,0.9)"
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.transform = "translateY(0)"
-                      e.currentTarget.style.boxShadow = "0 8px 48px rgba(93,109,142,0.1), inset 0 1px 0 rgba(255,255,255,0.9)"
-                    }}
-                  >
-                    {/* Shimmer accent top-right */}
-                    <div aria-hidden style={{ position: "absolute", top: "-40px", right: "-40px", width: "200px", height: "200px", borderRadius: "50%", background: "radial-gradient(circle, rgba(93,109,142,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
-                    <div>
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", color: "rgba(33,37,41,0.3)", textTransform: "uppercase", display: "block", marginBottom: "36px" }}>01 — Education</span>
-                      <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px,4vw,56px)", fontWeight: 500, color: "#212529", lineHeight: 1.0, letterSpacing: "-0.02em", marginBottom: "18px" }}>School ERP</h3>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", color: "rgba(33,37,41,0.55)", lineHeight: "1.78", fontWeight: 300, maxWidth: "360px", marginBottom: "32px" }}>Smart school management with in-hand biometric attendance — fees, LMS, transport &amp; more.</p>
-                      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
-                        {["Biometric attendance", "Student & fee management", "LMS & analytics", "GPS transport tracking"].map(t => (
-                          <li key={t} style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "rgba(33,37,41,0.5)", display: "flex", alignItems: "center", gap: "12px" }}>
-                            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "rgba(93,109,142,0.4)", display: "block", flexShrink: 0 }} />{t}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "28px", borderTop: "1px solid rgba(33,37,41,0.07)", marginTop: "32px" }}>
-                      <div className="pulla-arrow-link">
-                        <span>Explore ERP</span>
-                        <span className="arrow-icon">→</span>
+                  <Image
+                    src="/clients.png"
+                    alt="BazarChowk Super App"
+                    fill
+                    className="work_card-img object-cover"
+                  />
+                  <div className="work_panel">
+                    <div className="work_panel-left">
+                      <h3 className="work_client">BazarChowk+</h3>
+                      <div className="work_meta-stack">
+                        <span className="work_meta-year">2026</span>
+                        <span className="work_meta-cat">Local Commerce Super App</span>
                       </div>
                     </div>
-                  </div>
-                </TransitionLink>
-              </ScrollReveal>
-
-              {/* POS Card — glassmorphism dark */}
-              <ScrollReveal animation="slide-right" delay={120}>
-                <TransitionLink href="/pos" className="group block h-full">
-                  <div
-                    className="relative overflow-hidden"
-                    style={{
-                      borderRadius: "24px",
-                      minHeight: "500px",
-                      background: "rgba(45,58,82,0.88)",
-                      backdropFilter: "blur(32px)",
-                      WebkitBackdropFilter: "blur(32px)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                      boxShadow: "0 8px 48px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)",
-                      padding: "44px 44px",
-                      transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.transform = "translateY(-8px)"
-                      e.currentTarget.style.boxShadow = "0 32px 80px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)"
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.transform = "translateY(0)"
-                      e.currentTarget.style.boxShadow = "0 8px 48px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)"
-                    }}
-                  >
-                    {/* Shimmer accent top-right */}
-                    <div aria-hidden style={{ position: "absolute", top: "-50px", right: "-50px", width: "220px", height: "220px", borderRadius: "50%", background: "radial-gradient(circle, rgba(155,212,215,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
-                    <div aria-hidden style={{ position: "absolute", bottom: "-30px", left: "-30px", width: "180px", height: "180px", borderRadius: "50%", background: "radial-gradient(circle, rgba(93,109,142,0.15) 0%, transparent 70%)", pointerEvents: "none" }} />
-                    <div style={{ position: "relative", zIndex: 1 }}>
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", display: "block", marginBottom: "36px" }}>02 — Food &amp; Hospitality</span>
-                      <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px,4vw,56px)", fontWeight: 500, color: "#ffffff", lineHeight: 1.0, letterSpacing: "-0.02em", marginBottom: "18px" }}>Restaurant POS</h3>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: "1.78", fontWeight: 300, maxWidth: "360px", marginBottom: "32px" }}>QR-based ordering — customers scan, order, and pay without waiting for a waiter.</p>
-                      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
-                        {["QR ordering system", "Real-time kitchen display", "Auto billing & UPI", "Table management"].map(t => (
-                          <li key={t} style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", gap: "12px" }}>
-                            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "block", flexShrink: 0 }} />{t}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "28px", borderTop: "1px solid rgba(255,255,255,0.07)", marginTop: "32px", position: "relative", zIndex: 1 }}>
-                      <div className="pulla-arrow-link pulla-arrow-link-white">
-                        <span>Explore POS</span>
-                        <span className="arrow-icon">→</span>
-                      </div>
-                    </div>
-                  </div>
-                </TransitionLink>
-              </ScrollReveal>
-
-              {/* BazarChowk Card — glassmorphism green */}
-              <ScrollReveal animation="slide-left" delay={240}>
-                <a href="https://bazarchowk.com/" target="_blank" rel="noopener noreferrer" className="group block h-full">
-                  <div
-                    className="relative overflow-hidden"
-                    style={{
-                      borderRadius: "24px",
-                      minHeight: "500px",
-                      background: "rgba(66,50,38,0.9)",
-                      backdropFilter: "blur(32px)",
-                      WebkitBackdropFilter: "blur(32px)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                      boxShadow: "0 8px 48px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)",
-                      padding: "44px 44px",
-                      transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.transform = "translateY(-8px)"
-                      e.currentTarget.style.boxShadow = "0 32px 80px rgba(255,100,0,0.15), inset 0 1px 0 rgba(255,255,255,0.1)"
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.transform = "translateY(0)"
-                      e.currentTarget.style.boxShadow = "0 8px 48px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)"
-                    }}
-                  >
-                    {/* Shimmer accent top-right */}
-                    <div aria-hidden style={{ position: "absolute", top: "-50px", right: "-50px", width: "220px", height: "220px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,100,0,0.15) 0%, transparent 70%)", pointerEvents: "none" }} />
-                    <div aria-hidden style={{ position: "absolute", bottom: "-30px", left: "-30px", width: "180px", height: "180px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,160,0,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
-                    <div style={{ position: "relative", zIndex: 1 }}>
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", display: "block", marginBottom: "36px" }}>03 — Local Commerce</span>
-                      <div style={{ marginBottom: "22px" }}>
-                        <img src="https://bazarchowk.com/logo.png" alt="BazarChowk Logo" style={{ height: "clamp(60px, 8vw, 100px)", objectFit: "contain" }} />
-                      </div>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: "1.78", fontWeight: 300, maxWidth: "360px", marginBottom: "32px" }}>India's Local Commerce Super App. Groceries, food, and local essentials delivered fast.</p>
-                      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
-                        {["10-Min Delivery", "Verified Local Services", "Local Language Support", "Instant Discounts & Deals"].map(t => (
-                          <li key={t} style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", gap: "12px" }}>
-                            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "rgba(255,100,0,0.7)", display: "block", flexShrink: 0 }} />{t}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "28px", borderTop: "1px solid rgba(255,255,255,0.07)", marginTop: "32px", position: "relative", zIndex: 1 }}>
-                      <div className="pulla-arrow-link pulla-arrow-link-white">
-                        <span>Visit BazarChowk</span>
-                        <span className="arrow-icon">→</span>
+                    <div className="work_cta-wrap">
+                      <div className="work_link">
+                        <span className="work_link-text">Visit BazarChowk</span>
+                        <ArrowUpRight className="work_link-icon w-4 h-4" />
                       </div>
                     </div>
                   </div>
                 </a>
-              </ScrollReveal>
 
-              {/* Nidhi Card — glassmorphism premium blue */}
-              <ScrollReveal animation="slide-right" delay={360}>
-                <TransitionLink href="/nidhi" className="group block h-full">
-                  <div
-                    className="relative overflow-hidden"
-                    style={{
-                      borderRadius: "24px",
-                      minHeight: "500px",
-                      background: "rgba(33,43,59,0.88)",
-                      backdropFilter: "blur(32px)",
-                      WebkitBackdropFilter: "blur(32px)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                      boxShadow: "0 8px 48px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)",
-                      padding: "44px 44px",
-                      transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.transform = "translateY(-8px)"
-                      e.currentTarget.style.boxShadow = "0 32px 80px rgba(100,149,237,0.15), inset 0 1px 0 rgba(255,255,255,0.1)"
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.transform = "translateY(0)"
-                      e.currentTarget.style.boxShadow = "0 8px 48px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)"
-                    }}
-                  >
-                    {/* Shimmer accent top-right */}
-                    <div aria-hidden style={{ position: "absolute", top: "-50px", right: "-50px", width: "220px", height: "220px", borderRadius: "50%", background: "radial-gradient(circle, rgba(100,149,237,0.2) 0%, transparent 70%)", pointerEvents: "none" }} />
-                    <div aria-hidden style={{ position: "absolute", bottom: "-30px", left: "-30px", width: "180px", height: "180px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
-                    <div style={{ position: "relative", zIndex: 1 }}>
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", display: "block", marginBottom: "36px" }}>04 — Finance & Banking</span>
-                      <div style={{ marginBottom: "22px", display: "flex", alignItems: "center", gap: "12px" }}>
-                        <img src="/logo.avif" alt="VeritasCo Logo" style={{ height: "32px", width: "32px", objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.9 }} />
-                        <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,3vw,44px)", fontWeight: 500, color: "#ffffff", lineHeight: 1.0, letterSpacing: "-0.02em", margin: 0 }}>Nidhi</h3>
+                {/* Card 4: Nidhi Banking Software */}
+                <Link href="/nidhi" className="work_card group">
+                  <Image
+                    src="/workspace.png"
+                    alt="Nidhi Banking Software"
+                    fill
+                    className="work_card-img"
+                  />
+                  <div className="work_panel">
+                    <div className="work_panel-left">
+                      <h3 className="work_client">Nidhi Banking®</h3>
+                      <div className="work_meta-stack">
+                        <span className="work_meta-year">2025</span>
+                        <span className="work_meta-cat">Govt Act Core Banking</span>
                       </div>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: "1.78", fontWeight: 300, maxWidth: "360px", marginBottom: "32px" }}>Purely as per Government Act. Manage members, deposits, and loans seamlessly.</p>
-                      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
-                        {["IMPS, NEFT & Card Services", "CIBIL Score Integration", "Deposits, Loans & Shares", "100+ MIS Accounting Reports"].map(t => (
-                          <li key={t} style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", gap: "12px" }}>
-                            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "rgba(13,95,183,0.8)", display: "block", flexShrink: 0 }} />{t}
-                          </li>
-                        ))}
-                      </ul>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "28px", borderTop: "1px solid rgba(255,255,255,0.07)", marginTop: "32px", position: "relative", zIndex: 1 }}>
-                      <div className="pulla-arrow-link pulla-arrow-link-white">
-                        <span>Explore Nidhi</span>
-                        <span className="arrow-icon">→</span>
+                    <div className="work_cta-wrap">
+                      <div className="work_link">
+                        <span className="work_link-text">Discover platform</span>
+                        <ArrowUpRight className="work_link-icon w-4 h-4" />
                       </div>
                     </div>
                   </div>
-                </TransitionLink>
-              </ScrollReveal>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ══ PLATFORM — dark (#2d3a52) ══ */}
-        <section id="platform" className="section-dark pulla-section" ref={platformRef}>
-          <div className="container mx-auto px-8 md:px-14 max-w-[1400px]">
-            <ScrollReveal animation="reveal-text">
-              <div className="mb-16 md:mb-24">
-                <div className="focus--mask mb-2">
-                  <h2 className="pulla-section-title text-white focus--mask-inner">One Platform.</h2>
+        {/* ══ 4. SERVICES / PRACTICES (What we actually do.) ══ */}
+        <section id="services" data-screen-label="Services" className="section_services padding-section">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="section_header">
+                <div>
+                  <h2 className="heading-style-h2 text-[#0a0a0a]">
+                    What we{" "}
+                    <br className="hidden sm:inline" />
+                    actually do.
+                  </h2>
                 </div>
-                <div className="focus--mask">
-                  <h2 className="pulla-section-title focus--mask-inner" style={{ color: "rgba(255,255,255,0.35)" }}>Multiple Solutions.</h2>
+                <div className="section_meta">
+                  <div className="section_meta-text">( Four core practices )</div>
+                  <div className="section_meta-text">One senior engineering team</div>
                 </div>
-                <div className="focus--mask mt-8">
-                  <p className="focus--mask-inner font-light leading-relaxed max-w-lg" style={{ fontFamily: "var(--font-body)", fontSize: "16px", color: "rgba(255,255,255,0.65)" }}>
-                    VeritasCo is building a unified ecosystem of digital tools designed to simplify operations across industries.
+              </div>
+
+              <div className="services_grid">
+                {/* 001 */}
+                <div className="services_card">
+                  <div className="label-mono">( 001 )</div>
+                  <div className="services_glyph-wrap">
+                    <GraduationCap className="w-5 h-5 text-[#0a0a0a]" />
+                  </div>
+                  <div className="services_card-body">
+                    <div className="services_card-label">School ERP</div>
+                    <div className="services_card-text">
+                      In-hand biometric attendance, automated fee management, student LMS, and parent tracking apps.
+                    </div>
+                  </div>
+                </div>
+
+                {/* 002 */}
+                <div className="services_card">
+                  <div className="label-mono">( 002 )</div>
+                  <div className="services_glyph-wrap">
+                    <Utensils className="w-5 h-5 text-[#0a0a0a]" />
+                  </div>
+                  <div className="services_card-body">
+                    <div className="services_card-label">Restaurant POS</div>
+                    <div className="services_card-text">
+                      QR table ordering, real-time kitchen displays, auto-billing with instant UPI, and inventory sync.
+                    </div>
+                  </div>
+                </div>
+
+                {/* 003 */}
+                <div className="services_card">
+                  <div className="label-mono">( 003 )</div>
+                  <div className="services_glyph-wrap">
+                    <ShoppingCart className="w-5 h-5 text-[#0a0a0a]" />
+                  </div>
+                  <div className="services_card-body">
+                    <div className="services_card-label">Local Commerce</div>
+                    <div className="services_card-text">
+                      BazarChowk super app connecting towns and villages with rapid 10-minute essential deliveries.
+                    </div>
+                  </div>
+                </div>
+
+                {/* 004 */}
+                <div className="services_card">
+                  <div className="label-mono">( 004 )</div>
+                  <div className="services_glyph-wrap">
+                    <Landmark className="w-5 h-5 text-[#0a0a0a]" />
+                  </div>
+                  <div className="services_card-body">
+                    <div className="services_card-label">Nidhi Banking</div>
+                    <div className="services_card-text">
+                      Enterprise banking platform strictly per Government Act with IMPS/NEFT and 100+ MIS reports.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══ 5. DIRECT CAL.COM INTERACTIVE SCHEDULER ══ */}
+        <section id="custom-software" className="padding-section pt-0">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="border border-[rgba(10,10,10,0.08)] bg-white rounded-3xl p-6 sm:p-10 lg:p-14 shadow-sm">
+                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8 pb-8 border-b border-[rgba(10,10,10,0.08)]">
+                  <div>
+                    <div className="label-mono mb-2 text-[#737373]">
+                      ( Direct Calendar Integration · Cal.com )
+                    </div>
+                    <h2 className="heading-style-h2 text-[#0a0a0a] tracking-tight">
+                      Create Custom Software{" "}
+                      <br className="hidden sm:inline" />
+                      &amp; Dedicated Services.
+                    </h2>
+                  </div>
+                  <p className="text-sm md:text-base text-[#737373] max-w-md font-normal leading-relaxed">
+                    Book a dedicated 30-minute discovery call directly with the VeritasCo engineering leadership on Cal.com. Pick your preferred date and time slot below.
                   </p>
                 </div>
-              </div>
-            </ScrollReveal>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-              {[
-                { icon: GraduationCap, title: "Schools", num: "01", desc: "Complete ERP with biometric attendance, fee management, LMS, and real-time analytics." },
-                { icon: Utensils, title: "Restaurants", num: "02", desc: "QR-based ordering system with real-time kitchen display and auto billing." },
-                { icon: ShoppingCart, title: "Commerce", num: "03", desc: "India's Local Commerce Super App connecting towns and villages to local businesses." },
-                { icon: Landmark, title: "Banking", num: "04", desc: "Enterprise Nidhi banking infrastructure strictly as per Govt Act with IMPS/NEFT." },
-              ].map((item, idx) => (
-                <ScrollReveal key={idx} delay={idx * 100}>
-                  <div className={`pulla-card rounded-[20px] p-8 md:p-10 h-full ${item.muted ? "opacity-35" : ""}`}>
-                    <div className="flex items-start justify-between mb-8">
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                        <item.icon className="w-5 h-5" style={{ color: "rgba(255,255,255,0.75)" }} />
-                      </div>
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "11px", color: "rgba(255,255,255,0.2)", letterSpacing: "0.15em" }}>{item.num}</span>
-                    </div>
-                    <h3 className="mb-4 font-semibold text-white tracking-tight" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(22px,2.5vw,32px)" }}>{item.title}</h3>
-                    <p className="font-light leading-relaxed" style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "rgba(255,255,255,0.65)" }}>{item.desc}</p>
+                {/* Live Embedded Cal.com Interactive Calendar */}
+                <div className="max-w-4xl mx-auto">
+                  <CalDirectEmbed height="620px" />
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-[rgba(10,10,10,0.06)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+                  <div className="flex flex-wrap items-center gap-3 text-[#737373]">
+                    <span>Direct Mail: <a href="mailto:info@veritasco.tech" className="text-[#0a0a0a] font-medium hover:underline">info@veritasco.tech</a></span>
+                    <span>·</span>
+                    <span>Direct Phone: <a href="tel:+918709442363" className="text-[#0a0a0a] font-medium hover:underline">+91-8709442363</a></span>
                   </div>
-                </ScrollReveal>
-              ))}
+                  <span className="label-mono text-[11px] text-[#a3a3a3]">VERITASCO ENGINEERING DESK</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ══ VISION — light ══ */}
-        <section className="section-light pulla-section" ref={visionRef}>
-          <div className="container mx-auto px-8 md:px-14 max-w-[1400px]">
-            <ScrollReveal animation="reveal-text">
-              <div className="text-center mb-16 md:mb-24">
-                <div className="focus--mask mb-2">
-                  <h2 className="pulla-section-title focus--mask-inner" style={{ color: "#212529" }}>Built for the Future</h2>
+        {/* ══ 6. TESTIMONIALS (What clients say back.) ══ */}
+        <section id="testimonials" data-screen-label="Testimonials" className="section_testimonials padding-section pt-0">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="section_header">
+                <div>
+                  <h2 className="heading-style-h2 text-[#0a0a0a]">
+                    What clients{" "}
+                    <br className="hidden sm:inline" />
+                    say back.
+                  </h2>
                 </div>
-                <div className="focus--mask mt-6">
-                  <p className="focus--mask-inner font-light leading-relaxed max-w-xl mx-auto" style={{ fontFamily: "var(--font-body)", fontSize: "16px", color: "rgba(33,37,41,0.6)" }}>
-                    We are continuously expanding VeritasCo into a complete digital ecosystem.
+                <div className="section_meta">
+                  <div className="section_meta-text">( 4.9 / 5 Rating )</div>
+                  <div className="section_meta-text">Across 500+ schools &amp; venues since 2023</div>
+                </div>
+              </div>
+
+              <div className="testimonial_grid">
+                {/* Vantra Score Card */}
+                <div className="testimonial_card is-score">
+                  <div className="testimonial_score-row">
+                    <div className="testimonial_score">
+                      <span>4.9</span>
+                      <span className="testimonial_score-max">/5</span>
+                    </div>
+                    <div className="testimonial_score-text">
+                      Across 500+ school launches and restaurant setups, rated by the administrators and teams we shipped with.
+                    </div>
+                  </div>
+
+                  <div className="testimonial_faces">
+                    <div className="testimonial_stack">
+                      <Image
+                        src="/rehan.png"
+                        alt="Client avatar"
+                        width={34}
+                        height={34}
+                        className="testimonial_face"
+                      />
+                      <Image
+                        src="/aman.png"
+                        alt="Client avatar"
+                        width={34}
+                        height={34}
+                        className="testimonial_face"
+                      />
+                    </div>
+                    <div className="testimonial_faces-label">Trusted by 50,000+ daily users</div>
+                  </div>
+                </div>
+
+                {/* Card 1 */}
+                <div className="testimonial_card">
+                  <div className="testimonial_person">
+                    <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center font-bold text-sm">
+                      RK
+                    </div>
+                    <div className="testimonial_person-meta">
+                      <div className="testimonial_name">Dr. Rajesh Kumar</div>
+                      <div className="testimonial_role">Principal · Delhi Public School</div>
+                    </div>
+                  </div>
+                  <div className="testimonial_quote">
+                    "VeritasCo ERP transformed our attendance. 1,200 students are checked in under 12 minutes every morning with zero proxy marking. Outstanding engineering."
+                  </div>
+                </div>
+
+                {/* Card 2 */}
+                <div className="testimonial_card">
+                  <div className="testimonial_person">
+                    <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center font-bold text-sm">
+                      VS
+                    </div>
+                    <div className="testimonial_person-meta">
+                      <div className="testimonial_name">Vikram Singh</div>
+                      <div className="testimonial_role">Owner · Spice Route Bistro</div>
+                    </div>
+                  </div>
+                  <div className="testimonial_quote">
+                    "Table turnover increased by 35% in our first two weeks. Customers scan the QR, order instantly, and tickets stream straight to the kitchen display."
+                  </div>
+                </div>
+
+                {/* Card 3 */}
+                <div className="testimonial_card">
+                  <div className="testimonial_person">
+                    <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center font-bold text-sm">
+                      SS
+                    </div>
+                    <div className="testimonial_person-meta">
+                      <div className="testimonial_name">Sunita Sharma</div>
+                      <div className="testimonial_role">Director · Modern Academy</div>
+                    </div>
+                  </div>
+                  <div className="testimonial_quote">
+                    "Parents love the instant WhatsApp/SMS notification the moment their child enters school. Fee collection dues dropped by 40% in our first quarter."
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══ 7. FAQ (Before you brief us.) ══ */}
+        <section id="faq" data-screen-label="FAQ" className="section_faq padding-section pt-0">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="faq_layout">
+                {/* Left Column: Sticky Heading */}
+                <div className="faq_head">
+                  <h2 className="heading-style-h2 text-[#0a0a0a]">
+                    Before{" "}
+                    <br className="hidden sm:inline" />
+                    you brief us.
+                  </h2>
+                  <p className="mt-4 text-sm text-[#737373] max-w-xs font-normal leading-relaxed">
+                    Clear answers on implementation timelines, hardware specs, and software support.
                   </p>
                 </div>
+
+                {/* Right Column: Accordion */}
+                <div className="faq_list">
+                  {faqItems.map((item, idx) => {
+                    const isOpen = openFaq === idx
+                    return (
+                      <div
+                        key={idx}
+                        className={`faq_row ${isOpen ? "is-open" : ""}`}
+                        onClick={() => setOpenFaq(isOpen ? null : idx)}
+                      >
+                        <div className="faq_row-head">
+                          <div className="faq_question">{item.q}</div>
+                          <div className="faq_icon">
+                            <div className="faq_icon-h" />
+                            <div className="faq_icon-v" />
+                          </div>
+                        </div>
+                        <div className="faq_answer">
+                          <p className="faq_answer-text">{item.a}</p>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-            </ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {["Retail management", "Healthcare solutions", "Business analytics", "Custom enterprise"].map((text, idx) => (
-                <ScrollReveal key={idx} delay={idx * 80}>
-                  <div className="pulla-card-light rounded-[20px] p-6 md:p-8 text-center h-full">
-                    <div className="w-10 h-10 bg-[#2d3a52] rounded-xl flex items-center justify-center mx-auto mb-5">
-                      <ShieldCheck className="w-5 h-5 text-white" />
-                    </div>
-                    <p className="font-medium leading-snug" style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "#212529" }}>{text}</p>
-                  </div>
-                </ScrollReveal>
-              ))}
             </div>
           </div>
         </section>
 
-        {/* ══ CTA ══ */}
-        <section className="section-dark pulla-section text-center relative overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(135deg, rgba(93,109,142,0.25) 0%, #2d3a52 60%)" }} />
-          <div className="container mx-auto px-8 md:px-14 max-w-[1400px] relative z-10">
-            <ScrollReveal>
-              <h2 className="pulla-hero-title text-white mb-8" style={{ fontSize: "clamp(36px,7vw,110px)" }}>
-                START YOUR<br />TRANSFORMATION
-              </h2>
-              <p className="font-light max-w-xl mx-auto mb-12" style={{ fontFamily: "var(--font-body)", fontSize: "17px", color: "rgba(255,255,255,0.6)", lineHeight: "1.7" }}>
-                Book a free demo and see how VeritasCo can transform your operations.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <TransitionLink href="/erp" className="pulla-btn pulla-btn-outline-white">Explore ERP <ArrowRight className="w-4 h-4" /></TransitionLink>
-                <TransitionLink href="/pos" className="pulla-btn pulla-btn-outline-white">Explore POS <ArrowRight className="w-4 h-4" /></TransitionLink>
-                <button onClick={() => setIsBookingOpen(true)} className="pulla-btn pulla-btn-primary">Book Free Demo</button>
+        {/* ══ 8. CAREERS / START DEPLOYMENT BANNER ══ */}
+        <div className="hero_frame_wrap">
+          <section id="careers" className="section_careers">
+            <div className="careers_media">
+              <Image
+                src="/about_hero_v3.png"
+                alt="VeritasCo Team"
+                fill
+                className="image-cover"
+              />
+            </div>
+
+            <div className="padding-global">
+              <div className="container-max">
+                <div className="careers_content">
+                  <div className="careers_title-wrap">
+                    <h2 className="careers_title">
+                      Build{" "}
+                      <br className="hidden sm:inline" />
+                      what’s next with us.
+                    </h2>
+                  </div>
+
+                  <p className="careers_text">
+                    Wherever you sit at VeritasCo, there is room to shape real institutions and leave a lasting mark.
+                  </p>
+
+                  <div className="buttons_row">
+                    <VantraButton
+                      onClick={() => setIsBookingOpen(true)}
+                      variant="light"
+                    >
+                      Start a Project
+                    </VantraButton>
+
+                    <VantraButton
+                      href="/join-us"
+                      variant="dark"
+                    >
+                      Join the Team
+                    </VantraButton>
+                  </div>
+                </div>
               </div>
-            </ScrollReveal>
-          </div>
-        </section>
+            </div>
+          </section>
+        </div>
 
-        {/* ══ FOOTER ══ */}
-        <SiteFooter onSupportOpen={() => setIsSupportOpen(true)} />
-
-        {/* Floating support btn */}
-        <button
-          onClick={() => setIsSupportOpen(true)}
-          className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-40 w-12 h-12 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform border border-white/10"
-          style={{ background: "#2d3a52" }}
-          aria-label="Open contact support"
-        >
-          <LifeBuoy className="w-5 h-5 text-white/70" />
-        </button>
-
-        <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
-        <ContactSupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
+        {/* ══ 9. FOOTER ══ */}
+        <SiteFooter
+          onSupportOpen={() => setIsSupportOpen(true)}
+          onBookingOpen={() => setIsBookingOpen(true)}
+        />
       </main>
+
+      {/* Booking and Support Modals */}
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+      <ContactSupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
     </>
   )
 }

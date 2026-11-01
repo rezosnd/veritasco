@@ -1,16 +1,20 @@
 "use client"
 
-import { PageWrapper } from "@/components/page-wrapper"
-import { ScrollReveal } from "@/components/scroll-reveal"
-import { TestimonialSlider } from "@/components/testimonial-slider"
-import { InteractiveSteps } from "@/components/interactive-steps"
-import Image from "next/image"
-import Link from "next/link"
 import { useState } from "react"
+import { PageWrapper } from "@/components/page-wrapper"
+import { VantraButton } from "@/components/vantra-button"
+import { InteractiveSteps } from "@/components/interactive-steps"
+import { TestimonialSlider } from "@/components/testimonial-slider"
+import Image from "next/image"
 import BookingModal from "@/components/booking-modal"
 import {
-  ArrowRight, QrCode, MonitorSmartphone, CreditCard,
-  BarChart3, ShieldCheck, Zap, Clock, Users
+  QrCode,
+  MonitorSmartphone,
+  CreditCard,
+  BarChart3,
+  ShieldCheck,
+  Zap,
+  ArrowUpRight,
 } from "lucide-react"
 
 const features = [
@@ -23,10 +27,10 @@ const features = [
 ]
 
 const steps = [
-  { num: "01", title: "Customer Scans QR", desc: "Each table has a unique QR code. Customers scan with any phone." },
-  { num: "02", title: "Browses & Orders", desc: "Fully digital menu with photos, prices, and dietary filters." },
-  { num: "03", title: "Kitchen Gets Alert", desc: "Order appears instantly on the kitchen display system." },
-  { num: "04", title: "Auto Bill Generated", desc: "Bill auto-calculates with tax, discounts, and service charge." },
+  { num: "01", title: "Customer Scans QR", desc: "Each table has a unique QR code. Customers scan with any phone camera." },
+  { num: "02", title: "Browses & Orders", desc: "Fully digital menu with photos, prices, customizations, and dietary filters." },
+  { num: "03", title: "Kitchen Gets Alert", desc: "Order appears instantly on the kitchen display system (KDS) screen." },
+  { num: "04", title: "Auto Bill Generated", desc: "Bill auto-calculates with tax, discounts, and instant UPI checkout." },
 ]
 
 export default function POSPage() {
@@ -35,149 +39,186 @@ export default function POSPage() {
   return (
     <>
       <PageWrapper
-        title="Turn Every Table Into a Smart Ordering System"
-        description="Give your customers the power to order instantly. Run your restaurant faster, smarter, and error-free."
+        badge="Restaurant Technology · QSR & Dining"
+        title="Turn Every Table Into a Smart Ordering System."
+        description="Give your customers the power to order instantly. Run your restaurant faster, smarter, and error-free with contactless QR and real-time KDS."
         breadcrumb={[{ label: "Restaurant POS", href: "/pos" }]}
         darkHero
         bgImage="/pos-bg.png"
       >
-        {/* ── HERO VISUAL — dark ── */}
-        <section className="section-dark pulla-section pt-0 pb-20">
-          <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-            <div className="max-w-3xl">
-              <p className="text-2xl md:text-4xl font-light text-white/60 mb-10 leading-relaxed">
-                No App. No Waiting. No Mistakes.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => setIsBookingOpen(true)}
-                  className="pulla-btn pulla-btn-primary"
-                >
-                  Get Started <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setIsBookingOpen(true)}
-                  className="pulla-btn pulla-btn-outline-white"
-                >
-                  Book Live Demo
-                </button>
+        {/* ══ 1. HERO CALLOUT ══ */}
+        <section className="section-dark padding-section pt-0 pb-16">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="p-8 md:p-12 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                <div>
+                  <div className="label-mono is-light mb-2">Zero friction operations</div>
+                  <h3 className="heading-style-h3 text-white mb-2">
+                    No App. No Waiting. No Mistakes.
+                  </h3>
+                  <p className="text-sm md:text-base text-white/60">
+                    Eliminate 80% of ordering delays and streamline kitchen operations.
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-4">
+                  <VantraButton onClick={() => setIsBookingOpen(true)} variant="light">
+                    Get Started Now
+                  </VantraButton>
+                  <VantraButton onClick={() => setIsBookingOpen(true)} variant="ghost" className="text-white border-white/20">
+                    Book Live Demo
+                  </VantraButton>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── HOW IT WORKS — dark ── */}
-        <section className="section-dark pulla-section">
-          <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-            <ScrollReveal>
-              <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-6">
-                <h2 className="text-5xl md:text-7xl font-light tracking-tighter text-white leading-[0.95]">
-                  How It Works
-                </h2>
-                <p className="text-base text-white/45 font-light max-w-xs leading-relaxed">
-                  From scan to payment — the entire flow in 4 steps.
-                </p>
+        {/* ══ 2. HOW IT WORKS ══ */}
+        <section className="section-dark padding-section pt-0">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="section_header">
+                <div>
+                  <h2 className="heading-style-h2 text-white">
+                    How it
+                    <br />
+                    works.
+                  </h2>
+                </div>
+                <div className="section_meta">
+                  <div className="section_meta-text">( 04 Steps )</div>
+                  <div className="section_meta-text">From scan to automated payment</div>
+                </div>
               </div>
-            </ScrollReveal>
 
-            <div className="mt-12">
-              <InteractiveSteps steps={steps} />
-            </div>
-          </div>
-        </section>
-
-        {/* ── FEATURES GRID — dark ── */}
-        <section className="section-dark pulla-section">
-          <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-            <ScrollReveal>
-              <h2 className="text-5xl md:text-7xl font-light tracking-tighter text-white leading-[0.95] mb-16 md:mb-20">
-                Built for Real<br />Restaurant Operations
-              </h2>
-            </ScrollReveal>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {features.map(({ icon: Icon, title, desc }, idx) => (
-                <ScrollReveal key={idx} animation="fade-up" delay={idx * 60}>
-                  <div className="pulla-card rounded-[24px] p-8 h-full">
-                    <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-xl font-medium text-white mb-3">{title}</h3>
-                    <p className="text-white/40 font-light leading-relaxed">{desc}</p>
-                  </div>
-                </ScrollReveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── AUTO-ANIMATED TESTIMONIAL SLIDER ── */}
-        <section className="section-dark pulla-section overflow-hidden pt-0 relative">
-          {/* Background Decorative Asset */}
-          <div className="absolute top-0 right-[5%] w-[400px] h-[400px] opacity-35 pointer-events-none">
-            <Image 
-              src="/posshome.png" 
-              alt="" 
-              fill 
-              className="object-contain"
-            />
-          </div>
-
-          <div className="container mx-auto px-6 md:px-10 max-w-[1400px] relative z-10">
-            <ScrollReveal>
-              <h2 className="text-3xl md:text-5xl font-light text-white mb-12">Loved by Local Restaurants</h2>
-            </ScrollReveal>
-            
-            <TestimonialSlider testimonials={[
-              { name: "The Spice Route", location: "Mumbai", quote: "No more wrong orders. The kitchen gets the ticket instantly. It completely transformed our weekend rush." },
-              { name: "Curry Leaf Cafe", location: "Bangalore", quote: "Customers love scanning and paying without waiting for the waiter. Table turnover increased by 30%." },
-              { name: "Tandoori Nights", location: "Delhi", quote: "Setup took 24 hours. The analytics dashboard shows exactly what sells best on which days." },
-              { name: "Masala Art", location: "Hyderabad", quote: "The UPI integration directly in the POS saves us hours of manual reconciliation every night." }
-            ]} />
-          </div>
-        </section>
-
-        {/* ── STATS — dark ── */}
-        <section className="section-dark pulla-section border-t border-white/10">
-          <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-            <ScrollReveal>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                {[
-                  { value: "48h", label: "Setup Time" },
-                  { value: "0", label: "Apps to Download" },
-                  { value: "99%", label: "Order Accuracy" },
-                  { value: "24/7", label: "Support" },
-                ].map((stat, idx) => (
-                  <div key={idx}>
-                    <div className="pulla-stat-number text-white mb-2">{stat.value}</div>
-                    <p className="text-sm font-medium text-white/50 uppercase tracking-wider">{stat.label}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-white/10">
+                {steps.map((st) => (
+                  <div key={st.num} className="p-8 md:p-10 border-r border-b border-white/10 hover:bg-white/[0.03] transition-colors">
+                    <span className="label-mono is-light text-[10px] mb-6 block">( {st.num} )</span>
+                    <h3 className="font-display text-xl font-semibold text-white mb-3">
+                      {st.title}
+                    </h3>
+                    <p className="text-sm text-[#f5f4f0]/65 leading-relaxed font-normal">
+                      {st.desc}
+                    </p>
                   </div>
                 ))}
               </div>
-            </ScrollReveal>
+            </div>
           </div>
         </section>
 
-        {/* ── CTA — dark ── */}
-        <section className="section-dark pulla-section text-center">
-          <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-            <ScrollReveal>
-              <h2 className="text-5xl md:text-7xl font-light tracking-tighter text-white leading-[0.95] mb-8">
-                Ready to Transform<br />Your Restaurant?
+        {/* ══ 3. BUILT FOR REAL OPERATIONS ══ */}
+        <section className="section-dark-secondary padding-section">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="section_header">
+                <div>
+                  <h2 className="heading-style-h2 text-white">
+                    Built for real
+                    <br />
+                    restaurant operations.
+                  </h2>
+                </div>
+                <div className="section_meta">
+                  <div className="section_meta-text">( High Volume )</div>
+                  <div className="section_meta-text">Peak hour resilience</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {features.map(({ icon: Icon, title, desc }, idx) => (
+                  <div
+                    key={idx}
+                    className="p-8 rounded-2xl bg-[#0a0a0a] border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <h3 className="font-display text-xl font-semibold text-white mb-3">
+                        {title}
+                      </h3>
+                      <p className="text-sm text-white/60 leading-relaxed font-normal">
+                        {desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══ 4. REEL / INTERFACE SHOWCASE ══ */}
+        <section className="section-dark padding-section">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="section_header is-center text-center">
+                <div className="label-mono is-light mb-2">Live Interface</div>
+                <h2 className="heading-style-h1 text-white">
+                  Kitchen Display &amp;
+                  <br />
+                  Counter Checkout.
+                </h2>
+              </div>
+
+              <div className="relative rounded-2xl overflow-hidden aspect-[16/9] border border-white/10 shadow-2xl">
+                <Image
+                  src="/posshome.png"
+                  alt="Restaurant POS Interface"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══ 5. TESTIMONIAL SLIDER ══ */}
+        <section className="section-light padding-section">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="section_header">
+                <div>
+                  <h2 className="heading-style-h2 text-[#0a0a0a]">
+                    Loved by chefs
+                    <br />
+                    &amp; restaurateurs.
+                  </h2>
+                </div>
+                <div className="section_meta">
+                  <div className="section_meta-text">( 4.8 / 5 Rating )</div>
+                  <div className="section_meta-text">Across casual dining, cafes, and QSRs</div>
+                </div>
+              </div>
+
+              <TestimonialSlider />
+            </div>
+          </div>
+        </section>
+
+        {/* ══ 6. CTA BANNER ══ */}
+        <section className="section-dark padding-section text-center">
+          <div className="padding-global">
+            <div className="container-max max-w-2xl mx-auto">
+              <div className="label-mono is-light mb-4">Go live in 48 hours</div>
+              <h2 className="heading-style-h1 text-white mb-6">
+                Upgrade your dining floor.
               </h2>
-              <p className="text-xl text-white/40 font-light max-w-xl mx-auto mb-12 leading-relaxed">
-                Join hundreds of restaurants running smarter with VeritasCo POS.
+              <p className="text-base text-white/60 leading-relaxed mb-10">
+                Book a live demo today and see how VeritasCo Restaurant POS turns tables faster and boosts your average ticket size.
               </p>
-              <button
-                onClick={() => setIsBookingOpen(true)}
-                className="pulla-btn pulla-btn-primary text-base"
-              >
-                Book a Free Demo
-              </button>
-            </ScrollReveal>
+              <div className="flex justify-center">
+                <VantraButton onClick={() => setIsBookingOpen(true)} variant="light">
+                  Book Live Demo
+                </VantraButton>
+              </div>
+            </div>
           </div>
         </section>
       </PageWrapper>
+
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
     </>
   )

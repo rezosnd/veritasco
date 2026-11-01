@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { Check, Minus } from "lucide-react"
 
 interface Feature {
   name: string
@@ -38,128 +39,119 @@ export function FeatureTable() {
   const [activeRole, setActiveRole] = useState<"admin" | "teacher" | "student" | "parent">("admin")
 
   return (
-    <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-4 md:p-8 overflow-hidden">
-      {/* Role Selector - Mobile Friendly */}
-      <div className="flex flex-wrap gap-2 md:gap-3 mb-6 md:mb-8">
+    <div className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-6 md:p-10 shadow-sm overflow-hidden">
+      {/* Role Selector Tabs (Mobile & Quick Filter) */}
+      <div className="flex flex-wrap items-center gap-2 mb-8 pb-6 border-b border-[rgba(10,10,10,0.08)]">
+        <span className="label-mono text-xs text-[#737373] mr-2">ROLE FILTER:</span>
         {(["admin", "teacher", "student", "parent"] as const).map((role) => (
           <button
             key={role}
             onClick={() => setActiveRole(role)}
-            className={`flex-1 min-w-[calc(50%-0.25rem)] md:min-w-0 px-4 py-3 md:px-6 md:py-3 rounded-xl md:rounded-2xl font-semibold text-sm md:text-base transition-all duration-300 ${
+            className={`px-4 py-2 rounded-full text-xs label-mono font-medium transition-all duration-300 ${
               activeRole === role
-                ? "soft-shadow bg-gradient-to-br from-primary to-accent text-primary-foreground scale-105"
-                : "soft-shadow-inset bg-background text-muted-foreground hover:text-foreground"
+                ? "bg-[#0a0a0a] text-[#f5f4f0] shadow-sm"
+                : "bg-[#f5f4f0] text-[#737373] hover:text-[#0a0a0a] hover:bg-[#eae8e1]"
             }`}
           >
-            {role.charAt(0).toUpperCase() + role.slice(1)}
+            {role.toUpperCase()}
           </button>
         ))}
       </div>
 
       {/* Features List - Mobile Optimized */}
-      <div className="space-y-2 md:space-y-3 max-h-[400px] md:max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+      <div className="lg:hidden space-y-2.5 max-h-[460px] overflow-y-auto pr-1">
         {features.map((feature, index) => {
           const hasAccess = feature[activeRole]
           return (
             <div
               key={index}
-              className={`soft-shadow-inset rounded-xl md:rounded-2xl p-3 md:p-4 flex items-center justify-between transition-all duration-300 ${
-                hasAccess ? "bg-primary/5 border-l-4 border-primary" : "bg-background opacity-50"
+              className={`p-3.5 rounded-xl border flex items-center justify-between transition-colors ${
+                hasAccess 
+                  ? "border-[rgba(10,10,10,0.15)] bg-[#faf9f5]" 
+                  : "border-[rgba(10,10,10,0.04)] bg-transparent opacity-40"
               }`}
             >
-              <span className="text-sm md:text-base font-medium text-foreground">{feature.name}</span>
+              <span className="text-xs font-medium text-[#0a0a0a]">{feature.name}</span>
               <div
-                className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center ${
-                  hasAccess ? "bg-primary soft-shadow" : "bg-muted"
+                className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
+                  hasAccess ? "bg-[#0a0a0a] text-[#f5f4f0]" : "bg-[#f0eee6] text-[#a3a3a3]"
                 }`}
               >
-                {hasAccess && (
-                  <svg
-                    className="w-3 h-3 md:w-4 md:h-4 text-primary-foreground"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
+                {hasAccess ? <Check className="w-3 h-3 stroke-[2.5]" /> : <Minus className="w-3 h-3" />}
               </div>
             </div>
           )
         })}
       </div>
 
-      {/* Desktop Table View - Hidden on Mobile */}
-      <div className="hidden lg:block mt-8 overflow-x-auto">
-        <table className="w-full">
+      {/* Desktop Matrix Table */}
+      <div className="hidden lg:block overflow-x-auto">
+        <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="soft-shadow-inset bg-background">
-              <th className="text-left p-4 rounded-tl-2xl text-foreground font-bold">Feature</th>
-              <th className="text-center p-4 text-foreground font-bold">Admin</th>
-              <th className="text-center p-4 text-foreground font-bold">Teacher</th>
-              <th className="text-center p-4 text-foreground font-bold">Student</th>
-              <th className="text-center p-4 rounded-tr-2xl text-foreground font-bold">Parent</th>
+            <tr className="border-b border-[rgba(10,10,10,0.08)] bg-[#faf9f5]">
+              <th className="py-4 px-6 label-mono text-xs text-[#737373] font-semibold uppercase">Feature / Capability</th>
+              <th className="py-4 px-6 text-center label-mono text-xs text-[#737373] font-semibold uppercase">Admin</th>
+              <th className="py-4 px-6 text-center label-mono text-xs text-[#737373] font-semibold uppercase">Teacher</th>
+              <th className="py-4 px-6 text-center label-mono text-xs text-[#737373] font-semibold uppercase">Student</th>
+              <th className="py-4 px-6 text-center label-mono text-xs text-[#737373] font-semibold uppercase">Parent</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-[rgba(10,10,10,0.06)] text-sm">
             {features.map((feature, index) => (
-              <tr key={index} className="border-t border-border hover:bg-primary/5 transition-colors">
-                <td className="p-4 text-foreground font-medium">{feature.name}</td>
-                <td className="p-4 text-center">
-                  {feature.admin && (
-                    <div className="w-6 h-6 bg-primary rounded-full mx-auto flex items-center justify-center soft-shadow">
-                      <svg
-                        className="w-4 h-4 text-primary-foreground"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                  )}
+              <tr 
+                key={index} 
+                className="hover:bg-[#faf9f5]/70 transition-colors"
+              >
+                <td className="py-3.5 px-6 font-medium text-[#0a0a0a]">
+                  {feature.name}
                 </td>
-                <td className="p-4 text-center">
-                  {feature.teacher && (
-                    <div className="w-6 h-6 bg-primary rounded-full mx-auto flex items-center justify-center soft-shadow">
-                      <svg
-                        className="w-4 h-4 text-primary-foreground"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                  )}
+                
+                <td className="py-3.5 px-6 text-center">
+                  <div className="inline-flex items-center justify-center">
+                    {feature.admin ? (
+                      <div className="w-6 h-6 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center">
+                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                      </div>
+                    ) : (
+                      <span className="text-[#a3a3a3] font-light">—</span>
+                    )}
+                  </div>
                 </td>
-                <td className="p-4 text-center">
-                  {feature.student && (
-                    <div className="w-6 h-6 bg-primary rounded-full mx-auto flex items-center justify-center soft-shadow">
-                      <svg
-                        className="w-4 h-4 text-primary-foreground"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                  )}
+
+                <td className="py-3.5 px-6 text-center">
+                  <div className="inline-flex items-center justify-center">
+                    {feature.teacher ? (
+                      <div className="w-6 h-6 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center">
+                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                      </div>
+                    ) : (
+                      <span className="text-[#a3a3a3] font-light">—</span>
+                    )}
+                  </div>
                 </td>
-                <td className="p-4 text-center">
-                  {feature.parent && (
-                    <div className="w-6 h-6 bg-primary rounded-full mx-auto flex items-center justify-center soft-shadow">
-                      <svg
-                        className="w-4 h-4 text-primary-foreground"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                  )}
+
+                <td className="py-3.5 px-6 text-center">
+                  <div className="inline-flex items-center justify-center">
+                    {feature.student ? (
+                      <div className="w-6 h-6 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center">
+                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                      </div>
+                    ) : (
+                      <span className="text-[#a3a3a3] font-light">—</span>
+                    )}
+                  </div>
+                </td>
+
+                <td className="py-3.5 px-6 text-center">
+                  <div className="inline-flex items-center justify-center">
+                    {feature.parent ? (
+                      <div className="w-6 h-6 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center">
+                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                      </div>
+                    ) : (
+                      <span className="text-[#a3a3a3] font-light">—</span>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

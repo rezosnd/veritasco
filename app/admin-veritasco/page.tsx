@@ -1,10 +1,10 @@
 "use client"
 
-import { AnimatedWaves } from "@/components/animated-waves"
-import { SoftButton } from "@/components/soft-button"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import ContactSupportModal from "@/components/contact-support-modal"
+import Link from "next/link"
+import { Download, LogOut, RefreshCw, Shield, Users, Calendar, ArrowRight } from "lucide-react"
 
 interface Application {
   _id: string
@@ -105,8 +105,8 @@ export default function AdminVeritasco() {
   }
 
   const fetchData = async (token?: string) => {
-    const currentToken = token || authToken;
-    if (!currentToken) return;
+    const currentToken = token || authToken
+    if (!currentToken) return
 
     try {
       setLoading(true)
@@ -172,242 +172,315 @@ export default function AdminVeritasco() {
   }
 
   return (
-    <main className="relative min-h-screen">
-      <AnimatedWaves />
+    <main className="min-h-screen bg-[#f5f4f0] text-[#0a0a0a]">
+      {/* Top Minimal Admin Header */}
+      <header className="border-b border-[rgba(10,10,10,0.08)] bg-[#ffffff]/80 backdrop-blur-md sticky top-0 z-30">
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src="/logo.avif"
+                alt="VeritasCo.Tech Logo"
+                width={40}
+                height={40}
+                priority
+                quality={90}
+                className="w-10 h-10 object-contain"
+              />
+              <span className="font-semibold text-sm tracking-tight text-[#0a0a0a]">
+                VERITASCO<span className="text-[#737373] font-normal"> / CONTROL</span>
+              </span>
+            </Link>
+            <span className="hidden md:inline-block label-mono text-[10px] px-2.5 py-1 rounded-full border border-[rgba(10,10,10,0.08)] bg-[#faf9f5] text-[#737373]">
+              v2.4 SECURE
+            </span>
+          </div>
 
-      {/* Navigation */}
-      <nav className="relative z-10 container mx-auto px-4 md:px-6 py-4 md:py-6">
-        <div className="flex items-center justify-between">
-          <Image
-            src="/logo.avif"
-            alt="VeritasCo.Tech Logo"
-            width={50}
-            height={50}
-            priority
-            quality={90}
-            sizes="50px"
-            className="md:w-[60px] md:h-[60px] drop-shadow-lg"
-          />
-          <div className="flex items-center gap-2 md:gap-4">
-            {isAuthenticated && (
-              <button
-                onClick={handleLogout}
-                className="text-sm md:text-base text-muted-foreground hover:text-primary transition-colors font-medium px-3 py-2 rounded-xl hover:bg-background/50"
-              >
-                Logout
-              </button>
-            )}
+          <div className="flex items-center gap-3">
             <button
+              type="button"
               onClick={() => setIsSupportOpen(true)}
-              className="text-sm md:text-base text-muted-foreground hover:text-primary transition-colors font-medium px-3 py-2 rounded-xl hover:bg-background/50"
+              className="label-mono text-xs text-[#737373] hover:text-[#0a0a0a] px-3.5 py-2 rounded-full border border-transparent hover:border-[rgba(10,10,10,0.08)] transition-all"
             >
               Support
             </button>
-            <SoftButton onClick={() => window.location.href = '/'}>Home</SoftButton>
+            <Link
+              href="/"
+              className="label-mono text-xs text-[#737373] hover:text-[#0a0a0a] px-3.5 py-2 rounded-full border border-transparent hover:border-[rgba(10,10,10,0.08)] transition-all"
+            >
+              Return Home
+            </Link>
+            {isAuthenticated && (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="label-mono text-xs bg-[#0a0a0a] text-white hover:bg-[#262626] px-4 py-2 rounded-full transition-all inline-flex items-center gap-1.5"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Logout</span>
+              </button>
+            )}
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Login Form */}
+      {/* Login Screen */}
       {!isAuthenticated && (
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-12">
-          <div className="max-w-md mx-auto">
-            <div className="relative">
-              <div className="absolute inset-0 bg-card rounded-2xl md:rounded-3xl rotate-1 soft-shadow opacity-30" />
-              <div className="absolute inset-0 bg-card rounded-2xl md:rounded-3xl -rotate-1 soft-shadow opacity-20" />
-              <div className="relative soft-shadow bg-gradient-to-br from-card to-card/95 rounded-2xl md:rounded-3xl p-6 md:p-8 border border-border/30">
-                <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-6">
-                  Admin Login
-                </h1>
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                      placeholder="Enter admin password"
-                    />
-                  </div>
-                  {authError && (
-                    <p className="text-red-500 text-sm text-center">{authError}</p>
-                  )}
-                  <div className="text-center">
-                    <SoftButton type="submit">Login</SoftButton>
-                  </div>
-                </form>
-              </div>
+        <section className="w-full max-w-md mx-auto px-4 py-20 md:py-32">
+          <div className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-8 md:p-10 shadow-sm">
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-[rgba(10,10,10,0.06)]">
+              <span className="label-mono text-xs text-[#737373]">GATEWAY ACCESS</span>
+              <Shield className="w-4 h-4 text-[#737373]" />
             </div>
+
+            <h1 className="heading-style-h3 text-[#0a0a0a] tracking-tight mb-2">
+              Admin Authentication
+            </h1>
+            <p className="text-xs text-[#737373] leading-relaxed mb-8">
+              Authorized personnel only. Please provide the administrative master passphrase.
+            </p>
+
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div>
+                <label htmlFor="password" className="block label-mono text-xs text-[#737373] mb-2 uppercase">
+                  Security Passphrase
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-[rgba(10,10,10,0.12)] bg-[#faf9f5] text-sm text-[#0a0a0a] placeholder:text-[#a3a3a3] focus:outline-none focus:border-[#0a0a0a] transition-colors"
+                  placeholder="••••••••••••"
+                />
+              </div>
+
+              {authError && (
+                <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-600 font-medium">
+                  {authError}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full py-3.5 px-6 rounded-full bg-[#0a0a0a] text-white hover:bg-[#262626] text-xs label-mono font-medium tracking-wide transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <span>VERIFY & ACCESS</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </form>
           </div>
         </section>
       )}
 
-      {/* Admin Panel */}
+      {/* Authenticated Dashboard */}
       {isAuthenticated && (
-        <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-12">
-          <div className="max-w-7xl mx-auto">
-            <div className="relative">
-              <div className="absolute inset-0 bg-card rounded-2xl md:rounded-3xl rotate-1 soft-shadow opacity-30" />
-              <div className="absolute inset-0 bg-card rounded-2xl md:rounded-3xl -rotate-1 soft-shadow opacity-20" />
-              <div className="relative soft-shadow bg-gradient-to-br from-card to-card/95 rounded-2xl md:rounded-3xl p-6 md:p-8 border border-border/30">
-                <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-6">
-                  VeritasCo Admin Panel
-                </h1>
-
-                {/* Tab Navigation */}
-                <div className="flex justify-center mb-8">
-                  <div className="flex bg-muted rounded-lg p-1">
-                    <button
-                      onClick={() => setActiveTab('applications')}
-                      className={`px-6 py-2 rounded-md font-medium transition-colors ${
-                        activeTab === 'applications'
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
-                      Join Us Applications ({applications.length})
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('bookings')}
-                      className={`px-6 py-2 rounded-md font-medium transition-colors ${
-                        activeTab === 'bookings'
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
-                      School Bookings ({bookings.length})
-                    </button>
-                  </div>
-                </div>
-
-                {loading && (
-                  <div className="text-center py-8">
-                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                    <p className="mt-2 text-muted-foreground">Loading data...</p>
-                  </div>
-                )}
-
-                {error && (
-                  <div className="text-center py-8">
-                    <p className="text-red-500">{error}</p>
-                    <SoftButton onClick={fetchData} className="mt-4">Retry</SoftButton>
-                  </div>
-                )}
-
-                {!loading && !error && (
-                  <>
-                    {/* Applications Tab */}
-                    {activeTab === 'applications' && (
-                      <div className="space-y-6">
-                        <h2 className="text-xl font-semibold text-foreground">Join Us Applications</h2>
-                        {applications.length === 0 ? (
-                          <p className="text-muted-foreground text-center py-8">No applications received yet.</p>
-                        ) : (
-                          <div className="grid gap-6">
-                            {applications.map((app) => (
-                              <div key={app._id} className="bg-background/50 rounded-lg p-6 border border-border/20">
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                                  <div>
-                                    <h3 className="font-semibold text-foreground">{app.fullName}</h3>
-                                    <p className="text-sm text-muted-foreground">{app.position}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-sm"><span className="font-medium">Email:</span> {app.email}</p>
-                                    <p className="text-sm"><span className="font-medium">Phone:</span> {app.phone}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-sm"><span className="font-medium">Experience:</span> {app.yearsOfExperience} years</p>
-                                    <p className="text-sm"><span className="font-medium">Company:</span> {app.currentCompany || 'N/A'}</p>
-                                  </div>
-                                </div>
-
-                                <div className="mb-4">
-                                  <h4 className="font-medium mb-2">Skills & Technologies</h4>
-                                  <p className="text-sm text-muted-foreground">{app.skills}</p>
-                                </div>
-
-                                <div className="mb-4">
-                                  <h4 className="font-medium mb-2">Why Interested</h4>
-                                  <p className="text-sm text-muted-foreground">{app.whyInterested}</p>
-                                </div>
-
-                                <div className="mb-4">
-                                  <h4 className="font-medium mb-2">Past Experience</h4>
-                                  <p className="text-sm text-muted-foreground">{app.pastExperience}</p>
-                                </div>
-
-                                <div className="flex justify-between items-center">
-                                  <span className="text-xs text-muted-foreground">
-                                    Submitted: {formatDate(app.createdAt)}
-                                  </span>
-                                  {app.resume && (
-                                    <SoftButton
-                                      size="sm"
-                                      onClick={() => downloadResume(app)}
-                                      className="text-xs"
-                                    >
-                                      Download Resume
-                                    </SoftButton>
-                                  )}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Bookings Tab */}
-                    {activeTab === 'bookings' && (
-                      <div className="space-y-6">
-                        <h2 className="text-xl font-semibold text-foreground">Leads & Bookings</h2>
-                        {bookings.length === 0 ? (
-                          <p className="text-muted-foreground text-center py-8">No bookings received yet.</p>
-                        ) : (
-                          <div className="grid gap-6">
-                            {bookings.map((booking) => (
-                              <div key={booking._id} className="bg-background/50 rounded-lg p-6 border border-border/20">
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                                  <div>
-                                    <h3 className="font-semibold text-foreground">{booking.businessName}</h3>
-                                    <p className="text-sm text-muted-foreground">Contact: {booking.contactPerson}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-sm"><span className="font-medium">Email:</span> {booking.email}</p>
-                                    <p className="text-sm"><span className="font-medium">Phone:</span> {booking.phone}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-sm"><span className="font-medium">Volume/Students:</span> {booking.volumeCount}</p>
-                                    <p className="text-sm"><span className="font-medium">Status:</span> {booking.status}</p>
-                                  </div>
-                                </div>
-
-                                <div className="mb-4">
-                                  <h4 className="font-medium mb-2">Message</h4>
-                                  <p className="text-sm text-muted-foreground">{booking.message}</p>
-                                </div>
-
-                                <div className="flex justify-end">
-                                  <span className="text-xs text-muted-foreground">
-                                    Submitted: {formatDate(booking.createdAt)}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </>
-                )}
+        <section className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-[rgba(10,10,10,0.08)]">
+            <div>
+              <div className="label-mono text-xs text-[#737373] mb-2">
+                VERITASCO CONSOLE / SYSTEM OVERVIEW
               </div>
+              <h1 className="heading-style-h2 text-[#0a0a0a] tracking-tight">
+                Institutional Records
+              </h1>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => fetchData()}
+                className="label-mono text-xs px-4 py-2 rounded-full border border-[rgba(10,10,10,0.12)] bg-[#ffffff] text-[#0a0a0a] hover:bg-[#faf9f5] transition-all flex items-center gap-2"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+                <span>SYNC DATA</span>
+              </button>
             </div>
           </div>
+
+          {/* Tab Selector */}
+          <div className="flex items-center gap-3 mb-8">
+            <button
+              onClick={() => setActiveTab('applications')}
+              className={`px-5 py-2.5 rounded-full text-xs label-mono font-medium transition-all duration-300 flex items-center gap-2 ${
+                activeTab === 'applications'
+                  ? 'bg-[#0a0a0a] text-[#f5f4f0] shadow-sm'
+                  : 'bg-[#ffffff] text-[#737373] border border-[rgba(10,10,10,0.08)] hover:text-[#0a0a0a]'
+              }`}
+            >
+              <Users className="w-3.5 h-3.5" />
+              <span>APPLICATIONS ({applications.length})</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('bookings')}
+              className={`px-5 py-2.5 rounded-full text-xs label-mono font-medium transition-all duration-300 flex items-center gap-2 ${
+                activeTab === 'bookings'
+                  ? 'bg-[#0a0a0a] text-[#f5f4f0] shadow-sm'
+                  : 'bg-[#ffffff] text-[#737373] border border-[rgba(10,10,10,0.08)] hover:text-[#0a0a0a]'
+              }`}
+            >
+              <Calendar className="w-3.5 h-3.5" />
+              <span>SCHOOL BOOKINGS ({bookings.length})</span>
+            </button>
+          </div>
+
+          {/* Loading & Error States */}
+          {loading && (
+            <div className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-12 text-center">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#0a0a0a] border-t-transparent" />
+              <p className="mt-4 text-xs label-mono text-[#737373]">FETCHING SYSTEM RECORDS...</p>
+            </div>
+          )}
+
+          {error && (
+            <div className="border border-red-200 bg-red-50 rounded-3xl p-8 text-center text-red-600 mb-8">
+              <p className="text-sm font-medium mb-3">{error}</p>
+              <button
+                onClick={() => fetchData()}
+                className="label-mono text-xs px-4 py-2 rounded-full bg-[#0a0a0a] text-white"
+              >
+                Retry Request
+              </button>
+            </div>
+          )}
+
+          {/* Content Lists */}
+          {!loading && !error && (
+            <>
+              {/* Applications Tab */}
+              {activeTab === 'applications' && (
+                <div className="space-y-4">
+                  {applications.length === 0 ? (
+                    <div className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-12 text-center">
+                      <p className="text-sm text-[#737373]">No career applications received yet.</p>
+                    </div>
+                  ) : (
+                    applications.map((app) => (
+                      <div
+                        key={app._id}
+                        className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-2xl p-6 md:p-8 hover:border-[rgba(10,10,10,0.18)] transition-all shadow-sm"
+                      >
+                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-6 mb-6 border-b border-[rgba(10,10,10,0.06)]">
+                          <div>
+                            <span className="label-mono text-[11px] text-[#737373]">CANDIDATE</span>
+                            <h3 className="heading-style-h4 text-[#0a0a0a] tracking-tight mt-0.5">
+                              {app.fullName}
+                            </h3>
+                            <p className="text-xs label-mono text-[#0a0a0a] mt-1">
+                              Role: {app.position}
+                            </p>
+                          </div>
+                          
+                          <div className="flex items-center gap-3">
+                            <span className="label-mono text-[11px] px-3 py-1 rounded-full border border-[rgba(10,10,10,0.08)] bg-[#faf9f5] text-[#737373]">
+                              {formatDate(app.createdAt)}
+                            </span>
+                            {app.resume && (
+                              <button
+                                type="button"
+                                onClick={() => downloadResume(app)}
+                                className="label-mono text-xs px-3.5 py-1.5 rounded-full bg-[#0a0a0a] text-white hover:bg-[#262626] transition-colors inline-flex items-center gap-1.5"
+                              >
+                                <Download className="w-3.5 h-3.5" />
+                                <span>Resume</span>
+                              </button>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 text-xs">
+                          <div>
+                            <div className="label-mono text-[#737373] mb-1">CONTACT</div>
+                            <div className="text-[#0a0a0a] font-medium">{app.email}</div>
+                            <div className="text-[#737373] mt-0.5">{app.phone}</div>
+                          </div>
+                          <div>
+                            <div className="label-mono text-[#737373] mb-1">EXPERIENCE</div>
+                            <div className="text-[#0a0a0a] font-medium">{app.yearsOfExperience} Years</div>
+                            <div className="text-[#737373] mt-0.5">Current: {app.currentCompany || 'N/A'}</div>
+                          </div>
+                          <div>
+                            <div className="label-mono text-[#737373] mb-1">SKILLS</div>
+                            <div className="text-[#0a0a0a]">{app.skills}</div>
+                          </div>
+                        </div>
+
+                        {app.whyInterested && (
+                          <div className="mb-4 p-4 rounded-xl bg-[#faf9f5] text-xs">
+                            <div className="label-mono text-[#737373] mb-1">WHY INTERESTED</div>
+                            <p className="text-[#0a0a0a] leading-relaxed">{app.whyInterested}</p>
+                          </div>
+                        )}
+
+                        {app.pastExperience && (
+                          <div className="p-4 rounded-xl bg-[#faf9f5] text-xs">
+                            <div className="label-mono text-[#737373] mb-1">PAST EXPERIENCE & PROJECTS</div>
+                            <p className="text-[#0a0a0a] leading-relaxed">{app.pastExperience}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+
+              {/* Bookings Tab */}
+              {activeTab === 'bookings' && (
+                <div className="space-y-4">
+                  {bookings.length === 0 ? (
+                    <div className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-12 text-center">
+                      <p className="text-sm text-[#737373]">No booking requests received yet.</p>
+                    </div>
+                  ) : (
+                    bookings.map((booking) => (
+                      <div
+                        key={booking._id}
+                        className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-2xl p-6 md:p-8 hover:border-[rgba(10,10,10,0.18)] transition-all shadow-sm"
+                      >
+                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-6 mb-6 border-b border-[rgba(10,10,10,0.06)]">
+                          <div>
+                            <span className="label-mono text-[11px] text-[#737373]">INSTITUTION</span>
+                            <h3 className="heading-style-h4 text-[#0a0a0a] tracking-tight mt-0.5">
+                              {booking.businessName}
+                            </h3>
+                            <p className="text-xs label-mono text-[#737373] mt-1">
+                              Contact: {booking.contactPerson}
+                            </p>
+                          </div>
+                          
+                          <div className="flex items-center gap-3">
+                            <span className="label-mono text-[11px] px-3 py-1 rounded-full border border-[rgba(10,10,10,0.08)] bg-[#faf9f5] text-[#737373]">
+                              {formatDate(booking.createdAt)}
+                            </span>
+                            <span className="label-mono text-[11px] px-3 py-1 rounded-full bg-[#0a0a0a] text-white">
+                              {booking.status}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 text-xs">
+                          <div>
+                            <div className="label-mono text-[#737373] mb-1">DIRECT CONTACT</div>
+                            <div className="text-[#0a0a0a] font-medium">{booking.email}</div>
+                            <div className="text-[#737373] mt-0.5">{booking.phone}</div>
+                          </div>
+                          <div>
+                            <div className="label-mono text-[#737373] mb-1">STUDENT CAPACITY / VOLUME</div>
+                            <div className="text-[#0a0a0a] font-medium">{booking.volumeCount}</div>
+                          </div>
+                          <div>
+                            <div className="label-mono text-[#737373] mb-1">COMMUNICATION NOTE</div>
+                            <div className="text-[#0a0a0a] leading-relaxed">{booking.message || "No notes provided"}</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </>
+          )}
         </section>
       )}
 

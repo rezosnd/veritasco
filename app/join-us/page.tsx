@@ -1,13 +1,16 @@
 "use client"
 
-import { AnimatedWaves } from "@/components/animated-waves"
-import { SoftButton } from "@/components/soft-button"
-import Image from "next/image"
 import { useState } from "react"
+import { MainNav } from "@/components/main-nav"
+import { SiteFooter } from "@/components/site-footer"
+import { VantraButton } from "@/components/vantra-button"
 import ContactSupportModal from "@/components/contact-support-modal"
+import BookingModal from "@/components/booking-modal"
+import { ArrowLeft, CheckCircle2, ShieldCheck, Mail } from "lucide-react"
 
 export default function JoinUs() {
   const [isSupportOpen, setIsSupportOpen] = useState(false)
+  const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -148,34 +151,19 @@ export default function JoinUs() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (step === 'form') {
-      // Send OTP first
       await sendOTP()
     } else {
-      // Verify OTP and submit form
       await verifyOTPAndSubmit()
     }
   }
 
   const sendOTP = async () => {
-    // Validate all required fields before sending OTP
     const errors = []
 
-    if (!formData.fullName.trim()) {
-      errors.push('Full name is required')
-    }
-
-    if (!formData.email.trim()) {
-      errors.push('Email is required')
-    }
-
-    if (!formData.phone.trim()) {
-      errors.push('Phone number is required')
-    }
-
-    if (!formData.position.trim()) {
-      errors.push('Position is required')
-    }
-
+    if (!formData.fullName.trim()) errors.push('Full name is required')
+    if (!formData.email.trim()) errors.push('Email is required')
+    if (!formData.phone.trim()) errors.push('Phone number is required')
+    if (!formData.position.trim()) errors.push('Position is required')
     if (!formData.yearsOfExperience.trim()) {
       errors.push('Years of experience is required')
     } else {
@@ -184,15 +172,12 @@ export default function JoinUs() {
         errors.push('Please enter a valid number for years of experience (0-70)')
       }
     }
-
     if (!formData.skills.trim() || formData.skills.trim().length < 5) {
       errors.push('Please provide at least 5 characters about your skills')
     }
-
     if (!formData.whyInterested.trim() || formData.whyInterested.trim().length < 10) {
       errors.push('Please tell us why you are interested (at least 10 characters)')
     }
-
     if (!formData.pastExperience.trim() || formData.pastExperience.trim().length < 10) {
       errors.push('Please provide some details about your experience (at least 10 characters)')
     }
@@ -208,9 +193,7 @@ export default function JoinUs() {
     try {
       const response = await fetch('/api/join-us/send-otp', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: formData.email.trim(),
           name: formData.fullName
@@ -243,12 +226,9 @@ export default function JoinUs() {
     setOtpError('')
 
     try {
-      // First verify OTP
       const verifyResponse = await fetch('/api/join-us/verify-otp', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: formData.email.trim(),
           otp: otp
@@ -263,7 +243,6 @@ export default function JoinUs() {
         return
       }
 
-      // OTP verified, now submit the form
       const submitData = new FormData()
       Object.entries(formData).forEach(([key, value]) => {
         submitData.append(key, value as string)
@@ -315,56 +294,53 @@ export default function JoinUs() {
   }
 
   return (
-    <main className="relative min-h-screen">
-      <AnimatedWaves />
+    <main className="relative min-h-svh bg-[#f5f4f0] text-[#0a0a0a] overflow-x-hidden">
+      <MainNav
+        onSupportOpen={() => setIsSupportOpen(true)}
+        onBookingOpen={() => setIsBookingOpen(true)}
+      />
 
-      {/* Navigation */}
-      <nav className="relative z-10 container mx-auto px-4 md:px-6 py-4 md:py-6">
-        <div className="flex items-center justify-between">
-          <Image
-            src="/logo.avif"
-            alt="VeritasCo.Tech Logo"
-            width={50}
-            height={50}
-            priority
-            quality={90}
-            sizes="50px"
-            className="md:w-[60px] md:h-[60px] drop-shadow-lg"
-          />
-          <div className="flex items-center gap-2 md:gap-4">
-            <button
-              onClick={() => setIsSupportOpen(true)}
-              className="text-sm md:text-base text-muted-foreground hover:text-primary transition-colors font-medium px-3 py-2 rounded-xl hover:bg-background/50"
-            >
-              Support
-            </button>
-            <SoftButton onClick={() => window.location.href = '/'}>Home</SoftButton>
+      {/* ══ HERO BANNER ══ */}
+      <section className="pt-36 pb-12 md:pt-44 md:pb-16 bg-[#0a0a0a] text-white">
+        <div className="padding-global">
+          <div className="container-max max-w-4xl mx-auto text-center">
+            <div className="label-mono is-light mb-4">
+              ( Careers · Engineering &amp; Field )
+            </div>
+            <h1 className="heading-style-h1 text-white mb-6">
+              Build what’s next with us.
+            </h1>
+            <p className="text-base md:text-lg text-[#f5f4f0]/70 max-w-2xl mx-auto leading-relaxed">
+              We are looking for exceptional engineers and problem-solvers to build the future of India's educational and hospitality infrastructure.
+            </p>
           </div>
         </div>
-      </nav>
+      </section>
 
-      {/* Join Us Form */}
-      <section className="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-12">
-        <div className="max-w-2xl mx-auto">
-          <div className="relative">
-            <div className="absolute inset-0 bg-card rounded-2xl md:rounded-3xl rotate-1 soft-shadow opacity-30" />
-            <div className="absolute inset-0 bg-card rounded-2xl md:rounded-3xl -rotate-1 soft-shadow opacity-20" />
-            <div className="relative soft-shadow bg-gradient-to-br from-card to-card/95 rounded-2xl md:rounded-3xl p-6 md:p-8 border border-border/30">
-              <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-6">
-                {step === 'form' ? 'Join Our Team' : 'Verify Your Email'}
-              </h1>
-              <p className="text-muted-foreground text-center mb-8">
-                {step === 'form'
-                  ? "We're looking for talented individuals to help us build the future of school management technology."
-                  : "We've sent a 6-digit OTP to your email. Please enter it below to verify your identity."
-                }
-              </p>
+      {/* ══ APPLICATION FORM ══ */}
+      <section className="padding-section py-16">
+        <div className="padding-global">
+          <div className="container-max max-w-3xl mx-auto">
+            <div className="bg-white rounded-3xl border border-black/10 p-8 md:p-14 shadow-sm">
+              <div className="mb-10 text-center">
+                <span className="label-mono mb-2 block">
+                  {step === 'form' ? '( 01 / Candidate Details )' : '( 02 / Verification )'}
+                </span>
+                <h2 className="heading-style-h3 text-[#0a0a0a]">
+                  {step === 'form' ? 'Apply to VeritasCo' : 'Verify Your Email'}
+                </h2>
+                <p className="text-sm text-[#0a0a0a]/60 mt-2">
+                  {step === 'form'
+                    ? "Fill in your profile details below. An instant OTP will be sent to your email to verify."
+                    : `We've sent a 6-digit OTP to ${formData.email}. Please enter it to complete your application.`}
+                </p>
+              </div>
 
               {step === 'form' ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <label htmlFor="fullName" className="block text-sm font-medium text-foreground mb-2">
+                      <label htmlFor="fullName" className="block label-mono text-[10px] text-black/60 mb-2">
                         Full Name *
                       </label>
                       <input
@@ -374,17 +350,18 @@ export default function JoinUs() {
                         value={formData.fullName}
                         onChange={handleInputChange}
                         required
-                        className={`w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary ${
-                          fieldErrors.fullName ? 'border-red-500' : 'border-border'
+                        className={`w-full px-4 py-3 rounded-xl border bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body ${
+                          fieldErrors.fullName ? 'border-red-500' : 'border-black/15'
                         }`}
                       />
                       {fieldErrors.fullName && (
-                        <p className="text-red-500 text-sm mt-1">{fieldErrors.fullName}</p>
+                        <p className="text-red-500 text-xs mt-1 font-mono">{fieldErrors.fullName}</p>
                       )}
                     </div>
+
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                        Email *
+                      <label htmlFor="email" className="block label-mono text-[10px] text-black/60 mb-2">
+                        Email Address *
                       </label>
                       <input
                         type="email"
@@ -393,20 +370,20 @@ export default function JoinUs() {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className={`w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary ${
-                          fieldErrors.email ? 'border-red-500' : 'border-border'
+                        className={`w-full px-4 py-3 rounded-xl border bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body ${
+                          fieldErrors.email ? 'border-red-500' : 'border-black/15'
                         }`}
                       />
                       {fieldErrors.email && (
-                        <p className="text-red-500 text-sm mt-1">{fieldErrors.email}</p>
+                        <p className="text-red-500 text-xs mt-1 font-mono">{fieldErrors.email}</p>
                       )}
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                        Phone *
+                      <label htmlFor="phone" className="block label-mono text-[10px] text-black/60 mb-2">
+                        Phone Number *
                       </label>
                       <input
                         type="tel"
@@ -415,16 +392,17 @@ export default function JoinUs() {
                         value={formData.phone}
                         onChange={handleInputChange}
                         required
-                        className={`w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary ${
-                          fieldErrors.phone ? 'border-red-500' : 'border-border'
+                        className={`w-full px-4 py-3 rounded-xl border bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body ${
+                          fieldErrors.phone ? 'border-red-500' : 'border-black/15'
                         }`}
                       />
                       {fieldErrors.phone && (
-                        <p className="text-red-500 text-sm mt-1">{fieldErrors.phone}</p>
+                        <p className="text-red-500 text-xs mt-1 font-mono">{fieldErrors.phone}</p>
                       )}
                     </div>
+
                     <div>
-                      <label htmlFor="position" className="block text-sm font-medium text-foreground mb-2">
+                      <label htmlFor="position" className="block label-mono text-[10px] text-black/60 mb-2">
                         Position Applying For *
                       </label>
                       <select
@@ -433,24 +411,24 @@ export default function JoinUs() {
                         value={formData.position}
                         onChange={handleInputChange}
                         required
-                        className={`w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary ${
-                          fieldErrors.position ? 'border-red-500' : 'border-border'
+                        className={`w-full px-4 py-3 rounded-xl border bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body ${
+                          fieldErrors.position ? 'border-red-500' : 'border-black/15'
                         }`}
                       >
-                        <option value="">Select Position</option>
+                        <option value="">Select Role</option>
                         {positions.map(pos => (
                           <option key={pos} value={pos}>{pos}</option>
                         ))}
                       </select>
                       {fieldErrors.position && (
-                        <p className="text-red-500 text-sm mt-1">{fieldErrors.position}</p>
+                        <p className="text-red-500 text-xs mt-1 font-mono">{fieldErrors.position}</p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="resume" className="block text-sm font-medium text-foreground mb-2">
-                      Resume/CV *
+                    <label htmlFor="resume" className="block label-mono text-[10px] text-black/60 mb-2">
+                      Resume / CV (.pdf, .doc, .docx) *
                     </label>
                     <input
                       type="file"
@@ -458,13 +436,13 @@ export default function JoinUs() {
                       accept=".pdf,.doc,.docx"
                       onChange={handleFileChange}
                       required
-                      className="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                      className="w-full px-4 py-3 rounded-xl border border-black/15 bg-[#fbfbfa] text-sm file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-mono file:bg-[#0a0a0a] file:text-white"
                     />
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <label htmlFor="yearsOfExperience" className="block text-sm font-medium text-foreground mb-2">
+                      <label htmlFor="yearsOfExperience" className="block label-mono text-[10px] text-black/60 mb-2">
                         Years of Experience *
                       </label>
                       <input
@@ -475,17 +453,15 @@ export default function JoinUs() {
                         onChange={handleInputChange}
                         required
                         min="0"
-                        className={`w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary ${
-                          fieldErrors.yearsOfExperience ? 'border-red-500' : 'border-border'
+                        className={`w-full px-4 py-3 rounded-xl border bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body ${
+                          fieldErrors.yearsOfExperience ? 'border-red-500' : 'border-black/15'
                         }`}
                       />
-                      {fieldErrors.yearsOfExperience && (
-                        <p className="text-red-500 text-sm mt-1">{fieldErrors.yearsOfExperience}</p>
-                      )}
                     </div>
+
                     <div>
-                      <label htmlFor="currentCompany" className="block text-sm font-medium text-foreground mb-2">
-                        Current/Previous Company
+                      <label htmlFor="currentCompany" className="block label-mono text-[10px] text-black/60 mb-2">
+                        Current / Previous Company
                       </label>
                       <input
                         type="text"
@@ -493,14 +469,14 @@ export default function JoinUs() {
                         name="currentCompany"
                         value={formData.currentCompany}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="w-full px-4 py-3 rounded-xl border border-black/15 bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="skills" className="block text-sm font-medium text-foreground mb-2">
-                      Key Skills & Technologies *
+                    <label htmlFor="skills" className="block label-mono text-[10px] text-black/60 mb-2">
+                      Key Skills &amp; Technologies *
                     </label>
                     <textarea
                       id="skills"
@@ -509,19 +485,14 @@ export default function JoinUs() {
                       onChange={handleInputChange}
                       required
                       rows={3}
-                      className={`w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none ${
-                        fieldErrors.skills ? 'border-red-500' : 'border-border'
-                      }`}
-                      placeholder="List your key skills and technologies you're proficient in..."
+                      className="w-full px-4 py-3 rounded-xl border border-black/15 bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body resize-none"
+                      placeholder="List key technologies, languages, frameworks, or hardware platforms..."
                     />
-                    {fieldErrors.skills && (
-                      <p className="text-red-500 text-sm mt-1">{fieldErrors.skills}</p>
-                    )}
                   </div>
 
                   <div>
-                    <label htmlFor="whyInterested" className="block text-sm font-medium text-foreground mb-2">
-                      Why are you interested in this position? *
+                    <label htmlFor="whyInterested" className="block label-mono text-[10px] text-black/60 mb-2">
+                      Why are you interested in VeritasCo? *
                     </label>
                     <textarea
                       id="whyInterested"
@@ -530,19 +501,14 @@ export default function JoinUs() {
                       onChange={handleInputChange}
                       required
                       rows={3}
-                      className={`w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none ${
-                        fieldErrors.whyInterested ? 'border-red-500' : 'border-border'
-                      }`}
-                      placeholder="Tell us why you're interested in joining VeritasCo..."
+                      className="w-full px-4 py-3 rounded-xl border border-black/15 bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body resize-none"
+                      placeholder="Tell us what excites you about our products and mission..."
                     />
-                    {fieldErrors.whyInterested && (
-                      <p className="text-red-500 text-sm mt-1">{fieldErrors.whyInterested}</p>
-                    )}
                   </div>
 
                   <div>
-                    <label htmlFor="pastExperience" className="block text-sm font-medium text-foreground mb-2">
-                      Past Experience & Projects *
+                    <label htmlFor="pastExperience" className="block label-mono text-[10px] text-black/60 mb-2">
+                      Past Experience &amp; Notable Projects *
                     </label>
                     <textarea
                       id="pastExperience"
@@ -550,39 +516,42 @@ export default function JoinUs() {
                       value={formData.pastExperience}
                       onChange={handleInputChange}
                       required
-                      rows={4}
-                      className={`w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none ${
-                        fieldErrors.pastExperience ? 'border-red-500' : 'border-border'
-                      }`}
-                      placeholder="Describe your relevant past experience and notable projects..."
+                      rows={3}
+                      className="w-full px-4 py-3 rounded-xl border border-black/15 bg-[#fbfbfa] text-sm focus:outline-none focus:border-black font-body resize-none"
+                      placeholder="Describe what you built, shipped, or solved..."
                     />
-                    {fieldErrors.pastExperience && (
-                      <p className="text-red-500 text-sm mt-1">{fieldErrors.pastExperience}</p>
-                    )}
                   </div>
 
-                  <div className="text-center">
-                    <SoftButton type="submit" size="lg" disabled={isSubmitting}>
+                  {submitMessage && (
+                    <div className="p-4 rounded-xl text-sm font-mono bg-black/5 text-[#0a0a0a] whitespace-pre-line">
+                      {submitMessage}
+                    </div>
+                  )}
+
+                  <div className="pt-4 flex justify-center">
+                    <VantraButton
+                      type="submit"
+                      variant="dark"
+                      ariaLabel={isSubmitting ? "Sending OTP..." : "Send OTP & Continue"}
+                    >
                       {isSubmitting ? 'Sending OTP...' : 'Send OTP & Continue'}
-                    </SoftButton>
+                    </VantraButton>
                   </div>
                 </form>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-                      <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
+                    <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center mx-auto mb-3">
+                      <Mail className="w-5 h-5 text-[#0a0a0a]" />
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      OTP sent to: <span className="font-medium text-foreground">{formData.email}</span>
+                    <p className="text-sm font-mono text-black/60">
+                      Code sent to <span className="font-semibold text-black">{formData.email}</span>
                     </p>
                   </div>
 
-                  <div>
-                    <label htmlFor="otp" className="block text-sm font-medium text-foreground mb-2 text-center">
-                      Enter 6-digit OTP
+                  <div className="max-w-xs mx-auto">
+                    <label htmlFor="otp" className="block label-mono text-center text-[10px] text-black/60 mb-2">
+                      6-Digit Security Code
                     </label>
                     <input
                       type="text"
@@ -591,57 +560,58 @@ export default function JoinUs() {
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                       required
                       maxLength={6}
-                      className="w-full px-3 py-3 text-center text-2xl font-mono tracking-widest border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-4 py-3 text-center text-3xl font-mono tracking-widest border border-black/20 rounded-xl bg-[#fbfbfa] focus:outline-none focus:border-black"
                       placeholder="000000"
                     />
                   </div>
 
                   {otpError && (
-                    <p className="text-red-500 text-sm text-center">{otpError}</p>
+                    <p className="text-red-500 text-xs font-mono text-center">{otpError}</p>
                   )}
 
-                  <div className="flex gap-3">
-                    <SoftButton
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+                    <button
                       type="button"
                       onClick={handleBackToForm}
-                      variant="secondary"
-                      className="flex-1"
+                      className="px-6 py-2.5 rounded-full border border-black/20 text-xs font-mono uppercase tracking-wider text-black/70 hover:bg-black/5"
                     >
-                      Back
-                    </SoftButton>
-                    <SoftButton
+                      Back to Edit
+                    </button>
+
+                    <VantraButton
                       type="submit"
-                      disabled={isSubmitting || otp.length !== 6}
-                      className="flex-1"
+                      variant="dark"
+                      ariaLabel={isSubmitting ? "Verifying..." : "Verify & Submit Application"}
                     >
                       {isSubmitting ? 'Verifying...' : 'Verify & Submit'}
-                    </SoftButton>
+                    </VantraButton>
                   </div>
 
-                  <div className="text-center">
+                  <div className="text-center pt-2">
                     <button
                       type="button"
                       onClick={sendOTP}
                       disabled={isSubmitting}
-                      className="text-sm text-primary hover:text-primary/80 underline"
+                      className="text-xs font-mono uppercase tracking-wider text-black/50 hover:text-black underline"
                     >
-                      Didn't receive OTP? Resend
+                      Didn't receive code? Resend
                     </button>
                   </div>
                 </form>
-              )}
-
-              {submitMessage && step === 'form' && (
-                <div className={`text-center p-3 rounded-lg mt-4 ${submitMessage.includes('successfully') ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-                  {submitMessage}
-                </div>
               )}
             </div>
           </div>
         </div>
       </section>
 
+      {/* Footer */}
+      <SiteFooter
+        onSupportOpen={() => setIsSupportOpen(true)}
+        onBookingOpen={() => setIsBookingOpen(true)}
+      />
+
       <ContactSupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
     </main>
   )
 }

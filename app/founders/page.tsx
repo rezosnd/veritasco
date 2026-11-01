@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PageWrapper } from '@/components/page-wrapper'
-import { ScrollReveal } from '@/components/scroll-reveal'
-import { TransitionLink } from '@/components/transition-link'
+import { VantraButton } from '@/components/vantra-button'
+import { ArrowUpRight } from 'lucide-react'
 
 const siteUrl = 'https://veritasco.tech'
 
@@ -47,7 +47,6 @@ export const metadata: Metadata = {
   },
 }
 
-// JSON‑LD for Knowledge Graph – full details for both founders and the organization
 const foundersJsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -141,7 +140,6 @@ const foundersJsonLd = {
   ],
 }
 
-// Portfolio data – each block describes a solution area
 const SOLUTIONS = [
   {
     id: 'cloud',
@@ -178,7 +176,7 @@ const SOLUTIONS = [
   {
     id: 'api',
     title: 'API‑First Integration Layer',
-    icon: '/api.png',
+    icon: '/workspace.png',
     description:
       'REST/GraphQL endpoints that let partners embed Veritasco functionality – from student data sync to order push notifications.',
     details: ['OAuth2 security', 'Rate‑limiting & throttling', 'Webhooks for real‑time events'],
@@ -196,152 +194,195 @@ const SOLUTIONS = [
 export default function FoundersPage() {
   return (
     <>
-      {/* JSON‑LD Structured Data */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(foundersJsonLd) }} />
 
       <PageWrapper
-        badge="VeritasCo — Leadership"
-        title="The Founders"
-        description="Rehan Suman & Aman Kumar – the technical and strategic pillars behind Veritasco’s end‑to‑end cloud portfolio."
+        badge="Founders &amp; Leadership"
+        title="Rehan Suman & Aman Kumar."
+        description="Co-founders powering India’s most advanced School ERP and Restaurant POS platforms — from cloud foundations to AI analytics."
         breadcrumb={[{ label: 'Founders', href: '/founders' }]}
         bgImage="/about_hero_v3.png"
+        darkHero
       >
-        {/* Hero */}
-        <section style={{ background: '#0a0a0f', padding: '120px 2rem' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto', textAlign: 'center' }}>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(155,212,215,0.6)', marginBottom: '16px' }}>
-              Visionary Leadership
-            </p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 6vw, 80px)', fontWeight: 300, color: '#ffffff', lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
-              Rehan Suman &amp; Aman Kumar
-            </h1>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '18px', color: 'rgba(255,255,255,0.5)', maxWidth: '720px', margin: '0 auto', lineHeight: 1.7, fontWeight: 300 }}>
-              Co‑founders powering India’s most advanced School ERP and Restaurant POS platforms – from cloud foundations to AI analytics.
-            </p>
-          </div>
-        </section>
-
-        {/* Founders Cards */}
-        <section style={{ background: '#111', padding: '80px 2rem' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <ScrollReveal>
-              <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '12px' }}>
-                  Leadership
-                </p>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,4vw,48px)', color: '#ffffff' }}>
-                  Meet the Founders
-                </h2>
+        {/* ══ 1. FOUNDERS CARDS (Vantra Editorial Dual Profiles) ══ */}
+        <section className="section-dark padding-section">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="section_header">
+                <div>
+                  <h2 className="heading-style-h2 text-white">
+                    Meet the
+                    <br />
+                    founders.
+                  </h2>
+                </div>
+                <div className="section_meta">
+                  <div className="section_meta-text">( Two Leaders )</div>
+                  <div className="section_meta-text">Engineering &amp; Strategy</div>
+                </div>
               </div>
-            </ScrollReveal>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: '32px' }}>
-              {/* Rehan */}
-              <article itemScope itemType="https://schema.org/Person" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', overflow: 'hidden' }}>
-                <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5' }}>
-                  <Image src="/rehan.png" alt="Rehan Suman – Co‑Founder & CEO" fill className="object-cover object-top" />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%', background: 'linear-gradient(to top, rgba(10,10,15,0.95), transparent)' }} />
-                  <div style={{ position: 'absolute', bottom: '24px', left: '28px', right: '28px' }}>
-                    <span style={{ display: 'inline-block', background: 'rgba(13,95,183,0.9)', color: '#fff', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '5px 12px', borderRadius: '100px', marginBottom: '8px', fontFamily: 'var(--font-body)' }} itemProp="jobTitle">
+
+              <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+                {/* Rehan Suman */}
+                <article
+                  id="rehan-suman"
+                  itemScope
+                  itemType="https://schema.org/Person"
+                  className="p-8 md:p-12 rounded-3xl bg-white/[0.03] border border-white/10 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-8 border border-white/15">
+                      <Image
+                        src="/rehan.png"
+                        alt="Rehan Suman – Co‑Founder & CEO"
+                        fill
+                        className="object-cover object-top"
+                      />
+                    </div>
+                    <span className="label-mono is-light px-3 py-1 rounded-full border border-white/20 bg-white/5 mb-4 inline-block text-[10px]">
                       Co‑Founder &amp; CEO
                     </span>
-                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,3vw,40px)', fontWeight: 400, color: '#ffffff', lineHeight: 1.1, margin: 0 }} itemProp="name">
+                    <h3 className="heading-style-h3 text-white mb-2" itemProp="name">
                       Rehan Suman
-                    </h2>
-                  </div>
-                </div>
-                <div style={{ padding: '32px 28px 36px' }}>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'rgba(155,212,215,0.8)', fontStyle: 'italic', marginBottom: '20px', lineHeight: 1.6 }}>
-                    Strategic product leader – defines market fit, growth channels and partnership ecosystem.
-                  </p>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, marginBottom: '16px' }}>
-                    Rehan spearheads Veritasco’s vision to bring enterprise‑grade technology to schools and restaurants. He architects go‑to‑market strategies, builds key alliances with education boards and hospitality chains, and leads the product roadmap that powers cloud, analytics and mobile experiences.
-                  </p>
-                  <Link href="/founders#rehan-suman" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#9bd4d7', fontSize: '13px', fontWeight: 600, textDecoration: 'none', border: '1px solid rgba(155,212,215,0.3)', padding: '10px 20px', borderRadius: '100px', fontFamily: 'var(--font-body)' }}>
-                    Read Full Profile →
-                  </Link>
-                </div>
-              </article>
-
-              {/* Aman */}
-              <article itemScope itemType="https://schema.org/Person" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', overflow: 'hidden' }}>
-                <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5' }}>
-                  <Image src="/aman.png" alt="Aman Kumar – Co‑Founder & CTO" fill className="object-cover object-top" />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%', background: 'linear-gradient(to top, rgba(10,10,15,0.95), transparent)' }} />
-                  <div style={{ position: 'absolute', bottom: '24px', left: '28px', right: '28px' }}>
-                    <span style={{ display: 'inline-block', background: 'rgba(13,95,183,0.9)', color: '#fff', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '5px 12px', borderRadius: '100px', marginBottom: '8px', fontFamily: 'var(--font-body)' }} itemProp="jobTitle">
-                      Co‑Founder &amp; CTO
-                    </span>
-                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,3vw,40px)', fontWeight: 400, color: '#ffffff', lineHeight: 1.1, margin: 0 }} itemProp="name">
-                      Aman Kumar
-                    </h2>
-                  </div>
-                </div>
-                <div style={{ padding: '32px 28px 36px' }}>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'rgba(155,212,215,0.8)', fontStyle: 'italic', marginBottom: '20px', lineHeight: 1.6 }}>
-                    Engineering architect – builds the cloud stack, API layer and AI analytics engine.
-                  </p>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, marginBottom: '16px' }}>
-                    Aman designs Veritasco’s multi‑tenant platform, integrating biometric attendance hardware, real‑time POS processing, and data pipelines that feed AI‑driven insights. He oversees the API‑first strategy, DevOps automation and security hardening across all services.
-                  </p>
-                  <Link href="/founders#aman-kumar" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#9bd4d7', fontSize: '13px', fontWeight: 600, textDecoration: 'none', border: '1px solid rgba(155,212,215,0.3)', padding: '10px 20px', borderRadius: '100px', fontFamily: 'var(--font-body)' }}>
-                    Read Full Profile →
-                  </Link>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        {/* Solution Portfolio */}
-        <section style={{ background: '#f9fafb', padding: '80px 2rem' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <ScrollReveal>
-              <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(33,37,41,0.3)', marginBottom: '12px' }}>
-                  Solutions
-                </p>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,4vw,48px)', color: '#212529' }}>
-                  What Veritasco Delivers
-                </h2>
-              </div>
-            </ScrollReveal>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px,1fr))', gap: '24px' }}>
-              {SOLUTIONS.map((sol) => (
-                <article key={sol.id} style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-                  <div style={{ position: 'relative', height: '180px', background: '#000' }}>
-                    <Image src={sol.icon} alt={sol.title} fill className="object-cover" />
-                  </div>
-                  <div style={{ padding: '20px' }}>
-                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px,2.5vw,28px)', color: '#0d5fb7', marginBottom: '12px' }}>
-                      {sol.title}
                     </h3>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'rgba(33,37,41,0.7)', lineHeight: 1.6, marginBottom: '12px' }}>
-                      {sol.description}
+                    <p className="text-sm text-white/50 font-mono mb-6">
+                      Strategic product leader — defines market fit, growth channels, and partnership ecosystem.
                     </p>
-                    <ul style={{ paddingLeft: '20px', margin: 0, color: 'rgba(33,37,41,0.6)' }}>
-                      {sol.details.map((d) => (
-                        <li key={d} style={{ fontSize: '13px', marginBottom: '4px' }}>{d}</li>
-                      ))}
-                    </ul>
+                    <p className="text-sm md:text-base text-[#f5f4f0]/75 leading-relaxed font-normal mb-8" itemProp="description">
+                      Rehan spearheads Veritasco’s vision to bring enterprise‑grade technology to schools and restaurants. He architects go‑to‑market strategies, builds key alliances with education boards and hospitality chains, and leads the product roadmap that powers cloud, analytics, and mobile experiences.
+                    </p>
+                  </div>
+
+                  <div className="pt-6 border-t border-white/10 flex items-center justify-between">
+                    <a
+                      href="https://www.linkedin.com/in/rezosnd/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.14em] text-white/80 hover:text-white"
+                    >
+                      <span>LinkedIn Profile</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                    <span className="label-mono is-light text-[10px]">( CEO )</span>
                   </div>
                 </article>
-              ))}
+
+                {/* Aman Kumar */}
+                <article
+                  id="aman-kumar"
+                  itemScope
+                  itemType="https://schema.org/Person"
+                  className="p-8 md:p-12 rounded-3xl bg-white/[0.03] border border-white/10 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-8 border border-white/15">
+                      <Image
+                        src="/aman.png"
+                        alt="Aman Kumar – Co‑Founder & CTO"
+                        fill
+                        className="object-cover object-top"
+                      />
+                    </div>
+                    <span className="label-mono is-light px-3 py-1 rounded-full border border-white/20 bg-white/5 mb-4 inline-block text-[10px]">
+                      Co‑Founder &amp; CTO
+                    </span>
+                    <h3 className="heading-style-h3 text-white mb-2" itemProp="name">
+                      Aman Kumar
+                    </h3>
+                    <p className="text-sm text-white/50 font-mono mb-6">
+                      Engineering architect — builds the cloud stack, API layer, and AI analytics engine.
+                    </p>
+                    <p className="text-sm md:text-base text-[#f5f4f0]/75 leading-relaxed font-normal mb-8" itemProp="description">
+                      Aman designs Veritasco’s multi‑tenant platform, integrating biometric attendance hardware, real‑time POS processing, and data pipelines that feed AI‑driven insights. He oversees the API‑first strategy, DevOps automation, and security hardening across all services.
+                    </p>
+                  </div>
+
+                  <div className="pt-6 border-t border-white/10 flex items-center justify-between">
+                    <a
+                      href="https://www.linkedin.com/in/amankumarthakur/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.14em] text-white/80 hover:text-white"
+                    >
+                      <span>LinkedIn Profile</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                    <span className="label-mono is-light text-[10px]">( CTO )</span>
+                  </div>
+                </article>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Call to Action */}
-        <section style={{ background: '#0d5fb7', color: '#fff', textAlign: 'center', padding: '80px 2rem' }}>
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,4vw,48px)', marginBottom: '24px' }}>
-              Ready to Transform Your Institution?
-            </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '18px', marginBottom: '32px' }}>
-              Connect with Rehan or Aman for a personalized demo of Veritasco’s cloud‑native ERP and POS solutions.
-            </p>
-            <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#fff', color: '#0d5fb7', fontSize: '15px', fontWeight: 600, padding: '12px 28px', borderRadius: '100px', textDecoration: 'none', fontFamily: 'var(--font-body)' }}>
-              Get In Touch →
-            </Link>
+        {/* ══ 2. WHAT VERITASCO DELIVERS (Portfolio Grid) ══ */}
+        <section className="section-light padding-section">
+          <div className="padding-global">
+            <div className="container-max">
+              <div className="section_header">
+                <div>
+                  <h2 className="heading-style-h2 text-[#0a0a0a]">
+                    Engineered
+                    <br />
+                    solutions.
+                  </h2>
+                </div>
+                <div className="section_meta">
+                  <div className="section_meta-text">( 06 Solution Areas )</div>
+                  <div className="section_meta-text">What Veritasco delivers</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {SOLUTIONS.map((sol) => (
+                  <article
+                    key={sol.id}
+                    className="p-8 rounded-2xl bg-white border border-black/10 flex flex-col justify-between hover:shadow-lg transition-all"
+                  >
+                    <div>
+                      <div className="relative h-44 rounded-xl overflow-hidden mb-6 border border-black/5 bg-[#0a0a0a]">
+                        <Image src={sol.icon} alt={sol.title} fill className="object-cover opacity-80" />
+                      </div>
+                      <h3 className="heading-style-h4 text-[#0a0a0a] mb-2 font-semibold">
+                        {sol.title}
+                      </h3>
+                      <p className="text-sm text-[#0a0a0a]/70 leading-relaxed font-normal mb-6">
+                        {sol.description}
+                      </p>
+                    </div>
+
+                    <ul className="pt-4 border-t border-black/5 space-y-1.5 font-mono text-xs text-black/60">
+                      {sol.details.map((d) => (
+                        <li key={d} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-black/40" />
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══ 3. CTA ══ */}
+        <section className="section-dark padding-section text-center">
+          <div className="padding-global">
+            <div className="container-max max-w-2xl mx-auto">
+              <div className="label-mono is-light mb-4">Direct founder contact</div>
+              <h2 className="heading-style-h1 text-white mb-6">
+                Ready to transform your institution?
+              </h2>
+              <p className="text-base text-white/60 leading-relaxed mb-10">
+                Connect directly with Rehan or Aman for a personalized walk-through of Veritasco's cloud-native ERP and POS platforms.
+              </p>
+              <div className="flex justify-center">
+                <VantraButton href="/contact" variant="light">
+                  Get In Touch Directly
+                </VantraButton>
+              </div>
+            </div>
           </div>
         </section>
       </PageWrapper>

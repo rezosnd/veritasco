@@ -5,7 +5,7 @@ import {
   GraduationCap, Smartphone, BookOpen, Bus, 
   Home, Library, Users, BarChart3, 
   LayoutDashboard, Cloud, ShieldCheck, 
-  ChevronRight, ChevronDown, CheckCircle2
+  ChevronRight, ChevronDown, CheckCircle2, ArrowUpRight
 } from "lucide-react"
 
 const featuresData = [
@@ -152,100 +152,145 @@ const featuresData = [
 
 export function DetailedFeatures() {
   const [activeIndex, setActiveIndex] = useState(0)
+  const activeFeature = featuresData[activeIndex]
+  const ActiveIcon = activeFeature.icon
 
   return (
-    <section id="features" className="relative z-10 container mx-auto px-4 md:px-6 py-12 md:py-20">
-      <div className="text-center mb-10 md:mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 text-balance">
-          VeritasCo.Tech ERP Features
-        </h2>
-        <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
+    <section id="features" className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      {/* Section Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16 border-b border-[rgba(10,10,10,0.08)] pb-8">
+        <div>
+          <div className="label-mono mb-3 text-[#737373]">( 11 Native Modules )</div>
+          <h2 className="heading-style-h2 text-[#0a0a0a] tracking-tight">
+            VeritasCo.Tech ERP Features
+          </h2>
+        </div>
+        <p className="text-sm md:text-base text-[#737373] max-w-xl font-normal leading-relaxed">
           A comprehensive suite of digital tools designed to transform and simplify every aspect of school operations.
         </p>
       </div>
 
-      <div className="soft-shadow bg-card rounded-2xl md:rounded-3xl p-4 md:p-8 flex flex-col lg:flex-row gap-6 md:gap-10 border border-border/50">
+      {/* Main Split Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Left Column: Feature Navigation (Desktop: Sidebar, Mobile: Accordion stack base) */}
-        <div className="w-full lg:w-1/3 flex flex-col gap-2">
+        {/* Left Column: Module Navigation */}
+        <div className="lg:col-span-5 flex flex-col divide-y divide-[rgba(10,10,10,0.06)] border border-[rgba(10,10,10,0.08)] rounded-2xl bg-[#ffffff] p-2 overflow-hidden shadow-sm">
           {featuresData.map((feature, index) => {
-            const isActive = activeIndex === index;
-            const Icon = feature.icon;
+            const isActive = activeIndex === index
+            const Icon = feature.icon
+            const idxStr = (index + 1).toString().padStart(2, "0")
 
             return (
               <div key={index} className="flex flex-col">
                 <button
+                  type="button"
                   onClick={() => setActiveIndex(index)}
-                  className={`flex items-center text-left gap-3 px-4 py-3 md:py-4 rounded-xl transition-all duration-200 border ${
+                  className={`group flex items-center justify-between w-full text-left p-3.5 md:p-4 rounded-xl transition-all duration-300 ${
                     isActive
-                      ? "bg-primary/10 border-primary/20 text-primary font-semibold soft-shadow-inset"
-                      : "bg-background/50 border-transparent text-foreground hover:bg-background hover:border-border/50"
+                      ? "bg-[#0a0a0a] text-[#f5f4f0] shadow-md"
+                      : "text-[#161616] hover:bg-[#f5f4f0]"
                   }`}
                 >
-                  <div className={`p-2 rounded-lg ${isActive ? "bg-primary/20 text-primary" : "bg-card text-muted-foreground"}`}>
-                    <Icon className="w-5 h-5" />
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <span className={`label-mono text-[11px] shrink-0 ${isActive ? "text-[#a3a3a3]" : "text-[#737373]"}`}>
+                      {idxStr}
+                    </span>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                      isActive ? "bg-white/10 text-white" : "bg-[#f5f4f0] text-[#0a0a0a] group-hover:bg-[#0a0a0a] group-hover:text-white"
+                    }`}>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs md:text-sm font-medium truncate">
+                      {feature.title}
+                    </span>
                   </div>
-                  <span className="flex-1 font-medium">{feature.title}</span>
                   
-                  {/* Arrow indicating active state on desktop, or down angle on mobile */}
-                  <ChevronRight className={`hidden lg:block w-4 h-4 transition-opacity ${isActive ? "opacity-100" : "opacity-0"}`} />
-                  <ChevronDown className={`lg:hidden w-4 h-4 transition-transform ${isActive ? "rotate-180" : ""}`} />
+                  <div className="shrink-0 ml-2">
+                    <ChevronRight className={`hidden lg:block w-4 h-4 transition-transform duration-300 ${
+                      isActive ? "translate-x-0.5 text-white" : "text-[#a3a3a3] opacity-0 group-hover:opacity-100"
+                    }`} />
+                    <ChevronDown className={`lg:hidden w-4 h-4 transition-transform duration-300 ${
+                      isActive ? "rotate-180 text-white" : "text-[#737373]"
+                    }`} />
+                  </div>
                 </button>
 
-                {/* Mobile Content Display (Inline Accordion) */}
+                {/* Mobile Accordion Drawer */}
                 <div 
                   className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-                    isActive ? "max-h-[1000px] opacity-100 mt-2 mb-4" : "max-h-0 opacity-0 m-0"
+                    isActive ? "max-h-[800px] opacity-100 p-4 border-t border-[rgba(10,10,10,0.06)] bg-[#faf9f5]" : "max-h-0 opacity-0 p-0"
                   }`}
                 >
-                  <div className="bg-background/50 border border-border/50 rounded-xl p-5 soft-shadow-inset">
-                    <p className="text-muted-foreground mb-5 text-sm leading-relaxed">
-                      {feature.description}
-                    </p>
-                    <div className="space-y-2">
-                      {feature.points.map((point, ptIdx) => (
-                        <div key={ptIdx} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                          <span className="text-sm text-foreground/80">{point}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <p className="text-xs md:text-sm text-[#737373] leading-relaxed mb-4">
+                    {feature.description}
+                  </p>
+                  <div className="space-y-2">
+                    {feature.points.map((point, ptIdx) => (
+                      <div key={ptIdx} className="flex items-start gap-2.5 text-xs text-[#0a0a0a]">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#0a0a0a] shrink-0 mt-0.5" />
+                        <span>{point}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-            );
+            )
           })}
         </div>
 
-        {/* Right Column: Detailed Desktop Content */}
-        <div className="hidden lg:flex w-full lg:w-2/3">
-          <div className="w-full bg-gradient-to-br from-background to-card rounded-2xl p-8 lg:p-12 border border-border/40 soft-shadow-inset flex flex-col animate-in fade-in zoom-in-95 duration-500" key={activeIndex}>
-            
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-4 bg-primary/10 rounded-2xl text-primary border border-primary/20 soft-shadow">
-                {(() => {
-                  const ActiveIcon = featuresData[activeIndex].icon;
-                  return <ActiveIcon className="w-8 h-8" />
-                })()}
+        {/* Right Column: Detailed Sticky Showcase Panel */}
+        <div className="hidden lg:block lg:col-span-7 sticky top-28">
+          <div 
+            key={activeIndex}
+            className="border border-[rgba(10,10,10,0.08)] bg-[#ffffff] rounded-3xl p-8 lg:p-12 shadow-sm animate-in fade-in duration-300"
+          >
+            {/* Top Meta Bar */}
+            <div className="flex items-center justify-between pb-6 mb-8 border-b border-[rgba(10,10,10,0.08)]">
+              <div className="flex items-center gap-3">
+                <span className="label-mono text-[11px] text-[#737373]">
+                  MODULE {(activeIndex + 1).toString().padStart(2, "0")} / 11
+                </span>
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#161616]" />
+                <span className="label-mono text-[11px] text-[#161616]">ACTIVE ARCHITECTURE</span>
               </div>
-              <h3 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
-                {featuresData[activeIndex].title}
-              </h3>
+              <div className="w-10 h-10 rounded-full border border-[rgba(10,10,10,0.1)] flex items-center justify-center bg-[#faf9f5]">
+                <ActiveIcon className="w-5 h-5 text-[#0a0a0a]" />
+              </div>
             </div>
 
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-3xl">
-              {featuresData[activeIndex].description}
+            {/* Title & Description */}
+            <h3 className="heading-style-h3 text-[#0a0a0a] tracking-tight mb-4">
+              {activeFeature.title}
+            </h3>
+            <p className="text-base text-[#737373] font-normal leading-relaxed mb-10 max-w-2xl">
+              {activeFeature.description}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-auto">
-              {featuresData[activeIndex].points.map((point, idx) => (
-                <div key={idx} className="flex items-start gap-3 p-3 rounded-xl hover:bg-background border border-transparent hover:border-border/50 transition-colors">
-                  <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                  <span className="text-base text-foreground font-medium">{point}</span>
+            {/* Feature Points Grid */}
+            <div className="label-mono text-[11px] text-[#737373] uppercase tracking-wider mb-4">
+              Core Capabilities & Workflows
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              {activeFeature.points.map((point, idx) => (
+                <div 
+                  key={idx}
+                  className="flex items-start gap-3 p-3.5 rounded-xl border border-[rgba(10,10,10,0.06)] bg-[#faf9f5] hover:border-[rgba(10,10,10,0.15)] transition-all duration-200"
+                >
+                  <div className="w-4 h-4 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs md:text-sm text-[#0a0a0a] font-medium leading-snug">
+                    {point}
+                  </span>
                 </div>
               ))}
             </div>
 
+            {/* Footnote */}
+            <div className="mt-10 pt-6 border-t border-[rgba(10,10,10,0.06)] flex items-center justify-between text-xs text-[#737373]">
+              <span className="label-mono text-[10px]">VERITASCO ENTERPRISE ENGINE</span>
+              <span className="label-mono text-[10px]">INTEGRATED BIOMETRIC & CLOUD SYNC</span>
+            </div>
           </div>
         </div>
 

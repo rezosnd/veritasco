@@ -2,9 +2,16 @@
 import { useEffect, useRef, useState } from "react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
-export function TestimonialSlider({ testimonials }: { testimonials: any[] }) {
+const DEFAULT_TESTIMONIALS = [
+  { quote: "The QR ordering system eliminated all our waiter bottlenecks during Sunday rush hours.", name: "Chef Sanjeev", location: "Patna, Bihar" },
+  { quote: "Our table turnover increased by 35% within the first two weeks of going live.", name: "Rohit Verma", location: "Bhubaneswar, Odisha" },
+  { quote: "Orders route straight from phone scans to kitchen display screens with zero mistakes.", name: "Ananya Sen", location: "Kolkata, WB" },
+]
+
+export function TestimonialSlider({ testimonials = DEFAULT_TESTIMONIALS }: { testimonials?: any[] }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [isHovered, setIsHovered] = useState(false)
+  const items = testimonials && testimonials.length > 0 ? testimonials : DEFAULT_TESTIMONIALS
 
   // Auto-scroll logic
   useEffect(() => {
@@ -14,7 +21,7 @@ export function TestimonialSlider({ testimonials }: { testimonials: any[] }) {
     let accum = el.scrollLeft
 
     const scroll = () => {
-      accum += 0.5 // Slower, smoother scroll
+      accum += 0.5
       if (accum >= el.scrollWidth / 2) {
         accum = 0
       }
@@ -37,32 +44,42 @@ export function TestimonialSlider({ testimonials }: { testimonials: any[] }) {
         className="flex overflow-x-auto hide-scrollbar gap-6 pb-8" 
         style={{ WebkitMaskImage: "linear-gradient(to right, transparent, black 5%, black 95%, transparent)" }}
       >
-        {[...testimonials, ...testimonials].map((testi, idx) => (
-          <div key={idx} className="shrink-0 w-[85vw] md:w-[400px] pulla-card rounded-[24px] p-8 h-full border border-white/10 bg-[rgba(255,255,255,0.03)] backdrop-blur-md">
-            <div className="flex gap-1 mb-6 text-[#9bd4d7]">★★★★★</div>
-            <p className="text-white/60 font-light leading-relaxed mb-8 text-lg">"{testi.quote}"</p>
+        {[...items, ...items].map((testi, idx) => (
+          <div key={idx} className="shrink-0 w-[85vw] md:w-[400px] rounded-3xl p-8 h-full border border-[rgba(10,10,10,0.08)] bg-white shadow-sm">
+            <div className="flex gap-1 mb-6 text-[#0a0a0a]">★★★★★</div>
+            <p className="text-[#0a0a0a]/80 font-normal leading-relaxed mb-8 text-base">"{testi.quote}"</p>
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#3d4d6a]/50 flex items-center justify-center text-white font-medium">
+              <div className="w-10 h-10 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center font-medium text-sm">
                 {testi.name.charAt(0)}
               </div>
               <div>
-                <h4 className="text-white font-medium text-sm">{testi.name}</h4>
-                <p className="text-white/30 text-xs font-mono tracking-wider">{testi.location}</p>
+                <h4 className="text-[#0a0a0a] font-medium text-sm">{testi.name}</h4>
+                <p className="text-[#737373] text-xs font-mono tracking-wider">{testi.location}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
       
-      {/* Glassmorphism Buttons */}
-      <div className="absolute top-1/2 -translate-y-1/2 left-4 md:left-10 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button onClick={() => scrollByAmount(-400)} className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 hover:scale-110 transition-all shadow-xl">
-          <ArrowLeft className="w-5 h-5" />
+      {/* Navigation Buttons */}
+      <div className="absolute top-1/2 -translate-y-1/2 left-2 md:left-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button 
+          type="button"
+          onClick={() => scrollByAmount(-400)} 
+          className="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-[rgba(10,10,10,0.12)] text-[#0a0a0a] hover:bg-[#faf9f5] transition-all shadow-md"
+          aria-label="Previous testimonials"
+        >
+          <ArrowLeft className="w-4 h-4" />
         </button>
       </div>
-      <div className="absolute top-1/2 -translate-y-1/2 right-4 md:right-10 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button onClick={() => scrollByAmount(400)} className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 hover:scale-110 transition-all shadow-xl">
-          <ArrowRight className="w-5 h-5" />
+      <div className="absolute top-1/2 -translate-y-1/2 right-2 md:right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button 
+          type="button"
+          onClick={() => scrollByAmount(400)} 
+          className="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-[rgba(10,10,10,0.12)] text-[#0a0a0a] hover:bg-[#faf9f5] transition-all shadow-md"
+          aria-label="Next testimonials"
+        >
+          <ArrowRight className="w-4 h-4" />
         </button>
       </div>
     </div>

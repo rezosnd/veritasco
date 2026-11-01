@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 interface FAQItem {
   question: string
@@ -23,7 +23,7 @@ const faqData: FAQItem[] = [
   },
   {
     question: "How long does installation and setup take?",
-    answer: "Complete installation and staff training typically takes 2-3 days. We provide comprehensive onboarding, including hardware setup, software configuration, staff training, and 24/7 support to ensure smooth implementation.",
+    answer: "Complete installation and staff training typically takes 2-3 days (full campus live within 6 days). We provide comprehensive onboarding, including hardware setup, software configuration, staff training, and 24/7 support to ensure smooth implementation.",
   },
   {
     question: "Can parents access attendance records in real-time?",
@@ -56,117 +56,60 @@ const faqData: FAQItem[] = [
   {
     question: "What are the system requirements for the school?",
     answer: "Minimal requirements: stable internet connection, power backup for devices, and smartphones/tablets for staff. Our cloud-based system works on any device with a web browser. Hardware devices are plug-and-play with minimal setup.",
-  }
+  },
 ]
 
 export function InteractiveFAQ() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
-
-  const toggleFAQ = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index)
-  }
-
-  // Reduce animation duration on mobile for better performance
-  const animationDuration = isMobile ? '300ms' : '500ms'
+  const [openIdx, setOpenIdx] = useState<number | null>(0)
 
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* FAQ Items */}
-      <div className="space-y-4">
-        {faqData.map((faq, index) => (
-          <div
-            key={index}
-            className="group relative overflow-hidden"
-          >
-            {/* Animated background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl md:rounded-2xl" />
-
-            {/* Main FAQ Card */}
-            <div className="relative soft-shadow-inset bg-background/80 backdrop-blur-sm rounded-xl md:rounded-2xl border border-border/50 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-              {/* Question Button */}
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full text-left p-4 md:p-6 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-xl md:rounded-2xl"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="font-bold text-foreground text-sm md:text-base leading-relaxed pr-8">
-                      {faq.question}
-                    </h3>
-                  </div>
-
-                  {/* Expand/Collapse Icon */}
-                  <div className={`flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-300 ${
-                    activeIndex === index ? 'rotate-180 bg-primary/20' : 'hover:bg-primary/15'
-                  }`}>
-                    <svg
-                      className={`w-4 h-4 md:w-5 md:h-5 text-primary transition-transform duration-300 ${
-                        activeIndex === index ? 'rotate-180' : ''
-                      }`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </div>
-              </button>
-
-              {/* Answer Section */}
-              <div className={`overflow-hidden transition-all ease-in-out ${
-                activeIndex === index
-                  ? 'max-h-96 opacity-100'
-                  : 'max-h-0 opacity-0'
-              }`}
-              style={{
-                transitionDuration: animationDuration
-              }}>
-                <div className="px-4 md:px-6 pb-4 md:pb-6">
-                  <div className="border-t border-border/30 pt-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
-                      <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  </div>
+    <div className="w-full">
+      {/* Vantra Hairline Accordion List */}
+      <div className="faq_list">
+        {faqData.map((faq, index) => {
+          const isOpen = openIdx === index
+          return (
+            <div
+              key={index}
+              className={`faq_row ${isOpen ? "is-open" : ""}`}
+              onClick={() => setOpenIdx(isOpen ? null : index)}
+            >
+              <div className="faq_row-head">
+                <h3 className="faq_question text-lg md:text-xl font-display font-medium text-[#0a0a0a]">
+                  {faq.question}
+                </h3>
+                <div className="faq_icon">
+                  <div className="faq_icon-h" />
+                  <div className="faq_icon-v" />
                 </div>
               </div>
+              <div className="faq_answer">
+                <p className="faq_answer-text text-sm md:text-base leading-relaxed text-[#0a0a0a]/70">
+                  {faq.answer}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
-      {/* Stats */}
-      <div className="text-center mt-12 p-6 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 rounded-xl md:rounded-2xl border border-border/30">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div>
-            <div className="text-2xl md:text-3xl font-bold text-primary mb-1">{faqData.length}+</div>
-            <div className="text-xs md:text-sm text-muted-foreground">Questions Answered</div>
-          </div>
-          <div>
-            <div className="text-2xl md:text-3xl font-bold text-primary mb-1">24/7</div>
-            <div className="text-xs md:text-sm text-muted-foreground">Support Available</div>
-          </div>
-          <div>
-            <div className="text-2xl md:text-3xl font-bold text-primary mb-1">99.9%</div>
-            <div className="text-xs md:text-sm text-muted-foreground">Accuracy Rate</div>
-          </div>
-          <div>
-            <div className="text-2xl md:text-3xl font-bold text-primary mb-1">500+</div>
-            <div className="text-xs md:text-sm text-muted-foreground">Schools Served</div>
-          </div>
+      {/* Stats Bar */}
+      <div className="mt-16 grid grid-cols-2 md:grid-cols-4 border-t border-l border-black/10">
+        <div className="p-6 md:p-8 border-r border-b border-black/10">
+          <div className="heading-style-h3 text-[#0a0a0a] mb-1">{faqData.length}+</div>
+          <div className="label-mono text-[10px] text-black/50">( Questions Answered )</div>
+        </div>
+        <div className="p-6 md:p-8 border-r border-b border-black/10">
+          <div className="heading-style-h3 text-[#0a0a0a] mb-1">24/7</div>
+          <div className="label-mono text-[10px] text-black/50">( Support Desk )</div>
+        </div>
+        <div className="p-6 md:p-8 border-r border-b border-black/10">
+          <div className="heading-style-h3 text-[#0a0a0a] mb-1">99.9%</div>
+          <div className="label-mono text-[10px] text-black/50">( Scan Accuracy )</div>
+        </div>
+        <div className="p-6 md:p-8 border-r border-b border-black/10">
+          <div className="heading-style-h3 text-[#0a0a0a] mb-1">500+</div>
+          <div className="label-mono text-[10px] text-black/50">( Active Schools )</div>
         </div>
       </div>
     </div>

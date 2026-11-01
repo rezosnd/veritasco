@@ -2,9 +2,10 @@
 
 import { useState } from "react"
 import { PageWrapper } from "@/components/page-wrapper"
-import { ScrollReveal } from "@/components/scroll-reveal"
-import { TransitionLink } from "@/components/transition-link"
+import { VantraButton } from "@/components/vantra-button"
 import Image from "next/image"
+import Link from "next/link"
+import { ArrowUpRight, GraduationCap, Utensils, ShieldCheck, CheckCircle2 } from "lucide-react"
 
 const SERVICES = [
   {
@@ -40,70 +41,45 @@ export default function AboutPage() {
   return (
     <PageWrapper
       badge="VeritasCo — About Us"
-      title="VeritasCo"
-      description="We offer solutions for the ever-growing digital needs of schools and restaurants — with a clean, decisive process backed by a team of professionals."
+      title="We offer solutions for the ever-growing digital needs of schools and restaurants."
+      description="Backed by a dedicated senior engineering team, we design, deploy, and support resilient operational software across India."
       breadcrumb={[{ label: "About", href: "/about" }]}
       bgImage="/about_hero_v3.png"
+      darkHero
     >
-      {/* ══ WHO WE ARE — dark ══ */}
-      <section className="section-dark pulla-section">
-        <div className="container mx-auto px-8 md:px-14 max-w-[1400px]">
-          <ScrollReveal>
-            <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
+      {/* ══ 1. WHO WE ARE (Dark Section) ══ */}
+      <section className="section-dark padding-section">
+        <div className="padding-global">
+          <div className="container-max">
+            <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
               <div>
-                <h2
-                  className="pulla-section-title text-white mb-8 leading-none"
-                >
-                  We are constantly evolving.
+                <div className="label-mono is-light mb-4">( Studio Profile )</div>
+                <h2 className="heading-style-h2 text-white">
+                  We are constantly
+                  <br />
+                  evolving.
                 </h2>
               </div>
               <div className="space-y-6">
-                <p
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "16px",
-                    color: "rgba(255,255,255,0.65)",
-                    lineHeight: "1.8",
-                    fontWeight: 300,
-                  }}
-                >
+                <p className="text-base md:text-lg font-normal leading-relaxed text-[#f5f4f0]/75">
                   We act as an extended team for all your digital needs. Whether you need a full ERP overhaul or a focused POS solution, we are here to make that vision a reality — with speed, precision, and care.
                 </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "16px",
-                    color: "rgba(255,255,255,0.65)",
-                    lineHeight: "1.8",
-                    fontWeight: 300,
-                  }}
-                >
+                <p className="text-base md:text-lg font-normal leading-relaxed text-[#f5f4f0]/75">
                   We have worked on some of the most advanced biometric setups and ERP systems in India — making them a seamless experience for administrators, parents, and teachers alike.
                 </p>
-                <div className="flex gap-12 pt-4">
+
+                {/* Numbers Grid */}
+                <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/10">
                   {[
                     { num: "50+", label: "Schools Served" },
                     { num: "1+", label: "Years Building" },
                     { num: "99%", label: "Uptime SLA" },
                   ].map((s) => (
                     <div key={s.label}>
-                      <div
-                        className="pulla-stat text-white"
-                        style={{ fontSize: "clamp(32px,4vw,56px)" }}
-                      >
+                      <div className="heading-style-h2 text-white mb-1">
                         {s.num}
                       </div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-body)",
-                          fontSize: "11px",
-                          fontWeight: 600,
-                          letterSpacing: "0.15em",
-                          textTransform: "uppercase",
-                          color: "rgba(255,255,255,0.3)",
-                          marginTop: "4px",
-                        }}
-                      >
+                      <div className="label-mono is-light text-[10px]">
                         {s.label}
                       </div>
                     </div>
@@ -111,469 +87,237 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ══ CORE SERVICES — light (exact pulla tab layout) ══ */}
-      <section className="section-light pulla-section">
-        <div className="container mx-auto px-8 md:px-14 max-w-[1400px]">
-          <ScrollReveal>
-            <div className="mb-16 md:mb-20 pb-8" style={{ borderBottom: "1px solid rgba(33,37,41,0.08)" }}>
-              <p
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "10px",
-                  fontWeight: 700,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "rgba(33,37,41,0.3)",
-                  marginBottom: "16px",
-                }}
-              >
-                What we do
-              </p>
-              <h2
-                className="pulla-section-title"
-                style={{ color: "#212529" }}
-              >
-                Our core services
-              </h2>
-            </div>
-          </ScrollReveal>
-
-          {/* Tab layout — exact pulla */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Left: clickable titles */}
-            <div className="flex flex-col">
-              {SERVICES.map((svc, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActive(idx)}
-                  className="flex items-center gap-5 py-5 text-left group transition-all duration-300"
-                  style={{
-                    borderBottom: "1px solid rgba(33,37,41,0.06)",
-                    background: "none",
-                    border: "none",
-                    borderBottom: "1px solid rgba(33,37,41,0.06)",
-                    cursor: "pointer",
-                    padding: "20px 0",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "11px",
-                      fontWeight: 600,
-                      letterSpacing: "0.12em",
-                      color:
-                        active === idx
-                          ? "rgba(33,37,41,0.4)"
-                          : "rgba(33,37,41,0.15)",
-                      transition: "color 0.3s ease",
-                      minWidth: "28px",
-                    }}
-                  >
-                    {svc.num}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(20px,2.5vw,32px)",
-                      fontWeight: 400,
-                      color:
-                        active === idx
-                          ? "#212529"
-                          : "rgba(33,37,41,0.25)",
-                      transition: "color 0.4s cubic-bezier(0.12, 0.41, 0.11, 0.9)",
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    {svc.title}
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            {/* Right: active content */}
-            <div className="relative min-h-[240px]">
-              {SERVICES.map((svc, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    opacity: active === idx ? 1 : 0,
-                    transform:
-                      active === idx ? "translateY(0)" : "translateY(20px)",
-                    transition: "all 0.6s cubic-bezier(0.12, 0.41, 0.11, 0.9)",
-                    pointerEvents: active === idx ? "auto" : "none",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "11px",
-                      fontWeight: 600,
-                      letterSpacing: "0.15em",
-                      color: "rgba(33,37,41,0.25)",
-                      marginBottom: "16px",
-                    }}
-                  >
-                    {svc.num}.
-                  </p>
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(28px,3.5vw,48px)",
-                      fontWeight: 400,
-                      color: "#212529",
-                      lineHeight: 1.1,
-                      marginBottom: "20px",
-                    }}
-                  >
-                    {svc.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "16px",
-                      color: "rgba(33,37,41,0.6)",
-                      lineHeight: "1.8",
-                      fontWeight: 300,
-                      maxWidth: "420px",
-                    }}
-                  >
-                    {svc.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ══ WORKSPACE MARQUEE — dark ══ */}
-      <section className="section-dark overflow-hidden" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
-        <div className="container mx-auto px-8 md:px-14 max-w-[1400px] mb-12">
-          <ScrollReveal>
-            <h2
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(28px,4vw,56px)",
-                fontWeight: 300,
-                color: "rgba(155,212,215,0.8)",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              Work Space
-            </h2>
-          </ScrollReveal>
-        </div>
-        <div className="flex gap-5 w-[200vw] -ml-[5vw]">
-          <div className="flex gap-5 animate-marquee">
-            {[1, 2, 3, 4, 5, 6, 1, 2, 3].map((_, idx) => (
-              <div
-                key={idx}
-                className="relative rounded-2xl overflow-hidden flex-shrink-0"
-                style={{
-                  width: "clamp(260px,28vw,400px)",
-                  aspectRatio: "4/3",
-                }}
-              >
-                <Image
-                  src="/workspace.png"
-                  alt="Our Workspace"
-                  fill
-                  className="object-cover"
-                  style={{ filter: "grayscale(20%) brightness(0.9)" }}
-                />
+      {/* ══ 2. CORE SERVICES (Light Section - Vantra Editorial Split) ══ */}
+      <section className="section-light padding-section">
+        <div className="padding-global">
+          <div className="container-max">
+            <div className="section_header">
+              <div>
+                <h2 className="heading-style-h2 text-[#0a0a0a]">
+                  Our core
+                  <br />
+                  services.
+                </h2>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="section_meta">
+                <div className="section_meta-text">( 05 Capabilities )</div>
+                <div className="section_meta-text">End-to-end technology</div>
+              </div>
+            </div>
 
-      {/* ══ CLIENTS SECTION — light ══ */}
-      <section className="section-light pulla-section overflow-hidden">
-        <div className="container mx-auto px-8 md:px-14 max-w-[1400px]">
-          <div className="grid lg:grid-cols-2 gap-16 items-center mb-16 md:mb-24">
-            <ScrollReveal animation="slide-left">
-              <h2
-                className="pulla-section-title"
-                style={{ color: "#212529" }}
-              >
-                Our Clients
-              </h2>
-              <p
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "16px",
-                  color: "rgba(33,37,41,0.6)",
-                  marginTop: "24px",
-                  lineHeight: "1.8",
-                  fontWeight: 300,
-                  maxWidth: "480px",
-                }}
-              >
-                From elite international schools managing thousands of students to multi-chain fine dining restaurants operating at peak volume, our bespoke digital platforms are trusted to handle operations at any scale.
-              </p>
-
-              <div className="mt-12 space-y-8">
-                {[
-                  { title: "Bespoke Architecture", desc: "Every deployment is tailored to your unique operational flow and requirements." },
-                  { title: "Zero Downtime Migration", desc: "Seamless transition from legacy systems with absolutely zero data loss." },
-                  { title: "Dedicated Support Team", desc: "Direct access to our engineering team, available 24/7 to resolve issues instantly." }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-5">
-                    <div className="mt-1.5 w-2.5 h-2.5 rounded-full bg-[#0d5fb7] shrink-0" />
-                    <div>
-                      <h4 style={{ fontFamily: "var(--font-body)", fontSize: "15px", fontWeight: 600, color: "#212529" }}>{item.title}</h4>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "rgba(33,37,41,0.55)", marginTop: "6px", lineHeight: "1.6" }}>{item.desc}</p>
+            {/* Editorial Tab Layout */}
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 pt-6">
+              {/* Left Column: Interactive selector */}
+              <div className="flex flex-col">
+                {SERVICES.map((svc, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActive(idx)}
+                    className="flex items-center justify-between py-6 text-left group transition-all duration-300 border-b border-black/10 bg-transparent"
+                  >
+                    <div className="flex items-center gap-6">
+                      <span className={`label-mono text-xs ${active === idx ? "text-[#0a0a0a]" : "text-black/30"}`}>
+                        ( {svc.num} )
+                      </span>
+                      <span className={`font-display text-2xl md:text-3xl font-medium tracking-tight transition-colors ${active === idx ? "text-[#0a0a0a]" : "text-black/35 group-hover:text-black/70"}`}>
+                        {svc.title}
+                      </span>
                     </div>
-                  </div>
+                    <ArrowUpRight className={`w-5 h-5 transition-transform duration-300 ${active === idx ? "text-[#0a0a0a] translate-x-1 -translate-y-1" : "text-black/20"}`} />
+                  </button>
                 ))}
               </div>
-            </ScrollReveal>
 
-            <ScrollReveal animation="slide-right">
-              <div className="relative rounded-2xl overflow-hidden w-full shadow-2xl" style={{ aspectRatio: "4/5" }}>
+              {/* Right Column: Active Description Panel */}
+              <div className="flex flex-col justify-center bg-white p-8 md:p-12 rounded-2xl border border-black/5 shadow-sm min-h-[300px]">
+                <div className="label-mono mb-4">( Capability {SERVICES[active].num} )</div>
+                <h3 className="heading-style-h3 text-[#0a0a0a] mb-4">
+                  {SERVICES[active].title}
+                </h3>
+                <p className="text-base md:text-lg leading-relaxed text-[#0a0a0a]/70">
+                  {SERVICES[active].desc}
+                </p>
+                <div className="mt-8 pt-6 border-t border-black/5 flex items-center gap-4">
+                  <VantraButton href="/contact" variant="dark">
+                    Request Proposal
+                  </VantraButton>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 3. WORKSPACE SHOWCASE ══ */}
+      <section className="section-dark padding-section overflow-hidden">
+        <div className="padding-global">
+          <div className="container-max mb-12">
+            <div className="section_header">
+              <div>
+                <h2 className="heading-style-h2 text-white">
+                  Built for
+                  <br />
+                  reliability.
+                </h2>
+              </div>
+              <div className="section_meta">
+                <div className="section_meta-text">( Engineering Studio )</div>
+                <div className="section_meta-text">Cloud-native infrastructure</div>
+              </div>
+            </div>
+
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[21/9] border border-white/10 shadow-2xl">
+              <Image
+                src="/workspace.png"
+                alt="VeritasCo Engineering Workspace"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute bottom-8 left-8 right-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="text-white font-display text-xl font-medium">
+                  VeritasCo Headquarters & Deployment Lab
+                </div>
+                <div className="label-mono is-light">
+                  Bhubaneswar · India
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 4. CLIENTS SECTION ══ */}
+      <section className="section-light padding-section">
+        <div className="padding-global">
+          <div className="container-max">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <div className="label-mono mb-3">( Trusted Scale )</div>
+                <h2 className="heading-style-h2 text-[#0a0a0a] mb-6">
+                  Our Clients.
+                </h2>
+                <p className="text-base md:text-lg text-[#0a0a0a]/70 leading-relaxed mb-8">
+                  From elite international schools managing thousands of students to multi-chain fine dining restaurants operating at peak volume, our bespoke digital platforms are trusted to handle operations at any scale.
+                </p>
+
+                <div className="space-y-6">
+                  {[
+                    { title: "Bespoke Architecture", desc: "Every deployment is tailored to your unique operational flow and requirements." },
+                    { title: "Zero Downtime Migration", desc: "Seamless transition from legacy systems with absolutely zero data loss." },
+                    { title: "Dedicated Support Team", desc: "Direct access to our engineering team, available 24/7 to resolve issues instantly." }
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex gap-4 p-4 rounded-xl border border-black/5 bg-white">
+                      <div className="w-2 h-2 rounded-full bg-[#0a0a0a] shrink-0 mt-2" />
+                      <div>
+                        <h4 className="font-display font-semibold text-base text-[#0a0a0a]">{item.title}</h4>
+                        <p className="text-sm text-[#0a0a0a]/65 mt-1">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/5] border border-black/10 shadow-xl">
                 <Image
                   src="/clients.png"
                   alt="Our Clients"
                   fill
                   className="object-cover"
-                  style={{ filter: "brightness(0.95)" }}
                 />
               </div>
-            </ScrollReveal>
-          </div>
-        </div>
-
-        {/* Endless Client Marquee */}
-        <div className="w-[200vw] -ml-[5vw] border-t border-b border-[rgba(33,37,41,0.05)] py-10 mt-10" style={{ background: "rgba(33,37,41,0.02)" }}>
-          <div className="flex animate-marquee items-center">
-            {[1, 2, 3, 4].map(group => (
-              <div key={group} className="flex gap-16 md:gap-24 items-center shrink-0 px-8 md:px-12">
-                {["Elite International Schools", "Fine Dining Chains", "Government Institutions", "Corporate Enterprises", "Global Franchises"].map((client, idx) => (
-                  <span
-                    key={idx}
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(28px, 4vw, 48px)",
-                      fontWeight: 400,
-                      color: "rgba(33,37,41,0.8)",
-                      whiteSpace: "nowrap"
-                    }}
-                  >
-                    {client} <span style={{ color: "#0d5fb7", marginLeft: "24px", opacity: 0.3 }}>✦</span>
-                  </span>
-                ))}
-              </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ══ FOUNDERS SECTION — light ══ */}
-      <section className="section-light pulla-section">
-        <div className="container mx-auto px-8 md:px-14 max-w-[1400px]">
-          <ScrollReveal>
-            <div className="mb-16 md:mb-20 pb-8" style={{ borderBottom: "1px solid rgba(33,37,41,0.08)" }}>
-              <p
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "10px",
-                  fontWeight: 700,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "rgba(33,37,41,0.3)",
-                  marginBottom: "16px",
-                }}
-              >
-                Leadership
-              </p>
-              <h2
-                className="pulla-section-title"
-                style={{ color: "#212529" }}
-              >
-                Who is the founder of Veritasco?
-              </h2>
+      {/* ══ 5. FOUNDERS / LEADERSHIP SECTION ══ */}
+      <section className="section-dark padding-section">
+        <div className="padding-global">
+          <div className="container-max">
+            <div className="section_header">
+              <div>
+                <h2 className="heading-style-h2 text-white">
+                  The team behind
+                  <br />
+                  Veritasco.
+                </h2>
+              </div>
+              <div className="section_meta">
+                <div className="section_meta-text">( Leadership )</div>
+                <div className="section_meta-text">Founders & Engineering</div>
+              </div>
             </div>
-          </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16">
-            {/* Rehan Suman */}
-            <ScrollReveal animation="slide-left">
-              <article
-                itemScope
-                itemType="https://schema.org/Person"
-                className="flex flex-col md:flex-row gap-8 items-start"
-              >
-                <div
-                  className="relative rounded-2xl overflow-hidden flex-shrink-0"
-                  style={{ width: "160px", height: "200px" }}
-                >
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+              {/* Rehan Suman */}
+              <article className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col md:flex-row gap-8 items-start">
+                <div className="relative w-36 h-44 rounded-xl overflow-hidden shrink-0 border border-white/15">
                   <Image
                     src="/rehan.png"
-                    alt="Rehan Suman — Co-Founder and CEO of Veritasco"
+                    alt="Rehan Suman — Co-Founder & CEO"
                     fill
                     className="object-cover object-top"
-                    sizes="160px"
-                    itemProp="image"
                   />
                 </div>
                 <div className="flex-1">
-                  <span
-                    style={{
-                      display: "inline-block",
-                      background: "rgba(13,95,183,0.08)",
-                      color: "#0d5fb7",
-                      fontSize: "10px",
-                      fontWeight: 700,
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      padding: "4px 12px",
-                      borderRadius: "100px",
-                      marginBottom: "10px",
-                      fontFamily: "var(--font-body)",
-                    }}
-                    itemProp="jobTitle"
-                  >
+                  <span className="label-mono is-light text-[10px] px-2.5 py-1 rounded-full border border-white/15 bg-white/5 mb-3 inline-block">
                     Co-Founder &amp; CEO
                   </span>
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(24px,3vw,36px)",
-                      fontWeight: 400,
-                      color: "#212529",
-                      lineHeight: 1.1,
-                      marginBottom: "12px",
-                    }}
-                    itemProp="name"
-                  >
+                  <h3 className="font-display text-2xl font-semibold text-white mb-2">
                     Rehan Suman
                   </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "15px",
-                      color: "rgba(33,37,41,0.6)",
-                      lineHeight: "1.8",
-                      fontWeight: 300,
-                      marginBottom: "16px",
-                    }}
-                    itemProp="description"
-                  >
-                    Rehan Suman is the Co-Founder and CEO of Veritasco, leading product vision, strategic growth, and business development. He is the driving force behind Veritasco&apos;s mission to bring enterprise-grade ERP and POS technology to Indian schools and restaurants.
+                  <p className="text-sm text-[#f5f4f0]/70 leading-relaxed mb-6 font-normal">
+                    Rehan Suman is the Co-Founder and CEO of Veritasco, leading product vision, strategic growth, and business development. He is the driving force behind Veritasco's mission to bring enterprise-grade ERP and POS technology to Indian schools and restaurants.
                   </p>
-                  <TransitionLink
+                  <Link
                     href="/founders#rehan-suman"
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: 600,
-                      color: "#0d5fb7",
-                      textDecoration: "none",
-                      letterSpacing: "0.05em",
-                      fontFamily: "var(--font-body)",
-                    }}
+                    className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.14em] text-white/90 hover:text-white"
                   >
-                    Read Full Profile →
-                  </TransitionLink>
+                    <span>Read Profile</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </article>
-            </ScrollReveal>
 
-            {/* Aman Kumar */}
-            <ScrollReveal animation="slide-right">
-              <article
-                itemScope
-                itemType="https://schema.org/Person"
-                className="flex flex-col md:flex-row gap-8 items-start"
-              >
-                <div
-                  className="relative rounded-2xl overflow-hidden flex-shrink-0"
-                  style={{ width: "160px", height: "200px" }}
-                >
+              {/* Aman Kumar */}
+              <article className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col md:flex-row gap-8 items-start">
+                <div className="relative w-36 h-44 rounded-xl overflow-hidden shrink-0 border border-white/15">
                   <Image
                     src="/aman.png"
-                    alt="Aman Kumar — Co-Founder and CTO of Veritasco"
+                    alt="Aman Kumar — Co-Founder & CTO"
                     fill
                     className="object-cover object-top"
-                    sizes="160px"
-                    itemProp="image"
                   />
                 </div>
                 <div className="flex-1">
-                  <span
-                    style={{
-                      display: "inline-block",
-                      background: "rgba(13,95,183,0.08)",
-                      color: "#0d5fb7",
-                      fontSize: "10px",
-                      fontWeight: 700,
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      padding: "4px 12px",
-                      borderRadius: "100px",
-                      marginBottom: "10px",
-                      fontFamily: "var(--font-body)",
-                    }}
-                    itemProp="jobTitle"
-                  >
+                  <span className="label-mono is-light text-[10px] px-2.5 py-1 rounded-full border border-white/15 bg-white/5 mb-3 inline-block">
                     Co-Founder &amp; CTO
                   </span>
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(24px,3vw,36px)",
-                      fontWeight: 400,
-                      color: "#212529",
-                      lineHeight: 1.1,
-                      marginBottom: "12px",
-                    }}
-                    itemProp="name"
-                  >
+                  <h3 className="font-display text-2xl font-semibold text-white mb-2">
                     Aman Kumar
                   </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "15px",
-                      color: "rgba(33,37,41,0.6)",
-                      lineHeight: "1.8",
-                      fontWeight: 300,
-                      marginBottom: "16px",
-                    }}
-                    itemProp="description"
-                  >
-                    Aman Kumar is the Co-Founder and CTO of Veritasco, architecting the cloud infrastructure and technical backbone of India&apos;s first biometric-integrated School ERP and QR-based Restaurant POS platform.
+                  <p className="text-sm text-[#f5f4f0]/70 leading-relaxed mb-6 font-normal">
+                    Aman Kumar is the Co-Founder and CTO of Veritasco, architecting the cloud infrastructure and technical backbone of India's first biometric-integrated School ERP and QR-based Restaurant POS platform.
                   </p>
-                  <TransitionLink
+                  <Link
                     href="/founders#aman-kumar"
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: 600,
-                      color: "#0d5fb7",
-                      textDecoration: "none",
-                      letterSpacing: "0.05em",
-                      fontFamily: "var(--font-body)",
-                    }}
+                    className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.14em] text-white/90 hover:text-white"
                   >
-                    Read Full Profile →
-                  </TransitionLink>
+                    <span>Read Profile</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </article>
-            </ScrollReveal>
+            </div>
           </div>
         </div>
       </section>
-
-      {/* Contact CTA Removed (Already in footer) */}
     </PageWrapper>
   )
 }

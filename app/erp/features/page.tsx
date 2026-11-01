@@ -17,22 +17,26 @@ export default function FeaturesPage() {
       title="Complete School ERP — Every Feature You Need"
       description="A unified digital platform that transforms every aspect of your school's operations — from student admissions to advanced analytics. Built for Indian schools, designed for simplicity."
       breadcrumb={[{ label: "ERP Overview", href: "/erp" }, { label: "Features", href: "/erp/features" }]}
+      bgImage="/hero-bg.png"
     >
       {/* Full Feature Explorer */}
       <DetailedFeatures />
 
       {/* Role-Based Access Table */}
       <ScrollReveal>
-        <section id="role-access" className="container mx-auto px-4 md:px-6 py-10 md:py-16">
-          <div className="text-center mb-10 md:mb-14">
-            <div className="inline-flex items-center gap-2 bg-primary/8 border border-primary/15 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-xs font-semibold text-primary tracking-widest uppercase">By Role</span>
+        <section id="role-access" className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16 border-b border-[rgba(10,10,10,0.08)] pb-8">
+            <div>
+              <div className="label-mono mb-3 text-[#737373]">( Access Architecture )</div>
+              <h2 className="heading-style-h2 text-[#0a0a0a] tracking-tight">
+                Role-Based Feature Access
+              </h2>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Role-Based Feature Access</h2>
-            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Every user — admin, teacher, parent, and student — gets the right tools for their role.
+            <p className="text-sm md:text-base text-[#737373] max-w-xl font-normal leading-relaxed">
+              Every user — admin, teacher, parent, and student — gets the right tools for their role with granular security boundaries.
             </p>
           </div>
+
           <FeatureTable />
         </section>
       </ScrollReveal>

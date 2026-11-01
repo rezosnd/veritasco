@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { PageWrapper } from "@/components/page-wrapper"
 import { InteractiveFAQ } from "@/components/interactive-faq"
-import { ScrollReveal } from "@/components/scroll-reveal"
+import { VantraButton } from "@/components/vantra-button"
 
 export const metadata: Metadata = {
   title: "FAQ — Frequently Asked Questions",
@@ -12,52 +12,62 @@ export const metadata: Metadata = {
 export default function FAQPage() {
   return (
     <PageWrapper
-      badge="Common Questions"
-      title="Frequently Asked Questions"
-      description="Everything you need to know about VeritasCo.Tech — from how biometric attendance works to pricing, data security, and implementation timelines."
+      badge="FAQ · Instant Answers"
+      title="Everything you need to know."
+      description="From how handheld biometric attendance works to setup timelines, cloud security, and multi-campus synchronization."
       breadcrumb={[{ label: "FAQ", href: "/faq" }]}
       darkHero
     >
-      {/* FAQ Component */}
-      <section className="bg-[#eeeeee] pulla-section">
-        <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-          <ScrollReveal>
-            <InteractiveFAQ />
-          </ScrollReveal>
+      {/* ══ FAQ SECTION (Vantra 2-Column Layout) ══ */}
+      <section className="section-light padding-section">
+        <div className="padding-global">
+          <div className="container-max">
+            <div className="faq_layout">
+              {/* Left Column Sticky Header */}
+              <div className="faq_head">
+                <div className="label-mono mb-2">Knowledge Base</div>
+                <h2 className="heading-style-h2 text-[#0a0a0a] mb-6">
+                  Before
+                  <br />
+                  you brief us.
+                </h2>
+                <p className="text-sm md:text-base text-[#0a0a0a]/65 leading-relaxed mb-8">
+                  Browse common queries below. If your question is not covered, our engineering team is available 24/7.
+                </p>
+                <VantraButton href="/contact" variant="dark">
+                  Ask Directly
+                </VantraButton>
+              </div>
+
+              {/* Right Column Accordion */}
+              <div>
+                <InteractiveFAQ />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Still have questions CTA */}
-      <section className="bg-[#141414] pulla-section text-center">
-        <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-          <ScrollReveal>
-            <h2 className="text-5xl md:text-6xl font-light tracking-tighter text-white mb-8">
-              Still Have Questions?
+      {/* ══ STILL HAVE QUESTIONS CTA ══ */}
+      <section className="section-dark padding-section text-center">
+        <div className="padding-global">
+          <div className="container-max max-w-2xl mx-auto">
+            <div className="label-mono is-light mb-4">Direct Support Desk</div>
+            <h2 className="heading-style-h1 text-white mb-6">
+              Still have questions?
             </h2>
-            <p className="text-xl text-white/40 font-light max-w-xl mx-auto mb-12 leading-relaxed">
-              Our team is available 24/7 to answer any questions about VeritasCo.Tech and how it fits your school.
+            <p className="text-base text-white/60 leading-relaxed mb-10">
+              Our engineering team is available 24/7 to answer any technical, operational, or deployment questions.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="tel:+918709442363"
-                className="pulla-btn pulla-btn-outline"
-              >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                Call Us Now
-              </a>
-              <a
-                href="mailto:info@veritasco.tech"
-                className="pulla-btn pulla-btn-primary"
-              >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Email Us
-              </a>
+            <div className="flex flex-wrap justify-center gap-4">
+              <VantraButton href="tel:+918709442363" variant="light">
+                Call Us (+91 87094 42363)
+              </VantraButton>
+              <VantraButton href="mailto:info@veritasco.tech" variant="ghost" className="text-white border-white/30">
+                Email Us Directly
+              </VantraButton>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
     </PageWrapper>
